@@ -62,5 +62,9 @@ namespace ocsort {
         Eigen::Array<bool, 1, Eigen::Dynamic> valid_mask = Eigen::Array<bool, Eigen::Dynamic, 1>::Ones(previous_obs.rows());
         valid_mask.colwise() *= (previous_obs.col(4).array() >= 0);// 然后numpy中，这里应该是个行向量的，但是C++中却变成了列向量
         Eigen::MatrixXd iou_matrix = iou_batch(detections, trackers);
+        Eigen::MatrixXd scores = detections.col(detections.cols() - 1);// 取最后一列,fixme:置信度吧好像是
+
+
+        return std::make_tuple(X, Y, valid_mask);
     }
 }// namespace ocsort
