@@ -41,61 +41,42 @@ include CMakeFiles\rules.ninja
 
 cmake_ninja_workdir = C$:\SOTA\OC_SORT_CPP\cmake-build-debug\
 # =============================================================================
-# Object build statements for EXECUTABLE target OC_SORT_CPP
+# Object build statements for EXECUTABLE target test
 
 
 #############################################
-# Order-only phony target for OC_SORT_CPP
+# Order-only phony target for test
 
-build cmake_object_order_depends_target_OC_SORT_CPP: phony || CMakeFiles\OC_SORT_CPP.dir
+build cmake_object_order_depends_target_test: phony || CMakeFiles\test.dir
 
-build CMakeFiles\OC_SORT_CPP.dir\main.cpp.obj: CXX_COMPILER__OC_SORT_CPP_Debug C$:\SOTA\OC_SORT_CPP\main.cpp || cmake_object_order_depends_target_OC_SORT_CPP
+build CMakeFiles\test.dir\test.cpp.obj: CXX_COMPILER__test_Debug C$:\SOTA\OC_SORT_CPP\test.cpp || cmake_object_order_depends_target_test
   DEFINES = -DH5_BUILT_AS_DYNAMIC_LIB
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++17
-  INCLUDES = -IC:\SOTA\OC_SORT_CPP\include -IC:\SOTA\OC_SORT_CPP\src -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
-  OBJECT_DIR = CMakeFiles\OC_SORT_CPP.dir
-  OBJECT_FILE_DIR = CMakeFiles\OC_SORT_CPP.dir
-  TARGET_COMPILE_PDB = CMakeFiles\OC_SORT_CPP.dir\
-  TARGET_PDB = OC_SORT_CPP.pdb
-
-build CMakeFiles\OC_SORT_CPP.dir\src\kalmanfilter.cpp.obj: CXX_COMPILER__OC_SORT_CPP_Debug C$:\SOTA\OC_SORT_CPP\src\kalmanfilter.cpp || cmake_object_order_depends_target_OC_SORT_CPP
-  DEFINES = -DH5_BUILT_AS_DYNAMIC_LIB
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++17
-  INCLUDES = -IC:\SOTA\OC_SORT_CPP\include -IC:\SOTA\OC_SORT_CPP\src -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
-  OBJECT_DIR = CMakeFiles\OC_SORT_CPP.dir
-  OBJECT_FILE_DIR = CMakeFiles\OC_SORT_CPP.dir\src
-  TARGET_COMPILE_PDB = CMakeFiles\OC_SORT_CPP.dir\
-  TARGET_PDB = OC_SORT_CPP.pdb
-
-build CMakeFiles\OC_SORT_CPP.dir\src\KalmanBoxTracker.cpp.obj: CXX_COMPILER__OC_SORT_CPP_Debug C$:\SOTA\OC_SORT_CPP\src\KalmanBoxTracker.cpp || cmake_object_order_depends_target_OC_SORT_CPP
-  DEFINES = -DH5_BUILT_AS_DYNAMIC_LIB
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++17
-  INCLUDES = -IC:\SOTA\OC_SORT_CPP\include -IC:\SOTA\OC_SORT_CPP\src -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
-  OBJECT_DIR = CMakeFiles\OC_SORT_CPP.dir
-  OBJECT_FILE_DIR = CMakeFiles\OC_SORT_CPP.dir\src
-  TARGET_COMPILE_PDB = CMakeFiles\OC_SORT_CPP.dir\
-  TARGET_PDB = OC_SORT_CPP.pdb
+  INCLUDES = -IC:\SOTA\OC_SORT_CPP\include -IC:\SOTA\OC_SORT_CPP\src -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
+  OBJECT_DIR = CMakeFiles\test.dir
+  OBJECT_FILE_DIR = CMakeFiles\test.dir
+  TARGET_COMPILE_PDB = CMakeFiles\test.dir\
+  TARGET_PDB = test.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target OC_SORT_CPP
+# Link build statements for EXECUTABLE target test
 
 
 #############################################
-# Link the executable OC_SORT_CPP.exe
+# Link the executable test.exe
 
-build OC_SORT_CPP.exe: CXX_EXECUTABLE_LINKER__OC_SORT_CPP_Debug CMakeFiles\OC_SORT_CPP.dir\main.cpp.obj CMakeFiles\OC_SORT_CPP.dir\src\kalmanfilter.cpp.obj CMakeFiles\OC_SORT_CPP.dir\src\KalmanBoxTracker.cpp.obj | C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_stitching4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_aruco4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_barcode4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_bgsegm4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_bioinspired4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_ccalib4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_dnn_objdetect4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_dnn_superres4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_dpm4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_face4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_fuzzy4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_hdf4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_hfs4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_img_hash4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_intensity_transform4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_line_descriptor4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_mcc4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_quality4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_rapid4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_reg4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_saliency4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_stereo4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_structured_light4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_superres4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_surface_matching4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_tracking4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_videostab4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_wechat_qrcode4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_xfeatures2d4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_xobjdetect4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_xphoto4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_shape4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_highgui4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_datasets4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_plot4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_text4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_ml4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_phase_unwrapping4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_optflow4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_ximgproc4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_video4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_videoio4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_imgcodecs4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_objdetect4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_calib3d4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_dnn4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_features2d4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_flann4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_photo4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_imgproc4d.lib C$:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_core4d.lib
+build test.exe: CXX_EXECUTABLE_LINKER__test_Debug CMakeFiles\test.dir\test.cpp.obj
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:X86 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_stitching4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_aruco4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_barcode4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_bgsegm4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_bioinspired4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_ccalib4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_dnn_objdetect4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_dnn_superres4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_dpm4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_face4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_fuzzy4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_hdf4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_hfs4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_img_hash4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_intensity_transform4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_line_descriptor4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_mcc4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_quality4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_rapid4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_reg4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_saliency4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_stereo4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_structured_light4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_superres4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_surface_matching4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_tracking4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_videostab4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_wechat_qrcode4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_xfeatures2d4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_xobjdetect4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_xphoto4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_shape4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_highgui4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_datasets4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_plot4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_text4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_ml4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_phase_unwrapping4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_optflow4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_ximgproc4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_video4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_videoio4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_imgcodecs4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_objdetect4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_calib3d4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_dnn4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_features2d4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_flann4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_photo4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_imgproc4d.lib  C:\Users\GYQ\vcpkg\installed\x86-windows\debug\lib\opencv_core4d.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
-  OBJECT_DIR = CMakeFiles\OC_SORT_CPP.dir
-  POST_BUILD = cmd.exe /C "cd /D C:\SOTA\OC_SORT_CPP\cmake-build-debug && C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/GYQ/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/SOTA/OC_SORT_CPP/cmake-build-debug/OC_SORT_CPP.exe -installedDir C:/Users/GYQ/vcpkg/installed/x86-windows/debug/bin -OutVariable out"
+  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  OBJECT_DIR = CMakeFiles\test.dir
+  POST_BUILD = cmd.exe /C "cd /D C:\SOTA\OC_SORT_CPP\cmake-build-debug && C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/GYQ/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/SOTA/OC_SORT_CPP/cmake-build-debug/test.exe -installedDir C:/Users/GYQ/vcpkg/installed/x86-windows/debug/bin -OutVariable out"
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = CMakeFiles\OC_SORT_CPP.dir\
-  TARGET_FILE = OC_SORT_CPP.exe
-  TARGET_IMPLIB = OC_SORT_CPP.lib
-  TARGET_PDB = OC_SORT_CPP.pdb
-  RSP_FILE = CMakeFiles\OC_SORT_CPP.rsp
+  TARGET_COMPILE_PDB = CMakeFiles\test.dir\
+  TARGET_FILE = test.exe
+  TARGET_IMPLIB = test.lib
+  TARGET_PDB = test.pdb
 
 
 #############################################
@@ -124,7 +105,7 @@ build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build OC_SORT_CPP: phony OC_SORT_CPP.exe
+build test: phony test.exe
 
 # =============================================================================
 # Folder targets.
@@ -134,7 +115,7 @@ build OC_SORT_CPP: phony OC_SORT_CPP.exe
 #############################################
 # Folder: C:/SOTA/OC_SORT_CPP/cmake-build-debug
 
-build all: phony OC_SORT_CPP.exe
+build all: phony test.exe
 
 # =============================================================================
 # Built-in targets

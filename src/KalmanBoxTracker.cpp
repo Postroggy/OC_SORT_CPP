@@ -1,8 +1,6 @@
 #include <utility>
 
 #include "../include/KalmanBoxTracker.h"
-#include "../include/Utilities.h"
-#include "Eigen/Dense"
 namespace ocsort {
     // 用于分配ID的，递增就行
     int KalmanBoxTracker::count = 0;
@@ -38,26 +36,85 @@ namespace ocsort {
         hits = 0;      // 匹配上的次数
         hit_streak = 0;// 连续匹配上的次数
         age = 0;       // 示自该物体开始跟踪以来已经过去的帧数
-        conf = (float) bbox[5];
-//        cls = cls_;
-//        ////////////////////////////////////////////////////
-//        // NOTE: [-1,-1,-1,-1,-1] is a compromising placeholder for non-observation status, the same for the return of
-//        // function k_previous_obs. It is ugly and I do not like it. But to support generate observation array in a
-//        // fast and unified way, which you would see below k_observations = np.array([k_previous_obs(...]]),
-//        // let's bear it for now.
-//        //////////////////////////////////////////////////////
-//        last_observation << -1,-1,-1,-1,-1; // 占位符
-//        observations; // 类型：map<int, Eigen::VectorXd>
-//        history_observations; // 类型：std::vector<Eigen::VectorXd>
-//        velocity; // 类型：Eigen::VectorXd [2,1]
-
+        conf = bbox(4);// index从0开始，最后一个是置信度
+        cls = cls_;
+        ////////////////////////////////////////////////////
+        // NOTE: [-1,-1,-1,-1,-1] is a compromising placeholder for non-observation status, the same for the return of
+        // function k_previous_obs. It is ugly and I do not like it. But to support generate observation array in a
+        // fast and unified way, which you would see below k_observations = np.array([k_previous_obs(...]]),
+        // let's bear it for now.
+        //////////////////////////////////////////////////////
+        last_observation << -1, -1, -1, -1, -1;// 占位符 [-1,-1,-1,-1,-1]
+        observations;                          // 类型：map<int, Eigen::VectorXd>
+        history_observations;                  // 类型：std::vector<Eigen::VectorXd>
+        velocity << 0, 0;                      // 类型：Eigen::VectorXd [2,1]
     }
     /**
      * Updates the state vector with observed bbox.
      * @param bbox_
      * @param cls_ 这个变量在原sort中是没有的
      */
-//    void KalmanBoxTracker::update(Eigen::VectorXd* bbox_, int cls_) {
-//
-//    }
+    void KalmanBoxTracker::update(Eigen::VectorXd *bbox_, int cls_) {
+        if (bbox_ != nullptr) {
+            // 匹配到观测值了
+            conf = (*bbox_)[4];
+            cls = cls_;
+            // fixme:完全没看懂，有last_observation则没有previous_observation吗？
+            if (last_observation.sum() >= 0) {
+                // 00:32 写到这，先睡觉了。
+                Eigen::VectorXd previous_box_tmp;
+                for (int i = 0; i < delta_t; ++i) {
+                    int dt = delta_t - i;
+                    if (observations.count(age - dt) > 0) {// 如果在map中存在
+                        previous_box_tmp = observations[age - dt];
+                        break;// 跳出循环
+                    }
+                }
+                if (0 == previous_box_tmp.size()) {     // 如果previous_box_tmp并没有在上一个for-loop中被赋值
+                    previous_box_tmp = last_observation;// 则将上一个观测值赋给他
+                }
+                ////////////////////////
+                //// Estimate the track speed direction with observations \Delta t steps away//
+                ////////////////////////
+                /* velocity是(2,1)的，previous_box_tmp是(5,1) bbox是(5,1) */
+                velocity = speed_direction(previous_box_tmp, bbox);
+                ///////////////////////
+                //// Insert new observations. This is a ugly way to maintain both self.observations
+                //// and self.history_observations. Bear it for the moment.
+                //////////////////////
+                /*ocsort新增的*/
+                last_observation = bbox;
+                observations[age] = bbox;
+                history_observations.push_back(bbox);
+                /*sort通用代码*/
+                time_since_update = 0;
+                history.clear();// 空
+                hits += 1;
+                hit_streak += 1;
+                Eigen::VectorXd tmp = convert_bbox_to_z(bbox);
+                kf->update(&tmp);// todo 这里可能有bug
+            }
+        } else
+            /*如果没有检测到 bbox，也更新，KalmanFilter函数写好了应对这种情况的*/
+            kf->update(nullptr);
+    }
+
+    /**
+     * 这里返回的是 (1,4) 的行向量
+     */
+    Eigen::VectorXd KalmanBoxTracker::predict() {
+        ///////////////////////
+        //// Advances the state vector and returns the predicted bounding box estimate.
+        //////////////////////
+        if (kf->x[6] + kf->x[2] <= 0) kf->x[6] *= 0.0;
+        kf->predict();
+        age += 1;
+        if (time_since_update > 0) hit_streak = 0;
+        time_since_update += 1;
+        history.push_back(convert_bbox_to_z(kf->z));
+        return history.back();// 返回 history 中的最后一个元素
+    }
+    Eigen::VectorXd KalmanBoxTracker::get_state() {
+        return convert_x_to_bbox(kf->x);
+    }
 }// namespace ocsort

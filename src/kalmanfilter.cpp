@@ -170,7 +170,7 @@ namespace ocsort {
             // todo: 虚拟轨迹和re-update还没写完呢？
 //            history_obs.pop_back();
 //            std::vector<Eigen::VectorXd *> box1 = *(--new_history.end()); // 倒数第二个
-//            std::vector<Eigen::VectorXd *> box2 = *(new_history.end()); // 倒数第一个
+//            std::vector<Eigen::VectorXd *> box2 = *(new_history.end()); // 非法内存访问！ 倒数第一个
         } /* if attr_saved is null, do nothing */
     }
 }// namespace ocsort

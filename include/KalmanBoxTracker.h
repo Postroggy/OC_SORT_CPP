@@ -1,10 +1,10 @@
 #ifndef OC_SORT_CPP_KALMANBOXTRACKER_H
 #define OC_SORT_CPP_KALMANBOXTRACKER_H
-#pragma once
 ////todo: 指针这部分后续优化成智能指针///
 ////////////// KalmanBoxTracker /////////////
 #include "../include/kalmanfilter.h"
-#include "Eigen/Dense"
+#include "../include/Utilities.h"
+#include "iostream"
 /*
 This class represents the internal state of individual
 tracked objects observed as bbox.
@@ -16,7 +16,9 @@ namespace ocsort {
         /*method*/
         KalmanBoxTracker(){};
         KalmanBoxTracker(Eigen::VectorXd bbox_, int cls_, int delta_t_ = 3);
-//        void update(Eigen::VectorXd* bbox_, int cls_);
+        void update(Eigen::VectorXd *bbox_, int cls_);
+        Eigen::VectorXd predict();  // 返回的是 (1,4)的行向量
+        Eigen::VectorXd get_state();// 返回状态向量 x (1,4)
 
     public:
         /*variable*/
@@ -30,11 +32,11 @@ namespace ocsort {
         int hits;
         int hit_streak;
         int age = 0;
-        float conf;
+        double conf;
         int cls;
-        // 下面变量是 ocsort 相较于 sort 增加的
-        Eigen::VectorXd last_observation;
-        std::map<int, Eigen::VectorXd> observations;
+        // 下面变量是 ocsort 相较于 sort 增加的, fixme: 实际上这里应该是(1,5)的呀？
+        Eigen::VectorXd last_observation = Eigen::VectorXd::Zero(5, 1);
+        std::unordered_map<int, Eigen::VectorXd> observations;// 这里必须是hash类型的，才能跟python的dict()对应
         std::vector<Eigen::VectorXd> history_observations;
         Eigen::VectorXd velocity;// [2,1]
         int delta_t;
