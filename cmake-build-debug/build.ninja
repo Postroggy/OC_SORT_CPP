@@ -47,23 +47,13 @@ cmake_ninja_workdir = C$:\SOTA\OC_SORT_CPP\cmake-build-debug\
 #############################################
 # Order-only phony target for test
 
-build cmake_object_order_depends_target_test: phony || CMakeFiles\test.dir
+build cmake_object_order_depends_target_test: phony || cmake_object_order_depends_target_OCLib
 
 build CMakeFiles\test.dir\test.cpp.obj: CXX_COMPILER__test_Debug C$:\SOTA\OC_SORT_CPP\test.cpp || cmake_object_order_depends_target_test
-  DEFINES = -DH5_BUILT_AS_DYNAMIC_LIB
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++17
-  INCLUDES = -IC:\SOTA\OC_SORT_CPP\include -IC:\SOTA\OC_SORT_CPP\src -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
+  INCLUDES = -IC:\SOTA\OC_SORT_CPP\src -IC:\SOTA\OC_SORT_CPP\src\..\include -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
   OBJECT_DIR = CMakeFiles\test.dir
   OBJECT_FILE_DIR = CMakeFiles\test.dir
-  TARGET_COMPILE_PDB = CMakeFiles\test.dir\
-  TARGET_PDB = test.pdb
-
-build CMakeFiles\test.dir\src\association.cpp.obj: CXX_COMPILER__test_Debug C$:\SOTA\OC_SORT_CPP\src\association.cpp || cmake_object_order_depends_target_test
-  DEFINES = -DH5_BUILT_AS_DYNAMIC_LIB
-  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++17
-  INCLUDES = -IC:\SOTA\OC_SORT_CPP\include -IC:\SOTA\OC_SORT_CPP\src -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
-  OBJECT_DIR = CMakeFiles\test.dir
-  OBJECT_FILE_DIR = CMakeFiles\test.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\test.dir\
   TARGET_PDB = test.pdb
 
@@ -75,10 +65,11 @@ build CMakeFiles\test.dir\src\association.cpp.obj: CXX_COMPILER__test_Debug C$:\
 #############################################
 # Link the executable test.exe
 
-build test.exe: CXX_EXECUTABLE_LINKER__test_Debug CMakeFiles\test.dir\test.cpp.obj CMakeFiles\test.dir\src\association.cpp.obj
+build test.exe: CXX_EXECUTABLE_LINKER__test_Debug CMakeFiles\test.dir\test.cpp.obj | src\OCLib.lib || src\OCLib.dll
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:X86 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = src\OCLib.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_PATH = -LIBPATH:C:\SOTA\OC_SORT_CPP\include
   OBJECT_DIR = CMakeFiles\test.dir
   POST_BUILD = cmd.exe /C "cd /D C:\SOTA\OC_SORT_CPP\cmake-build-debug && C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/GYQ/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/SOTA/OC_SORT_CPP/cmake-build-debug/test.exe -installedDir C:/Users/GYQ/vcpkg/installed/x86-windows/debug/bin -OutVariable out"
   PRE_LINK = cd .
@@ -112,7 +103,106 @@ build CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
 build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 
 # =============================================================================
+# Write statements declared in CMakeLists.txt:
+# C:/SOTA/OC_SORT_CPP/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target OCLib
+
+
+#############################################
+# Order-only phony target for OCLib
+
+build cmake_object_order_depends_target_OCLib: phony || src\CMakeFiles\OCLib.dir
+
+build src\CMakeFiles\OCLib.dir\KalmanBoxTracker.cpp.obj: CXX_COMPILER__OCLib_Debug C$:\SOTA\OC_SORT_CPP\src\KalmanBoxTracker.cpp || cmake_object_order_depends_target_OCLib
+  DEFINES = -DOCLib_EXPORTS
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++17
+  INCLUDES = -IC:\SOTA\OC_SORT_CPP\src -IC:\SOTA\OC_SORT_CPP\src\..\include -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
+  OBJECT_DIR = src\CMakeFiles\OCLib.dir
+  OBJECT_FILE_DIR = src\CMakeFiles\OCLib.dir
+  TARGET_COMPILE_PDB = src\CMakeFiles\OCLib.dir\
+  TARGET_PDB = src\OCLib.pdb
+
+build src\CMakeFiles\OCLib.dir\OCsort.cpp.obj: CXX_COMPILER__OCLib_Debug C$:\SOTA\OC_SORT_CPP\src\OCsort.cpp || cmake_object_order_depends_target_OCLib
+  DEFINES = -DOCLib_EXPORTS
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++17
+  INCLUDES = -IC:\SOTA\OC_SORT_CPP\src -IC:\SOTA\OC_SORT_CPP\src\..\include -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
+  OBJECT_DIR = src\CMakeFiles\OCLib.dir
+  OBJECT_FILE_DIR = src\CMakeFiles\OCLib.dir
+  TARGET_COMPILE_PDB = src\CMakeFiles\OCLib.dir\
+  TARGET_PDB = src\OCLib.pdb
+
+build src\CMakeFiles\OCLib.dir\association.cpp.obj: CXX_COMPILER__OCLib_Debug C$:\SOTA\OC_SORT_CPP\src\association.cpp || cmake_object_order_depends_target_OCLib
+  DEFINES = -DOCLib_EXPORTS
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++17
+  INCLUDES = -IC:\SOTA\OC_SORT_CPP\src -IC:\SOTA\OC_SORT_CPP\src\..\include -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
+  OBJECT_DIR = src\CMakeFiles\OCLib.dir
+  OBJECT_FILE_DIR = src\CMakeFiles\OCLib.dir
+  TARGET_COMPILE_PDB = src\CMakeFiles\OCLib.dir\
+  TARGET_PDB = src\OCLib.pdb
+
+build src\CMakeFiles\OCLib.dir\kalmanfilter.cpp.obj: CXX_COMPILER__OCLib_Debug C$:\SOTA\OC_SORT_CPP\src\kalmanfilter.cpp || cmake_object_order_depends_target_OCLib
+  DEFINES = -DOCLib_EXPORTS
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd -std:c++17
+  INCLUDES = -IC:\SOTA\OC_SORT_CPP\src -IC:\SOTA\OC_SORT_CPP\src\..\include -external:IC:\Users\GYQ\vcpkg\installed\x86-windows\include\eigen3 -external:W0
+  OBJECT_DIR = src\CMakeFiles\OCLib.dir
+  OBJECT_FILE_DIR = src\CMakeFiles\OCLib.dir
+  TARGET_COMPILE_PDB = src\CMakeFiles\OCLib.dir\
+  TARGET_PDB = src\OCLib.pdb
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target OCLib
+
+
+#############################################
+# Link the shared library src\OCLib.dll
+
+build src\OCLib.dll src\OCLib.lib: CXX_SHARED_LIBRARY_LINKER__OCLib_Debug src\CMakeFiles\OCLib.dir\KalmanBoxTracker.cpp.obj src\CMakeFiles\OCLib.dir\OCsort.cpp.obj src\CMakeFiles\OCLib.dir\association.cpp.obj src\CMakeFiles\OCLib.dir\kalmanfilter.cpp.obj
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
+  LINK_FLAGS = /machine:X86 /debug /INCREMENTAL
+  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  OBJECT_DIR = src\CMakeFiles\OCLib.dir
+  POST_BUILD = cmd.exe /C "cd /D C:\SOTA\OC_SORT_CPP\cmake-build-debug\src && C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/GYQ/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/SOTA/OC_SORT_CPP/cmake-build-debug/src/OCLib.dll -installedDir C:/Users/GYQ/vcpkg/installed/x86-windows/debug/bin -OutVariable out"
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_COMPILE_PDB = src\CMakeFiles\OCLib.dir\
+  TARGET_FILE = src\OCLib.dll
+  TARGET_IMPLIB = src\OCLib.lib
+  TARGET_PDB = src\OCLib.pdb
+
+
+#############################################
+# Utility command for edit_cache
+
+build src\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D C:\SOTA\OC_SORT_CPP\cmake-build-debug\src && C:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\bin\cmake-gui.exe -SC:\SOTA\OC_SORT_CPP -BC:\SOTA\OC_SORT_CPP\cmake-build-debug"
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build src\edit_cache: phony src\CMakeFiles\edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build src\CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D C:\SOTA\OC_SORT_CPP\cmake-build-debug\src && C:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\bin\cmake.exe --regenerate-during-build -SC:\SOTA\OC_SORT_CPP -BC:\SOTA\OC_SORT_CPP\cmake-build-debug"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build src\rebuild_cache: phony src\CMakeFiles\rebuild_cache.util
+
+# =============================================================================
 # Target aliases.
+
+build OCLib: phony src\OCLib.dll
+
+build OCLib.dll: phony src\OCLib.dll
 
 build test: phony test.exe
 
@@ -124,7 +214,14 @@ build test: phony test.exe
 #############################################
 # Folder: C:/SOTA/OC_SORT_CPP/cmake-build-debug
 
-build all: phony test.exe
+build all: phony test.exe src\all
+
+# =============================================================================
+
+#############################################
+# Folder: C:/SOTA/OC_SORT_CPP/cmake-build-debug/src
+
+build src\all: phony src\OCLib.dll
 
 # =============================================================================
 # Built-in targets
@@ -133,14 +230,14 @@ build all: phony test.exe
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:\SOTA\OC_SORT_CPP\CMakeLists.txt C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCXXInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCommonLanguageInclude.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeDependentOption.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeFindDependencyMacro.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeGenericSystem.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeInitializeConfigs.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeLanguageInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeRCInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeSystemSpecificInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeSystemSpecificInitialize.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CheckCSourceCompiles.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CheckIncludeFile.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CheckLibraryExists.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC-C.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC-CXX.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindHDF5.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindLibArchive.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindPackageHandleStandardArgs.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindPackageMessage.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindTIFF.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindThreads.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindZLIB.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Internal\CheckSourceCompiles.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC-C.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\WindowsPaths.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\SelectLibraryConfigurations.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLConfig.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLConfigVersion.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLTargets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLTargets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLTargets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3Config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3ConfigVersion.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3Targets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-config-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-targets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-targets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-targets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaConfig-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaConfig.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaTargets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaTargets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaTargets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\libarchive\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVConfig-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVConfig.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVModules-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVModules-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVModules.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-config-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-module.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-options.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-targets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-targets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-targets-vcpkg-protoc.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-targets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\quirc\quirc-config-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\quirc\quirc-config-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\quirc\quirc-config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-config-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-targets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-targets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-targets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractConfig.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractConfigVersion.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractTargets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractTargets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractTargets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tiff\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\zlib\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\scripts\buildsystems\vcpkg.cmake CMakeCache.txt CMakeFiles\3.24.2\CMakeCCompiler.cmake CMakeFiles\3.24.2\CMakeCXXCompiler.cmake CMakeFiles\3.24.2\CMakeRCCompiler.cmake CMakeFiles\3.24.2\CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | C$:\SOTA\OC_SORT_CPP\CMakeLists.txt C$:\SOTA\OC_SORT_CPP\src\CMakeLists.txt C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCXXInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCommonLanguageInclude.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeDependentOption.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeGenericSystem.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeInitializeConfigs.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeLanguageInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeRCInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeSystemSpecificInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeSystemSpecificInitialize.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC-C.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC-CXX.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC-C.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\WindowsPaths.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3Config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3ConfigVersion.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3Targets.cmake C$:\Users\GYQ\vcpkg\scripts\buildsystems\vcpkg.cmake CMakeCache.txt CMakeFiles\3.24.2\CMakeCCompiler.cmake CMakeFiles\3.24.2\CMakeCXXCompiler.cmake CMakeFiles\3.24.2\CMakeRCCompiler.cmake CMakeFiles\3.24.2\CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:\SOTA\OC_SORT_CPP\CMakeLists.txt C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCXXInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCommonLanguageInclude.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeDependentOption.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeFindDependencyMacro.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeGenericSystem.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeInitializeConfigs.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeLanguageInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeRCInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeSystemSpecificInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeSystemSpecificInitialize.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CheckCSourceCompiles.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CheckIncludeFile.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CheckLibraryExists.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC-C.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC-CXX.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindHDF5.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindLibArchive.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindPackageHandleStandardArgs.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindPackageMessage.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindTIFF.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindThreads.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\FindZLIB.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Internal\CheckSourceCompiles.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC-C.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\WindowsPaths.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\SelectLibraryConfigurations.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLConfig.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLConfigVersion.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLTargets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLTargets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\CURLTargets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\curl\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3Config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3ConfigVersion.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3Targets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-config-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-targets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-targets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\hdf5-targets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\hdf5\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaConfig-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaConfig.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaTargets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaTargets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\leptonica\LeptonicaTargets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\libarchive\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVConfig-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVConfig.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVModules-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVModules-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\opencv4\OpenCVModules.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-config-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-module.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-options.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-targets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-targets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-targets-vcpkg-protoc.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\protobuf-targets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\protobuf\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\quirc\quirc-config-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\quirc\quirc-config-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\quirc\quirc-config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-config-version.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-targets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-targets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\szip\szip-targets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractConfig.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractConfigVersion.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractTargets-debug.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractTargets-release.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tesseract\TesseractTargets.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\tiff\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\zlib\vcpkg-cmake-wrapper.cmake C$:\Users\GYQ\vcpkg\scripts\buildsystems\vcpkg.cmake CMakeCache.txt CMakeFiles\3.24.2\CMakeCCompiler.cmake CMakeFiles\3.24.2\CMakeCXXCompiler.cmake CMakeFiles\3.24.2\CMakeRCCompiler.cmake CMakeFiles\3.24.2\CMakeSystem.cmake: phony
+build C$:\SOTA\OC_SORT_CPP\CMakeLists.txt C$:\SOTA\OC_SORT_CPP\src\CMakeLists.txt C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCXXInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeCommonLanguageInclude.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeDependentOption.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeGenericSystem.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeInitializeConfigs.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeLanguageInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeRCInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeSystemSpecificInformation.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\CMakeSystemSpecificInitialize.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\CMakeCommonCompilerMacros.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC-C.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC-CXX.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Compiler\MSVC.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC-C.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC-CXX.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows-MSVC.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\Windows.cmake C$:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\share\cmake-3.24\Modules\Platform\WindowsPaths.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3Config.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3ConfigVersion.cmake C$:\Users\GYQ\vcpkg\installed\x86-windows\share\eigen3\Eigen3Targets.cmake C$:\Users\GYQ\vcpkg\scripts\buildsystems\vcpkg.cmake CMakeCache.txt CMakeFiles\3.24.2\CMakeCCompiler.cmake CMakeFiles\3.24.2\CMakeCXXCompiler.cmake CMakeFiles\3.24.2\CMakeRCCompiler.cmake CMakeFiles\3.24.2\CMakeSystem.cmake: phony
 
 
 #############################################

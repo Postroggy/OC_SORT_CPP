@@ -1,3 +1,6 @@
 C:/SOTA/OC_SORT_CPP/cmake-build-debug/CMakeFiles/test.dir
 C:/SOTA/OC_SORT_CPP/cmake-build-debug/CMakeFiles/edit_cache.dir
 C:/SOTA/OC_SORT_CPP/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/SOTA/OC_SORT_CPP/cmake-build-debug/src/CMakeFiles/OCLib.dir
+C:/SOTA/OC_SORT_CPP/cmake-build-debug/src/CMakeFiles/edit_cache.dir
+C:/SOTA/OC_SORT_CPP/cmake-build-debug/src/CMakeFiles/rebuild_cache.dir

@@ -44,7 +44,7 @@ namespace ocsort {
     }
 
     std::tuple<std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>>, std::vector<int>, std::vector<int>> ocsort::associate(Eigen::MatrixXd detections, Eigen::MatrixXd trackers, float iou_threshold, Eigen::MatrixXd velocities, Eigen::MatrixXd previous_obs, float vdc_weight) {
-//        if (trackers.rows() == 0) return std::make_tuple(Eigen::VectorXd::Zero(0, 2), Eigen::VectorXd::LinSpaced(detections.rows(), 0, detections.rows() - 1), Eigen::VectorXd::Zero(0, 5));
+        //        if (trackers.rows() == 0) return std::make_tuple(Eigen::VectorXd::Zero(0, 2), Eigen::VectorXd::LinSpaced(detections.rows(), 0, detections.rows() - 1), Eigen::VectorXd::Zero(0, 5));
 
         Eigen::MatrixXd Y, X;
         auto result = speed_direction_batch(detections, previous_obs);
@@ -137,10 +137,11 @@ namespace ocsort {
             // 应该是要返回空的vector的，所有初始化之后，clear一下？
             matches.clear();
         }
-        /*  返回的是 matches => vector<Eigen::Matrix<int,1,2>> 的数组
-       *  unmatched_detections => vector<int> 代表没匹配上轨迹的观测值的index
-       *  unmatched_trackers => vector<int> 代表没匹配上观测值的轨迹的index
+        /**
+           * 返回的是 matches => vector<Eigen::Matrix<int,1,2>> 的数组
+           * unmatched_detections => vector<int> 代表没匹配上轨迹的观测值的index
+           * unmatched_trackers => vector<int> 代表没匹配上观测值的轨迹的index
        */
-        return std::make_tuple(matches,unmatched_detections, unmatched_trackers);
+        return std::make_tuple(matches, unmatched_detections, unmatched_trackers);
     }
 }// namespace ocsort

@@ -40,7 +40,8 @@ namespace ocsort {
         auto inds_second = inds_low && inds_high;
         // 筛选一下，模拟 dets_second = output_results[inds_second];dets = output_results[remain_inds]
         Eigen::Matrix<double, Eigen::Dynamic, 6> dets_second;// 行不固定，列固定
-        Eigen::Matrix<double, Eigen::Dynamic, 6> dets_first; //因为python类型随便改而C++不行，
+        //因为python类型随便改而C++不行, note: 后续用 dets_second 代替dets传入 associate() 函数，切记！
+        Eigen::Matrix<double, Eigen::Dynamic, 6> dets_first;
         int index1 = 0, index2 = 0;
         for (int i = 0; i < output_results.rows(); i++) {
             if (true == inds_second(0, i)) {
@@ -77,8 +78,18 @@ namespace ocsort {
         /////////////////////////
         ///  Setp1 First round of association
         ////////////////////////
-        Eigen::MatrixXd matched,unmatched_dets,unmatched_trks;
-        // todo 做iou关联  associate()
+        // 做iou关联  associate()
+        std::vector<Eigen::Matrix<int,1,Eigen::Dynamic>> matched; // 数组内 元素形状是(1,2)
+        std::vector<int> unmatched_dets;
+        std::vector<int> unmatched_trks;
+        auto result =  associate(dets_second, trks, iou_threshold, velocities, k_observations, inertia);
+        matched = std::get<0>(result);
+        unmatched_dets = std::get<1>(result);
+        unmatched_trks = std::get<2>(result);
+        for(auto m : matched){
+            Eigen::VectorXd tmp_box= dets_first.block(m(0),0,1,5);
+            trackers[m(1)].update(&(tmp_box),dets_first(m(0),5));
+        }
         // 把匹配上的update
 //        for(int i =0;i <matched.rows();i++){
 //            trackers[matched(i)].update(,dets(1,2));
