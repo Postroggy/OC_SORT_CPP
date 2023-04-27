@@ -99,12 +99,6 @@ namespace ocsort {
         /// Setp2 Second round of associaton by OCR to find lost tracks back
         //////////////////////
         // BYTE 的关联，暂时不用
-        //        if(unmatched_dets.rows()> 0 && unmatched_trks.rows()>0){
-        //
-        //        }
-        //        if(unmatched_dets.size()>0 && unmatched_trks.size()>0){
-        //            Eigen::MatrixXd left_dets = dets_first;
-        //        }
         if (unmatched_dets.size() > 0 && unmatched_trks.size() > 0) {
             // 模拟：left_dets = dets[unmatched_dets] 没匹配上轨迹的 检测
             Eigen::MatrixXd left_dets(unmatched_dets.size(), dets_first.cols());
@@ -118,9 +112,60 @@ namespace ocsort {
             }
             // 计算代价矩阵 todo: 这里暂时用 iou_batch 吧。后续再做映射了
             Eigen::MatrixXd iou_left = iou_batch(left_dets, left_trks);
-            // todo 今天先写到这了，27号，23:08
+            // todo 今天先写到这了，27号，23:08 ，感觉需要另外整一个数据集，这个数据不太行，。
+            if (iou_left.maxCoeff() > iou_threshold) {
+                /**
+                    NOTE: by using a lower threshold, e.g., self.iou_threshold - 0.1, you may
+                    get a higher performance especially on MOT17/MOT20 datasets. But we keep it
+                    uniform here for simplicity
+                 * */
+                // 找回丢失的track
+            }
         }
 
+        // fixme：论文中提到，如果现存的轨迹并没有观测值，那么也是要更新的
+        for (auto m: unmatched_trks) {
+            // python版本给update传入 z=None，但是在C++版本中，我们传入 nullptr 就行了
+            trackers.at(m).update(nullptr);
+        }
+        ///////////////////////////////
+        /// Step4 Initialize new tracks and remove expired tracks
+        ///////////////////////////////
+        /*create and initialise new trackers for unmatched detections*/
+        for (auto i: unmatched_dets) {
+            Eigen::VectorXd tmp_bbox = dets_first.block(i, 0, 1, 5);
+            KalmanBoxTracker trk = KalmanBoxTracker(tmp_bbox, dets(i, 5), delta_t);
+            // 将新创建的追加到 trackers 末尾
+            trackers.push_back(trk);
+        }
+        int tmp_i = trackers.size();// fixme: 不知道拿来干嘛的，好像是用来保存MOT格式的测试结果的
+        // 逆序遍历 trackers 数组，生成需要返回的结果
+        for (int i = trackers.size() - 1; i > 0; i--) {
+            // 下面是获取 预测值，有两种方式，差别其实不大
+            if (trackers.at(i).last_observation.sum() < 0) {
+                Eigen::MatrixXd d = trackers.at(i).get_state();
+            } else {
+                /**
+                    this is optional to use the recent observation or the kalman filter prediction,
+                    we didn't notice significant difference here
+                 * */
+                Eigen::MatrixXd d = trackers.at(i).get_state();
+            }
+            /**
+                如果在一定阈值内（一般为1帧）未检测到物体，则将当前跟踪器标记为“未更新”
+                判断条件 time_since_update < 1 意味着跟踪器在上一帧中有正确地匹配到目标并预测了当前帧中的位置，
+                且在当前帧中的位置还没有超过一个阈值（1帧），说明跟踪器仍然有效，可以将其作为匹配结果加入到 ret 中
+             * */
+            if (trackers.at(i).time_since_update < 1 && ((trackers.at(i).hit_streak >= min_hits) | (frame_count <= min_hits))) {
+                // +1 as MOT benchmark requires positive
+                ret.push_back(); // 主要是把数据组合起来，28号再写了
+            }
+            i -=1;
+            // remove dead tracklets
+                  if(trackers.at(i).time_since_update > max_age){
+                        /*这里需要删除指定位置的元素，但是这个方法在vector中没有实现，明天再写了*/
+                  }
+        }
         return xyxys;
     }
 }// namespace ocsort
