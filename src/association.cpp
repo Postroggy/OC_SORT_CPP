@@ -44,8 +44,14 @@ namespace ocsort {
     }
 
     std::tuple<std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>>, std::vector<int>, std::vector<int>> ocsort::associate(Eigen::MatrixXd detections, Eigen::MatrixXd trackers, float iou_threshold, Eigen::MatrixXd velocities, Eigen::MatrixXd previous_obs, float vdc_weight) {
-        //        if (trackers.rows() == 0) return std::make_tuple(Eigen::VectorXd::Zero(0, 2), Eigen::VectorXd::LinSpaced(detections.rows(), 0, detections.rows() - 1), Eigen::VectorXd::Zero(0, 5));
-
+        if (trackers.rows() == 0) {
+            // 如果 tracker 没有的话，直接返回空的，但是 unmatched_dets不为空。
+            std::vector<int> unmatched_dets;
+            for(int i=0;i<detections.rows();i++){
+                unmatched_dets.push_back(i);
+            }
+            return std::make_tuple(std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>>(), unmatched_dets, std::vector<int>());
+        }
         Eigen::MatrixXd Y, X;
         auto result = speed_direction_batch(detections, previous_obs);
         Y = std::get<0>(result);

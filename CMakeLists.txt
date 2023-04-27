@@ -3,13 +3,15 @@ project(OC_SORT_CPP)
 
 set(CMAKE_CXX_STANDARD 17)
 find_package(Eigen3 REQUIRED)
-
-
-include_directories(src)
-#add_executable(OC_SORT_CPP main.cpp  include/kalmanfilter.h include/KalmanBoxTracker.h include/OCsort.h include/association.h)
-#target_link_libraries(OC_SORT_CPP Eigen3::Eigen)
-#add_executable(test test.cpp include/OCsort.h include/kalmanfilter.h include/KalmanBoxTracker.h include/Utilities.h src/OCsort.cpp src/kalmanfilter.cpp src/KalmanBoxTracker.cpp include/association.h src/association.cpp)
-add_subdirectory(src)
+#add_subdirectory(src)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+file(GLOB SRC_LIST src/*.cpp)
+add_library(OCLib SHARED ${SRC_LIST})
+target_include_directories(OCLib PUBLIC include)
+target_link_libraries(OCLib Eigen3::Eigen )
+#set(CMAKE_INSTALL_RPATH "${PROJECT_SOURCE_DIR}/lib")
+#set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 add_executable(test test.cpp)
 target_link_directories(test PUBLIC include)
-target_link_libraries(test Eigen3::Eigen OCLib)
+
+target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
