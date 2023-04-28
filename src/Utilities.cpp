@@ -3,7 +3,7 @@ namespace ocsort {
     Eigen::VectorXd ocsort::convert_bbox_to_z(Eigen::VectorXd bbox) {
         double w = bbox[2] - bbox[0];
         double h = bbox[3] - bbox[1];
-        double x = bbox[0] + h / 2.0;
+        double x = bbox[0] + w / 2.0;
         double y = bbox[1] + h / 2.0;
         double s = w * h;
         double r = w / (h + 1e-6);

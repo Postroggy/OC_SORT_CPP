@@ -5,12 +5,13 @@ namespace ocsort {
     // 用于分配ID的，递增就行
     int KalmanBoxTracker::count = 0;
     KalmanBoxTracker::KalmanBoxTracker(Eigen::VectorXd bbox_, int cls_, int delta_t_) {
-        bbox = std::move(bbox_);
+        // note： 输入： bbox: 应为1x5，目前是 5x1, cls:整形，delta_t：整形,
+        bbox = std::move(bbox_); // 还要 convert to z
         delta_t = delta_t_;
         //初始化kalman filter (new)//
-        //        kf = KalmanFilterNew(7,4);
-        //        auto a = KalmanFilterNew(7,4);
-        //        kf = KalmanFilterNew(7,4);
+        // kf = KalmanFilterNew(7,4);
+        // auto a = KalmanFilterNew(7,4);
+        // kf = KalmanFilterNew(7,4);
         kf = new KalmanFilterNew(7, 4);
         kf->F << 1, 0, 0, 0, 1, 0, 0,
                 0, 1, 0, 0, 0, 1, 0,
@@ -27,16 +28,16 @@ namespace ocsort {
         kf->P *= 10.0;
         kf->Q.bottomRightCorner(1, 1)(0, 0) *= 0.01;
         kf->Q.block(4, 4, 3, 3) *= 0.01;
-        // 下面是要赋值给x[7,1]，但是bbox是[5,1] convert_bbox_to_z(bbox)是(4,1)
+        // 下面是要赋值给x[7,1]，但是bbox是[5,1] convert_bbox_to_z(bbox)是(4,1)， 前4行赋值给x
         kf->x.head<4>() = convert_bbox_to_z(bbox);
         time_since_update = 0;
         id = KalmanBoxTracker::count;
         KalmanBoxTracker::count += 1;
-        history;       // 空的数组
-        hits = 0;      // 匹配上的次数
-        hit_streak = 0;// 连续匹配上的次数
-        age = 0;       // 示自该物体开始跟踪以来已经过去的帧数
-        conf = bbox(4);// index从0开始，最后一个是置信度
+        history.clear();// 空的数组
+        hits = 0;       // 匹配上的次数
+        hit_streak = 0; // 连续匹配上的次数
+        age = 0;        // 示自该物体开始跟踪以来已经过去的帧数
+        conf = bbox(4); // index从0开始，最后一个是置信度
         cls = cls_;
         ////////////////////////////////////////////////////
         // NOTE: [-1,-1,-1,-1,-1] is a compromising placeholder for non-observation status, the same for the return of
@@ -44,10 +45,10 @@ namespace ocsort {
         // fast and unified way, which you would see below k_observations = np.array([k_previous_obs(...]]),
         // let's bear it for now.
         //////////////////////////////////////////////////////
-        last_observation << -1, -1, -1, -1, -1;// 占位符 [-1,-1,-1,-1,-1]
-        observations;                          // 类型：map<int, Eigen::VectorXd>
-        history_observations;                  // 类型：std::vector<Eigen::VectorXd>
-        velocity << 0, 0;                      // 类型：Eigen::VectorXd [2,1]
+        last_observation.fill(-1);// 占位符 [-1,-1,-1,-1,-1]
+        observations.clear();                          // 类型：map<int, Eigen::VectorXd>
+        history_observations.clear();                  // 类型：std::vector<Eigen::VectorXd>
+        velocity.fill(0);                      // 类型：Eigen::VectorXd [2,1]
     }
     /**
      * Updates the state vector with observed bbox.
@@ -115,6 +116,9 @@ namespace ocsort {
         return history.back();// 返回 history 中的最后一个元素
     }
     Eigen::VectorXd KalmanBoxTracker::get_state() {
+        // todo： 这个函数还是有点问题啊，有问题，一个变量  w 写成 h了，改过来了
+//        std::cout<<"before convert:\n"<<kf->x<<std::endl;
+//        std::cout<<"after convert:\n"<<convert_x_to_bbox(kf->x)<<std::endl;
         return convert_x_to_bbox(kf->x);
     }
 }// namespace ocsort

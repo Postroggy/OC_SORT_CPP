@@ -27,11 +27,11 @@ namespace ocsort {
         // B是 控制矩阵，实际上在目标追踪中都没用到过 [n,n]
         Eigen::MatrixXd B;
         // 预测矩阵\状态转移矩阵 [7,7]
-        Eigen::MatrixXd F;
+        Eigen::Matrix<double,7,7> F;
         // 观测模型\矩阵 [4,7]
-        Eigen::MatrixXd H;
+        Eigen::Matrix<double,4,7> H;
         // 观测噪音 [4,4]
-        Eigen::MatrixXd R;
+        Eigen::Matrix<double,4,4> R;
         // fading memory control，控制更新权重float
         float _alpha_sq = 1.;
         // 测量矩阵，将状态向量x转换为测量向量z [7,4] 和矩阵H作用相反
