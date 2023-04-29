@@ -44,10 +44,11 @@ int main(int argc, char *argv[]) {
     OCSort A = OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, false);
     /* 测试 update 函数,*/
     auto res = A.update(dets1);
-    cout << "First: " << res << endl;
+    cout << "========== First: " << res << endl
+         << endl;
     // todo: 第二个检测出问题了，返回的结果为空了
     res = A.update(dets2);
-    cout << "Second: " << res << endl;
+    cout << "========== Second: " << res << endl;
     res = A.update(dets3);
-    cout << "Third: " << res << endl;
+    cout << "========== Third: " << res << endl;
 }

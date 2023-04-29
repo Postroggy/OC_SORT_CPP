@@ -16,8 +16,8 @@ namespace ocsort {
         /*method*/
         KalmanBoxTracker(){};
         KalmanBoxTracker(Eigen::VectorXd bbox_, int cls_, int delta_t_ = 3);
-        void update(Eigen::VectorXd *bbox_, int cls_);
-        Eigen::VectorXd predict();  // 返回的是 (1,4)的行向量
+        void update(Eigen::Matrix<double,5,1> *bbox_, int cls_);
+        Eigen::RowVectorXd predict();  // 返回的是 (1,4)的行向量
         Eigen::VectorXd get_state();// 返回状态向量 x (1,4)
 
     public:
