@@ -2,6 +2,16 @@
 #include "iomanip"
 #include <utility>
 
+
+// 定义颜色代码
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+#define YELLOW "\033[33m"
+#define BLUE "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN "\033[36m"
+#define RESET "\033[0m"
+
 #include "iostream"// todo 发布时删除
 namespace ocsort {
     /*重载 << for vector*/
@@ -115,9 +125,15 @@ namespace ocsort {
         Eigen::MatrixXd velocities = Eigen::MatrixXd::Zero(trackers.size(), 2);
         Eigen::MatrixXd last_boxes = Eigen::MatrixXd::Zero(trackers.size(), 5);
         Eigen::MatrixXd k_observations = Eigen::MatrixXd::Zero(trackers.size(), 5);
+        std::cout<<"tracks.size="<<trackers.size()<<std::endl;
         for (int i = 0; i < trackers.size(); i++) {
+            std::cout<<RED"k_observations:"<<k_observations<<std::endl;
             velocities.row(i) = trackers[i].velocity;// 反正初始化为0了的，不用取判断is None了
             last_boxes.row(i) = trackers[i].last_observation;
+            std::cout<<BLUE"There should be 7 record in trackers[0].observations"<<std::endl;
+            for(auto s:trackers.at(i).observations){
+                std::cout<<CYAN<<s.first<<" "<<s.second<<std::endl;
+            }
             k_observations.row(i) = k_previous_obs(trackers[i].observations, trackers[i].age, delta_t);
         }
         // note：调试用
@@ -132,7 +148,18 @@ namespace ocsort {
         std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>> matched;// 数组内 元素形状是(1,2)
         std::vector<int> unmatched_dets;
         std::vector<int> unmatched_trks;
+        // todo :WARNING: 不是，这里associate怎么又有问题
+        std::cout << "\n\n\n ==============associate parameters is:==============\n";
+        std::cout << "dets_first\n"
+                  << dets_first << "\ntrks\n"
+                  << trks << "\niou_threshold\n"
+                  << iou_threshold << "\n velocities \n"
+                  << velocities << "\nk_observations\n"
+                  << k_observations << "\ninertia\n"
+                  << inertia << std::endl;
         auto result = associate(dets_first, trks, iou_threshold, velocities, k_observations, inertia);
+        std::cout << "\n\n\n ==============associate END==============\n";
+
         matched = std::get<0>(result);
         unmatched_dets = std::get<1>(result);
         unmatched_trks = std::get<2>(result);
@@ -215,7 +242,7 @@ namespace ocsort {
                                     //        std::cout << "temp_i: " << tmp_i << std::endl;
         // 逆序遍历 trackers 数组，生成需要返回的结果
         for (int i = trackers.size() - 1; i >= 0; i--) {
-            std::cout<<"===== Get the size of EXISTING tracklet prediction ==========\n";
+            std::cout << "===== Get the size of EXISTING tracklet prediction ==========\n";
             // 下面是获取 预测值，有两种方式，差别其实不大
             Eigen::Matrix<double, 1, 4> d;
             // todo :WARNING: :搞错了，last_observation 好像没更新
@@ -230,11 +257,10 @@ namespace ocsort {
                     this is optional to use the recent observation or the kalman filter prediction,
                     we didn't notice significant difference here
                  * */
-                 // todo 这里出问题了吗？
-                std::cout<<"prediction result is: "<<std::endl;
-                 d = trackers.at(i).last_observation.block(0, 0, 1, 4);
-                std::cout<<d<<std::endl;
-
+                // todo 这里出问题了吗？
+                std::cout << "prediction result is: " << std::endl;
+                d = trackers.at(i).last_observation.block(0, 0, 1, 4);
+                std::cout << d << std::endl;
             }
             // note: 调试用
             std::cout << "OCsort Predict Result[" << i << "]:(u,v,r,s)\n   " << d << std::endl;

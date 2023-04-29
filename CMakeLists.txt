@@ -8,10 +8,14 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 file(GLOB SRC_LIST src/*.cpp)
 add_library(OCLib SHARED ${SRC_LIST})
 target_include_directories(OCLib PUBLIC include)
-target_link_libraries(OCLib Eigen3::Eigen )
-#set(CMAKE_INSTALL_RPATH "${PROJECT_SOURCE_DIR}/lib")
-#set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-add_executable(test test.cpp)
-target_link_directories(test PUBLIC include)
-
-target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
+target_link_libraries(OCLib Eigen3::Eigen)
+# note： 主测试用的是 test
+#add_executable(test test.cpp)
+#target_link_directories(test PUBLIC include)
+#target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
+# note： 测试用C++读取 csv 文件，形成 Matrix
+#add_executable(read_TS read_tensor.cpp)
+#target_link_libraries(read_TS PUBLIC Eigen3::Eigen)
+# note: 测试 assocaite 函数
+add_executable(test_assc test_associate.cpp)
+target_link_libraries(test_assc PUBLIC Eigen3::Eigen OCLib)

@@ -9,26 +9,40 @@ namespace ocsort {
         Eigen::VectorXd CY1 = (dets.col(1) + dets.col(3)) / 2.f;
         Eigen::MatrixXd CX2 = (tracks.col(0) + tracks.col(2)) / 2.f;
         Eigen::MatrixXd CY2 = (tracks.col(1) + tracks.col(3)) / 2.f;
-        Eigen::MatrixXd dx = CX1.transpose().replicate(2, 1) - CX2.replicate(1, 2);
-        Eigen::MatrixXd dy = CY1.transpose().replicate(2, 1) - CY2.replicate(1, 2);
+        std::cout << "==============START speed_direction_batch DEBUG =================" << std::endl;
+        std::cout << "CX1\n"
+                  << CX1 << "\nCY1\n"
+                  << CY1 << "\nCX2\n"
+                  << CX2 << "\nCY2\n"
+                  << CY2 << std::endl;
+        std::cout << "==============ENDs speed_direction_batch DEBUG =================" << std::endl;
+        // todo: :WARNING: 这里报错了，
+        Eigen::MatrixXd dx = CX1.transpose().replicate(tracks.rows(), 1) - CX2.replicate(1, dets.rows());
+        Eigen::MatrixXd dy = CY1.transpose().replicate(tracks.rows(), 1) - CY2.replicate(1, dets.rows());
         Eigen::MatrixXd norm = (dx.array().square() + dy.array().square()).sqrt() + 1e-6f;
         dx = dx.array() / norm.array();
         dy = dy.array() / norm.array();
         return std::make_tuple(dy, dx);
     }
+    /**
+     *
+     * @param bboxes1 形状： (n1,6)
+     * @param bboxes2 形状： (n2,5)
+     * @return 形状：(n1,n2)
+     */
     Eigen::MatrixXd iou_batch(const Eigen::MatrixXd &bboxes1, const Eigen::MatrixXd &bboxes2) {
-        Eigen::Matrix<double, Eigen::Dynamic, 1> a = bboxes1.col(0);// bboxes1[..., 0] (2,1)
-        Eigen::Matrix<double, 1, Eigen::Dynamic> b = bboxes2.col(0);// bboxes2[..., 0] (2,1) 需要转成(1,2)
-        Eigen::MatrixXd xx1 = (a.replicate(1, a.rows())).cwiseMax(b.replicate(b.cols(), 1));
-        a = bboxes1.col(1);
-        b = bboxes2.col(1);
-        Eigen::MatrixXd yy1 = (a.replicate(1, a.rows())).cwiseMax(b.replicate(b.cols(), 1));
-        a = bboxes1.col(2);
-        b = bboxes2.col(2);
-        Eigen::MatrixXd xx2 = (a.replicate(1, a.rows())).cwiseMin(b.replicate(b.cols(), 1));
-        a = bboxes1.col(3);
-        b = bboxes2.col(3);
-        Eigen::MatrixXd yy2 = (a.replicate(1, a.rows())).cwiseMin(b.replicate(b.cols(), 1));
+        Eigen::Matrix<double, Eigen::Dynamic, 1> a = bboxes1.col(0);// bboxes1[..., 0] (n1,1)
+        Eigen::Matrix<double, 1, Eigen::Dynamic> b = bboxes2.col(0);// bboxes2[..., 0] (1,n2)
+        Eigen::MatrixXd xx1 = (a.replicate(1, b.cols())).cwiseMax(b.replicate(a.rows(), 1));
+        a = bboxes1.col(1);// bboxes1[..., 1]
+        b = bboxes2.col(1);// bboxes2[..., 1]
+        Eigen::MatrixXd yy1 = (a.replicate(1, b.cols())).cwiseMax(b.replicate(a.rows(), 1));
+        a = bboxes1.col(2);// bboxes1[..., 2]
+        b = bboxes2.col(2);// bboxes1[..., 2]
+        Eigen::MatrixXd xx2 = (a.replicate(1, b.cols())).cwiseMin(b.replicate(a.rows(), 1));
+        a = bboxes1.col(3);// bboxes1[..., 3]
+        b = bboxes2.col(3);// bboxes1[..., 3]
+        Eigen::MatrixXd yy2 = (a.replicate(1, b.cols())).cwiseMin(b.replicate(a.rows(), 1));
         Eigen::MatrixXd w = (xx2 - xx1).cwiseMax(0);
         Eigen::MatrixXd h = (yy2 - yy1).cwiseMax(0);
         Eigen::MatrixXd wh = w.array() * h.array();
@@ -36,26 +50,35 @@ namespace ocsort {
         a = (bboxes1.col(2) - bboxes1.col(0)).array() * (bboxes1.col(3) - bboxes1.col(1)).array();
         //    Eigen::Matrix<double,1,Eigen::Dynamic> part2= (bboxes2.col(2) - bboxes2.col(0)).array()*(bboxes2.col(3) - bboxes2.col(1)).array();
         b = (bboxes2.col(2) - bboxes2.col(0)).array() * (bboxes2.col(3) - bboxes2.col(1)).array();
+        std::cout << "Current Line:" << __LINE__ << std::endl;
+        std::cout << "a :\n"
+                  << a << "\nb:\n"
+                  << b << std::endl;
         // 做加法，但是还需要广播一下
-        Eigen::MatrixXd part1_ = a.replicate(1, a.rows());
-        Eigen::MatrixXd part2_ = b.replicate(b.cols(), 1);
-        Eigen::MatrixXd Sum = part1_ + part2_ - wh;
+        Eigen::MatrixXd part1_ = a.replicate(1, b.cols());
+        Eigen::MatrixXd part2_ = b.replicate(a.rows(), 1);
+        Eigen::MatrixXd Sum = part1_ + part2_ - wh; // 形状：(n1,n2)
         return wh.cwiseQuotient(Sum);
     }
 
-    std::tuple<std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>>, std::vector<int>, std::vector<int>> ocsort::associate(Eigen::MatrixXd detections, Eigen::MatrixXd trackers, float iou_threshold, Eigen::MatrixXd velocities, Eigen::MatrixXd previous_obs, float vdc_weight) {
+    std::tuple<std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>>, std::vector<int>, std::vector<int>>
+    ocsort::associate(Eigen::MatrixXd detections, Eigen::MatrixXd trackers, float iou_threshold, Eigen::MatrixXd velocities, Eigen::MatrixXd previous_obs_, float vdc_weight) {
         if (trackers.rows() == 0) {
             // 如果 tracker 没有的话，直接返回空的，但是 unmatched_dets不为空。
             std::vector<int> unmatched_dets;
-            for(int i=0;i<detections.rows();i++){
+            for (int i = 0; i < detections.rows(); i++) {
                 unmatched_dets.push_back(i);
             }
             return std::make_tuple(std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>>(), unmatched_dets, std::vector<int>());
         }
         Eigen::MatrixXd Y, X;
-        auto result = speed_direction_batch(detections, previous_obs);
+        auto result = speed_direction_batch(detections, previous_obs_);
         Y = std::get<0>(result);
         X = std::get<1>(result);
+        std::cout << "X\n"
+                  << X << std::endl;
+        std::cout << "Y\n"
+                  << Y << std::endl;
         Eigen::MatrixXd inertia_Y = velocities.col(0);// shape是 (2,1)的，后续做广播需要逆置一下
         Eigen::MatrixXd inertia_X = velocities.col(1);
         // todo 这里maybe会有问题, 我这里又重新声明了一个变量保存值，因为不能直接 a = a.transpose()
@@ -70,9 +93,11 @@ namespace ocsort {
         // fixme: 差点忘记这一步了： diff_angle = (np.pi /2.0 - np.abs(diff_angle)) / np.pi
         diff_angle = (pi / 2.0 - diff_angle.array().abs()).array() / (pi);
         // fixme？这个掩码是拿来干嘛的？
-        Eigen::Array<bool, 1, Eigen::Dynamic> valid_mask = Eigen::Array<bool, Eigen::Dynamic, 1>::Ones(previous_obs.rows());
-        previous_obs(0, 4) = 9;
-        valid_mask = valid_mask.array() * ((previous_obs.col(4).array() >= 0).transpose()).array();// 然后numpy中，这里应该是个行向量的
+        Eigen::Array<bool, 1, Eigen::Dynamic> valid_mask = Eigen::Array<bool, Eigen::Dynamic, 1>::Ones(previous_obs_.rows());
+        // note: 调试用
+        // previous_obs_(0, 4) = 9;
+        valid_mask = valid_mask.array() * ((previous_obs_.col(4).array() >= 0).transpose()).array();// 然后numpy中，这里应该是个行向量的
+        // todo :WARNING: iou_batch 有问题，我擦
         Eigen::MatrixXd iou_matrix = iou_batch(detections, trackers);
         Eigen::MatrixXd scores = detections.col(detections.cols() - 2).replicate(1, trackers.rows());// 取倒数第二列,fixme:置信度吧好像是
         Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> valid_mask_ = (valid_mask.transpose()).replicate(1, X.cols());

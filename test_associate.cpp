@@ -7,12 +7,6 @@
 using namespace std;
 using namespace Eigen;
 using namespace ocsort;
-using ocsort::associate;
-/**
- * 读取CSV文件，并且返回一个Matrix
- * @param filename
- * @return
- */
 Eigen::Matrix<double, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &filename) {
     // 读取CSV文件
     std::ifstream file(filename);
@@ -53,12 +47,33 @@ ostream &operator<<(ostream &os, const vector<AnyCls> &v) {
     return os;
 }
 int main(int argc, char *argv[]) {
+    //    Matrix<double, 3, 6> dets_first;
+    //    dets_first << 0.00, 120.00, 81.00, 451.00, 0.82, 0.00,
+    //            847.00, 194.00, 913.00, 370.00, 0.70, 0.00,
+    //            652.00, 226.00, 692.00, 328.00, 0.54, 0.00;
+    //    // todo :WARNING: 这个预测的 tracker 和py版本的有偏差，我去，差了几个像素点了。
+    //    // todo :WARNING: 也就是说我的 KalmanBoxTracker 也写错了!!!
+    //    Matrix<double, 2, 5> trks;
+    //    trks << 841.20, 193.78, 917.58, 370.78, 0.00,
+    //            5.75, 102.81, 80.40, 463.04, 0.00;
+    //    double iou_threshold = 0.22136877277096445;
+    //    Matrix<double, 2, 2> velocities;
+    //    velocities << 0.00, -1.00, -0.45, 0.89;
+    //    Matrix<double, 2, 5> k_observations;
+    //    k_observations << 847.00, 193.00, 914.00, 371.00, 0.67, 0.00, 120.00, 81.00, 452.00, 0.81;
+    //    double inertia = 0.39;
+    //    // 调试用assocaite来debug
+    //    auto result = associate(dets_first, trks, iou_threshold, velocities, k_observations, inertia);
+    //    vector<Matrix<int, 1, Dynamic>> matched = std::get<0>(result);
+    //    vector<int> unmatched_dets = std::get<1>(result);
+    //    vector<int> unmatched_trks = std::get<2>(result);
+
     // 初始化一个OCsort对象
     OCSort A = OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, false);
     // 使用OCsort追踪，现在不停的给他传入我们的观测值(检测框)
     std::ostringstream filename;
     // todo :WARNING: 第9帧的时候出错了，
-    for (int i = 1; i < 150; ++i) {
+    for (int i = 1; i < 9; ++i) {
         // 读取输入数据
         std::cout << "============== " << i << " =============" << std::endl;
         filename << "../BINARY_DATA/" << i << ".csv";
@@ -72,4 +87,6 @@ int main(int argc, char *argv[]) {
         std::cout << "predict:\n"
                   << res << std::endl;
     }
+    Eigen::Matrix<double, Eigen::Dynamic, 6> dets = read_csv_to_eigen("../BINARY_DATA/9.csv");
+    A.update(dets);
 }
