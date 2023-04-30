@@ -1,6 +1,6 @@
 #include "../include/Utilities.h"
 namespace ocsort {
-    Eigen::VectorXd ocsort::convert_bbox_to_z(Eigen::VectorXd bbox) {
+    Eigen::VectorXd convert_bbox_to_z(Eigen::VectorXd bbox) {
         double w = bbox[2] - bbox[0];
         double h = bbox[3] - bbox[1];
         double x = bbox[0] + w / 2.0;
@@ -11,7 +11,7 @@ namespace ocsort {
         z << x, y, s, r;
         return z;
     }
-    Eigen::VectorXd ocsort::speed_direction(Eigen::VectorXd bbox1, Eigen::VectorXd bbox2) {
+    Eigen::VectorXd speed_direction(Eigen::VectorXd bbox1, Eigen::VectorXd bbox2) {
         double cx1 = (bbox1[0] + bbox1[2]) / 2.0;
         double cy1 = (bbox1[1] + bbox1[3]) / 2.0;
         double cx2 = (bbox2[0] + bbox2[2]) / 2.0;
@@ -21,14 +21,14 @@ namespace ocsort {
         double norm = sqrt(pow(cy2 - cy1, 2) + pow(cx2 - cx1, 2)) + 1e-6;
         return speed / norm;
     }
-    Eigen::VectorXd ocsort::convert_x_to_bbox(Eigen::VectorXd x) {
+    Eigen::VectorXd convert_x_to_bbox(Eigen::VectorXd x) {
         float w = std::sqrt(x(2) * x(3));
         float h = x(2) / w;
         Eigen::VectorXd bbox = Eigen::VectorXd::Ones(4, 1);
         bbox << x(0) - w / 2, x(1) - h / 2, x(0) + w / 2, x(1) + h / 2;
         return bbox;
     }
-    Eigen::VectorXd ocsort::k_previous_obs(std::unordered_map<int, Eigen::VectorXd> observations_, int cur_age, int k) {
+    Eigen::VectorXd k_previous_obs(std::unordered_map<int, Eigen::VectorXd> observations_, int cur_age, int k) {
         // 返回observations_中的某个观测值 (5,1)=>检测的坐标
         if (observations_.size() == 0) return Eigen::VectorXd::Constant(5, -1.0);
         for (int i = 0; i < k; i++) {

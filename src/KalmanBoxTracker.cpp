@@ -58,18 +58,18 @@ namespace ocsort {
     void KalmanBoxTracker::update(Eigen::Matrix<double, 5, 1> *bbox_, int cls_) {
         // todo :WARNING:
 
-        std::cout << "============ENTER KalmanBOXTracker::update==========\n";
+//        std::cout << "============ENTER KalmanBOXTracker::update==========\n";
         if (bbox_ != nullptr) {
             // note: 调试用
-            std::cout << "=======Congrats it's not empty=======\n";
+//            std::cout << "=======Congrats it's not empty=======\n";
             // 匹配到观测值了
             conf = (*bbox_)[4];
             cls = cls_;
             // note: 调试用
-            std::cout << "conf\n"
-                      << conf << "\ncls\n"
-                      << cls << "\nlast_observation.sum()\n"
-                      << last_observation.sum() << std::endl;
+//            std::cout << "conf\n"
+//                      << conf << "\ncls\n"
+//                      << cls << "\nlast_observation.sum()\n"
+//                      << last_observation.sum() << std::endl;
             // fixme:完全没看懂，有 last_observation 则没有 previous_observation 吗？
             if (int(last_observation.sum()) >= 0) {
                 // 00:32 写到这，先睡觉了
@@ -86,7 +86,7 @@ namespace ocsort {
                     previous_box_tmp = last_observation;// 则将上一个观测值赋给他
                 }
                 //note: 调试用
-                std::cout << "last_observation.sum() is less than 0, previous_box_tmp is" << previous_box_tmp << std::endl;
+//                std::cout << "last_observation.sum() is less than 0, previous_box_tmp is" << previous_box_tmp << std::endl;
                 ////////////////////////
                 //// Estimate the track speed direction with observations \Delta t steps away//
                 ////////////////////////
@@ -112,12 +112,12 @@ namespace ocsort {
             Eigen::VectorXd tmp = convert_bbox_to_z(*bbox_);
             kf->update(&tmp);// todo 这里可能有bug
         } else {
-            std::cout << "What a pity bbox used in update is nullptr\n";
+//            std::cout << "What a pity bbox used in update is nullptr\n";
             /*如果没有检测到 bbox，也更新，KalmanFilter函数写好了应对这种情况的*/
             kf->update(nullptr);
         }
         // note: 调试用
-        std::cout << "============EXITING KalmanBOXTracker::update==========\n";
+//        std::cout << "============EXITING KalmanBOXTracker::update==========\n";
     }
 
     /**
@@ -128,7 +128,7 @@ namespace ocsort {
         //// Advances the state vector and returns the predicted bounding box estimate.
         //////////////////////
         // note: 调试用
-        std::cout << "Now you are in KalmanBoxTracker::predict func\n";
+//        std::cout << "Now you are in KalmanBoxTracker::predict func\n";
         if (kf->x[6] + kf->x[2] <= 0) kf->x[6] *= 0.0;
         // note: 调试用
         //        std::cout<<"before predict kf=>x:\n"<<kf->x<<std::endl;

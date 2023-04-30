@@ -2,6 +2,7 @@
 #define OC_SORT_CPP_OCSORT_H
 #include "KalmanBoxTracker.h"
 #include "association.h"
+#include "lapjv.h"
 namespace ocsort {
 
     class OCSort {

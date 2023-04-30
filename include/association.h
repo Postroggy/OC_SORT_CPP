@@ -3,6 +3,7 @@
 #include "Eigen/Dense"
 #include <algorithm>
 #include "vector"
+#include "lapjv.h"
 #define pi 3.1415926
 
 namespace ocsort {

@@ -1,3 +1,5 @@
 cmake-build-debug
 .idea
 .vs
+BINARY_DATA
+OUTPUT_DATA

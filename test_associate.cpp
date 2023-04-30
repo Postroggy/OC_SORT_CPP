@@ -72,21 +72,34 @@ int main(int argc, char *argv[]) {
     OCSort A = OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, false);
     // 使用OCsort追踪，现在不停的给他传入我们的观测值(检测框)
     std::ostringstream filename;
-    // todo :WARNING: 第9帧的时候出错了，
-    for (int i = 1; i < 9; ++i) {
+    // todo :WARNING: 第118帧没有数据
+    for (int i = 1; i < 118; ++i) {
         // 读取输入数据
         std::cout << "============== " << i << " =============" << std::endl;
         filename << "../BINARY_DATA/" << i << ".csv";
         Eigen::Matrix<double, Eigen::Dynamic, 6> dets = read_csv_to_eigen(filename.str());
         filename.str("");
-        std::cout << "input:\n"
-                  << dets << std::endl;
+//        std::cout << "input:\n"
+//                  << dets << std::endl;
         // 推理
-        auto res = A.update(dets);
+        std::vector<Eigen::RowVectorXd> res = A.update(dets);
         // 打印输出
         std::cout << "predict:\n"
                   << res << std::endl;
+        // 保存输出
+        ofstream file;
+        filename << "../OUTPUT_DATA/" << i << ".txt";
+        file.open(filename.str());
+        filename.str("");
+        IOFormat CSVFormat(StreamPrecision, DontAlignCols, ",", "\n");
+        for (auto i: res) {
+            file << i.format(CSVFormat) << endl;
+        }
+        file.close();
     }
-    Eigen::Matrix<double, Eigen::Dynamic, 6> dets = read_csv_to_eigen("../BINARY_DATA/9.csv");
-    A.update(dets);
+//    std::cout << "==========Testing 118 Frame:===============\n"
+//              << std::endl;
+//    Eigen::Matrix<double, Eigen::Dynamic, 6> dets =
+//            read_csv_to_eigen("../BINARY_DATA/118.csv");
+//    A.update(dets);
 }
