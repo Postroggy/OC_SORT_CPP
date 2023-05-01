@@ -1,4 +1,5 @@
 #include "../include/kalmanfilter.h"
+#include <iostream>
 namespace ocsort {
     KalmanFilterNew::KalmanFilterNew(){};
     KalmanFilterNew::KalmanFilterNew(int dim_x_, int dim_z_) {
@@ -147,6 +148,7 @@ namespace ocsort {
         /* 将freeze保存的变量全部加载进来 */
         // todo：后续记得把 attr_saved.size > 0条件 加进来
         if (true == attr_saved.IsInitialized) {
+            std::cout<<"正在恢复轨迹"<<std::endl;
             new_history = history_obs;
             /*开始数据恢复*/
             x = attr_saved.x;
