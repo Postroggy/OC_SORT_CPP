@@ -1,7 +1,7 @@
 cmake-build-debug
 .idea
 .vs
-./BINARY_DATA
-./OUTPUT_DATA
-./MOT17
-./build
+BINARY_DATA
+OUTPUT_DATA
+MOT17
+build

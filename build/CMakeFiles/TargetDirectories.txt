@@ -1,4 +1,0 @@
-C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/OCLib.dir
-C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/test_MOT17.dir
-C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/edit_cache.dir
-C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/rebuild_cache.dir
