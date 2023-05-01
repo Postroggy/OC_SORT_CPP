@@ -1,0 +1,137 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include",
+						"C:/Users/GYQ/Perl/c/include",
+						"C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed",
+						"C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/include"
+					],
+					"linkDirectories" : 
+					[
+						"C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0",
+						"C:/Users/GYQ/Perl/c/lib/gcc",
+						"C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib",
+						"C:/Users/GYQ/Perl/c/lib"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : 
+					[
+						"mingw32",
+						"gcc",
+						"moldname",
+						"mingwex",
+						"pthread",
+						"advapi32",
+						"shell32",
+						"user32",
+						"kernel32",
+						"iconv",
+						"mingw32",
+						"gcc",
+						"moldname",
+						"mingwex"
+					]
+				},
+				"path" : "C:/Users/GYQ/Perl/c/bin/gcc.exe",
+				"version" : "8.3.0"
+			},
+			"language" : "C",
+			"sourceFileExtensions" : 
+			[
+				"c",
+				"m"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++",
+						"C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/x86_64-w64-mingw32",
+						"C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/backward",
+						"C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include",
+						"C:/Users/GYQ/Perl/c/include",
+						"C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed",
+						"C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/include"
+					],
+					"linkDirectories" : 
+					[
+						"C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0",
+						"C:/Users/GYQ/Perl/c/lib/gcc",
+						"C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib",
+						"C:/Users/GYQ/Perl/c/lib"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : 
+					[
+						"stdc++",
+						"mingw32",
+						"gcc_s",
+						"gcc",
+						"moldname",
+						"mingwex",
+						"pthread",
+						"advapi32",
+						"shell32",
+						"user32",
+						"kernel32",
+						"iconv",
+						"mingw32",
+						"gcc_s",
+						"gcc",
+						"moldname",
+						"mingwex"
+					]
+				},
+				"path" : "C:/Users/GYQ/Perl/c/bin/g++.exe",
+				"version" : "8.3.0"
+			},
+			"language" : "CXX",
+			"sourceFileExtensions" : 
+			[
+				"C",
+				"M",
+				"c++",
+				"cc",
+				"cpp",
+				"cxx",
+				"mm",
+				"mpp",
+				"CPP",
+				"ixx",
+				"cppm"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"implicit" : {},
+				"path" : "C:/Users/GYQ/Perl/c/bin/windres.exe"
+			},
+			"language" : "RC",
+			"sourceFileExtensions" : 
+			[
+				"rc",
+				"RC"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

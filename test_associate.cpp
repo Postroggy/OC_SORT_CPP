@@ -72,11 +72,10 @@ int main(int argc, char *argv[]) {
     OCSort A = OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, false);
     // 使用OCsort追踪，现在不停的给他传入我们的观测值(检测框)
     std::ostringstream filename;
-    // todo :WARNING: 第118帧没有数据
-    for (int i = 1; i < 118; ++i) {
+    for (int i = 1; i < 526; ++i) {
         // 读取输入数据
         std::cout << "============== " << i << " =============" << std::endl;
-        filename << "../BINARY_DATA/" << i << ".csv";
+        filename << "../BINARY_DATA/MOT17/" << i << ".csv";
         Eigen::Matrix<double, Eigen::Dynamic, 6> dets = read_csv_to_eigen(filename.str());
         filename.str("");
 //        std::cout << "input:\n"
@@ -88,7 +87,7 @@ int main(int argc, char *argv[]) {
                   << res << std::endl;
         // 保存输出
         ofstream file;
-        filename << "../OUTPUT_DATA/" << i << ".txt";
+        filename << "../OUTPUT_DATA/MOT17/" << i << ".txt";
         file.open(filename.str());
         filename.str("");
         IOFormat CSVFormat(StreamPrecision, DontAlignCols, ",", "\n");

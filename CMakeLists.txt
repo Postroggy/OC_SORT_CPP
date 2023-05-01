@@ -18,8 +18,12 @@ target_link_libraries(OCLib Eigen3::Eigen)
 #add_executable(read_TS read_tensor.cpp)
 #target_link_libraries(read_TS PUBLIC Eigen3::Eigen)
 ## note: 测试 assocaite 函数
-add_executable(test_assc test_associate.cpp)
-target_link_libraries(test_assc PUBLIC Eigen3::Eigen OCLib)
+# add_executable(test_assc test_associate.cpp)
+# target_link_libraries(test_assc PUBLIC Eigen3::Eigen OCLib)
 ## note: 测试 lapjv 函数
 #add_executable(test_assignment test_assignment.cpp)
 #target_link_libraries(test_assignment PUBLIC Eigen3::Eigen OCLib)
+
+# note: 测试 MOT17数据集
+add_executable(test_MOT17 test_MOT17.cpp)
+target_link_libraries(test_MOT17 PUBLIC Eigen3::Eigen OCLib)

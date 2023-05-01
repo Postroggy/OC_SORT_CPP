@@ -350,7 +350,7 @@ double execLapjv(const std::vector<std::vector<double>> &cost, std::vector<int> 
 
     if (extend_cost || cost_limit < std::numeric_limits<double>::max()) {
         n = n_rows + n_cols;
-        cost_c_extended.resize(n);
+        cost_c_extended.resize(n);// resize 成 nxn 的矩阵
         for (size_t i = 0; i < cost_c_extended.size(); i++)
             cost_c_extended[i].resize(n);
 
@@ -389,7 +389,8 @@ double execLapjv(const std::vector<std::vector<double>> &cost, std::vector<int> 
         cost_c.clear();
         cost_c.assign(cost_c_extended.begin(), cost_c_extended.end());
     }
-    double **cost_ptr;
+    // 以上步骤是把输入的不是NxN的cost_matrix转换成NxN的，多余的部分用全0填充。
+    double **cost_ptr;// 这个变量是输入到 lapjv_internal 函数去计算的。
     cost_ptr = new double *[sizeof(double *) * n];
     for (int i = 0; i < n; i++)
         cost_ptr[i] = new double[sizeof(double) * n];
@@ -404,8 +405,9 @@ double execLapjv(const std::vector<std::vector<double>> &cost, std::vector<int> 
     if (ret != 0) {
         throw std::runtime_error("The result of lapjv_internal() is invalid.");
     }
-    double opt = 0.0;
+    double opt = 0.0;// 最小代价的值
     if (n != n_rows) {
+        // 如果 输入的 cost_matrix 不是方阵，则将多余的索引赋值为-1处理。
         for (int i = 0; i < n; i++) {
             if (x_c[i] >= n_cols)
                 x_c[i] = -1;

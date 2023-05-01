@@ -142,7 +142,7 @@ namespace ocsort {
         ///  Step1 First round of association
         ////////////////////////
         // 做iou关联  associate()
-        std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>> matched;// 数组内 元素形状是(1,2)
+        std::vector<Eigen::Matrix<int, 1, 2>> matched;// 数组内 元素形状是(1,2)
         std::vector<int> unmatched_dets;
         std::vector<int> unmatched_trks;
         // todo :WARNING: 不是，这里associate怎么又有问题
@@ -154,10 +154,9 @@ namespace ocsort {
         //                  << velocities << "\nk_observations\n"
         //                  << k_observations << "\ninertia\n"
         //                  << inertia << std::endl;
-        // todo :wARNING: bug
+        // todo :wARNING: 5/1  bug
         auto result = associate(dets_first, trks, iou_threshold, velocities, k_observations, inertia);
         //        std::cout << "\n\n\n ==============associate END==============\n";
-
         matched = std::get<0>(result);
         unmatched_dets = std::get<1>(result);
         unmatched_trks = std::get<2>(result);

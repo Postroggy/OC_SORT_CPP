@@ -1,0 +1,482 @@
+The system is: Windows - 10.0.19045 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: C:/Users/GYQ/Perl/c/bin/gcc.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.exe"
+
+The C compiler identification is GNU, found in "C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/3.24.2/CompilerIdC/a.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: C:/Users/GYQ/Perl/c/bin/g++.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.exe"
+
+The CXX compiler identification is GNU, found in "C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/3.24.2/CompilerIdCXX/a.exe"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Users/GYQ/vcpkg/ninja.exe cmTC_a2f0d && [1/2] Building C object CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj
+Using built-in specs.
+COLLECT_GCC=C:\Users\GYQ\Perl\c\bin\gcc.exe
+Target: x86_64-w64-mingw32
+Configured with: ../../../src/gcc-8.3.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpc=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-isl=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh, Built by strawberryperl.com project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/lib -L/opt/build/prerequisites/x86_64-zlib-static/lib -L/opt/build/prerequisites/x86_64-w64-mingw32-static/lib ' LD_FOR_TARGET=/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/bin/ld.exe
+Thread model: posix
+gcc version 8.3.0 (x86_64-posix-seh, Built by strawberryperl.com project) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona'
+ C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/cc1.exe -quiet -v -iprefix C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/ -D_REENTRANT C:/Users/GYQ/vcpkg/downloads/tools/cmake-3.24.2-windows/cmake-3.24.2-windows-i386/share/cmake-3.24/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=core2 -march=nocona -auxbase-strip CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj -version -o C:\Users\GYQ\AppData\Local\Temp\ccN1M9Yu.s
+GNU C17 (x86_64-posix-seh, Built by strawberryperl.com project) version 8.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 7.2.0, GMP version 6.1.2, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.20-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include"
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include"
+ignoring nonexistent directory "/mingw64/include"
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed"
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include"
+ignoring nonexistent directory ""
+#include "..." search starts here:
+#include <...> search starts here:
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include
+End of search list.
+GNU C17 (x86_64-posix-seh, Built by strawberryperl.com project) version 8.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 7.2.0, GMP version 6.1.2, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.20-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 2b2b8fc336591179420b9cc1b35fa6e5
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona'
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj C:\Users\GYQ\AppData\Local\Temp\ccN1M9Yu.s
+GNU assembler version 2.32 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.32
+COMPILER_PATH=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/;C:/Users/GYQ/Perl/c/bin/../libexec/gcc/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona'
+[2/2] Linking C executable cmTC_a2f0d.exe
+Using built-in specs.
+COLLECT_GCC=C:\Users\GYQ\Perl\c\bin\gcc.exe
+COLLECT_LTO_WRAPPER=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe
+Target: x86_64-w64-mingw32
+Configured with: ../../../src/gcc-8.3.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpc=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-isl=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh, Built by strawberryperl.com project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/lib -L/opt/build/prerequisites/x86_64-zlib-static/lib -L/opt/build/prerequisites/x86_64-w64-mingw32-static/lib ' LD_FOR_TARGET=/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/bin/ld.exe
+Thread model: posix
+gcc version 8.3.0 (x86_64-posix-seh, Built by strawberryperl.com project) 
+COMPILER_PATH=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/;C:/Users/GYQ/Perl/c/bin/../libexec/gcc/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a2f0d.exe' '-mtune=core2' '-march=nocona'
+ C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/collect2.exe -plugin C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/liblto_plugin-0.dll -plugin-opt=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\GYQ\AppData\Local\Temp\ccxdDBQx.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pep -Bdynamic -o cmTC_a2f0d.exe C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0 -LC:/Users/GYQ/Perl/c/bin/../lib/gcc -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../.. CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_a2f0d.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a2f0d.exe' '-mtune=core2' '-march=nocona'
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include]
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include]
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed]
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include]
+  end of search list found
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include]
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include] ==> [C:/Users/GYQ/Perl/c/include]
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed]
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include] ==> [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/include]
+  implicit include dirs: [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include;C:/Users/GYQ/Perl/c/include;C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed;C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):C:/Users/GYQ/vcpkg/ninja.exe cmTC_a2f0d && [1/2] Building C object CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=C:\Users\GYQ\Perl\c\bin\gcc.exe]
+  ignore line: [Target: x86_64-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-8.3.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpc=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-isl=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh, Built by strawberryperl.com project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/lib -L/opt/build/prerequisites/x86_64-zlib-static/lib -L/opt/build/prerequisites/x86_64-w64-mingw32-static/lib ' LD_FOR_TARGET=/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/bin/ld.exe]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 8.3.0 (x86_64-posix-seh  Built by strawberryperl.com project) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona']
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/cc1.exe -quiet -v -iprefix C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/ -D_REENTRANT C:/Users/GYQ/vcpkg/downloads/tools/cmake-3.24.2-windows/cmake-3.24.2-windows-i386/share/cmake-3.24/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=core2 -march=nocona -auxbase-strip CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj -version -o C:\Users\GYQ\AppData\Local\Temp\ccN1M9Yu.s]
+  ignore line: [GNU C17 (x86_64-posix-seh  Built by strawberryperl.com project) version 8.3.0 (x86_64-w64-mingw32)]
+  ignore line: [	compiled by GNU C version 7.2.0  GMP version 6.1.2  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.20-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include"]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include"]
+  ignore line: [ignoring nonexistent directory "/mingw64/include"]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include"]
+  ignore line: [ignoring nonexistent directory ""]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C17 (x86_64-posix-seh  Built by strawberryperl.com project) version 8.3.0 (x86_64-w64-mingw32)]
+  ignore line: [	compiled by GNU C version 7.2.0  GMP version 6.1.2  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.20-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 2b2b8fc336591179420b9cc1b35fa6e5]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona']
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj C:\Users\GYQ\AppData\Local\Temp\ccN1M9Yu.s]
+  ignore line: [GNU assembler version 2.32 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.32]
+  ignore line: [COMPILER_PATH=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../libexec/gcc/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=core2' '-march=nocona']
+  ignore line: [[2/2] Linking C executable cmTC_a2f0d.exe]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=C:\Users\GYQ\Perl\c\bin\gcc.exe]
+  ignore line: [COLLECT_LTO_WRAPPER=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe]
+  ignore line: [Target: x86_64-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-8.3.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpc=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-isl=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh, Built by strawberryperl.com project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/lib -L/opt/build/prerequisites/x86_64-zlib-static/lib -L/opt/build/prerequisites/x86_64-w64-mingw32-static/lib ' LD_FOR_TARGET=/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/bin/ld.exe]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 8.3.0 (x86_64-posix-seh  Built by strawberryperl.com project) ]
+  ignore line: [COMPILER_PATH=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../libexec/gcc/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a2f0d.exe' '-mtune=core2' '-march=nocona']
+  link line: [ C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/collect2.exe -plugin C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/liblto_plugin-0.dll -plugin-opt=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\GYQ\AppData\Local\Temp\ccxdDBQx.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_eh -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pep -Bdynamic -o cmTC_a2f0d.exe C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0 -LC:/Users/GYQ/Perl/c/bin/../lib/gcc -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../.. CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_a2f0d.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o]
+    arg [C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/collect2.exe] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/liblto_plugin-0.dll] ==> ignore
+    arg [-plugin-opt=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\Users\GYQ\AppData\Local\Temp\ccxdDBQx.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_eh] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+    arg [-plugin-opt=-pass-through=-ladvapi32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lshell32] ==> ignore
+    arg [-plugin-opt=-pass-through=-luser32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-liconv] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_eh] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [-m] ==> ignore
+    arg [i386pep] ==> ignore
+    arg [-Bdynamic] ==> search dynamic
+    arg [-o] ==> ignore
+    arg [cmTC_a2f0d.exe] ==> ignore
+    arg [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o] ==> obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o]
+    arg [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o] ==> obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../..] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../..]
+    arg [CMakeFiles/cmTC_a2f0d.dir/CMakeCCompilerABI.c.obj] ==> ignore
+    arg [--out-implib] ==> ignore
+    arg [libcmTC_a2f0d.dll.a] ==> ignore
+    arg [--major-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [--minor-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lgcc_eh] ==> lib [gcc_eh]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-ladvapi32] ==> lib [advapi32]
+    arg [-lshell32] ==> lib [shell32]
+    arg [-luser32] ==> lib [user32]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-liconv] ==> lib [iconv]
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lgcc_eh] ==> lib [gcc_eh]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o] ==> obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o]
+  remove lib [gcc_eh]
+  remove lib [msvcrt]
+  remove lib [gcc_eh]
+  remove lib [msvcrt]
+  collapse obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o] ==> [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib/crt2.o]
+  collapse obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o]
+  collapse obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc] ==> [C:/Users/GYQ/Perl/c/lib/gcc]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib] ==> [C:/Users/GYQ/Perl/c/lib]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib] ==> [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../..] ==> [C:/Users/GYQ/Perl/c/lib]
+  implicit libs: [mingw32;gcc;moldname;mingwex;pthread;advapi32;shell32;user32;kernel32;iconv;mingw32;gcc;moldname;mingwex]
+  implicit objs: [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib/crt2.o;C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o;C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o]
+  implicit dirs: [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0;C:/Users/GYQ/Perl/c/lib/gcc;C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib;C:/Users/GYQ/Perl/c/lib]
+  implicit fwks: []
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Users/GYQ/vcpkg/ninja.exe cmTC_6a045 && [1/2] Building CXX object CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj
+Using built-in specs.
+COLLECT_GCC=C:\Users\GYQ\Perl\c\bin\g++.exe
+Target: x86_64-w64-mingw32
+Configured with: ../../../src/gcc-8.3.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpc=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-isl=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh, Built by strawberryperl.com project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/lib -L/opt/build/prerequisites/x86_64-zlib-static/lib -L/opt/build/prerequisites/x86_64-w64-mingw32-static/lib ' LD_FOR_TARGET=/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/bin/ld.exe
+Thread model: posix
+gcc version 8.3.0 (x86_64-posix-seh, Built by strawberryperl.com project) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona'
+ C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/cc1plus.exe -quiet -v -iprefix C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/ -D_REENTRANT C:/Users/GYQ/vcpkg/downloads/tools/cmake-3.24.2-windows/cmake-3.24.2-windows-i386/share/cmake-3.24/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=core2 -march=nocona -auxbase-strip CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj -version -o C:\Users\GYQ\AppData\Local\Temp\ccmVmx8W.s
+GNU C++14 (x86_64-posix-seh, Built by strawberryperl.com project) version 8.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 7.2.0, GMP version 6.1.2, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.20-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++"
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/x86_64-w64-mingw32"
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/backward"
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include"
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include"
+ignoring nonexistent directory "/mingw64/include"
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed"
+ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include"
+ignoring nonexistent directory ""
+#include "..." search starts here:
+#include <...> search starts here:
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/x86_64-w64-mingw32
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/backward
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include
+End of search list.
+GNU C++14 (x86_64-posix-seh, Built by strawberryperl.com project) version 8.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 7.2.0, GMP version 6.1.2, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.20-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 157a953f7baac8915a5d933dc02b85b9
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona'
+ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj C:\Users\GYQ\AppData\Local\Temp\ccmVmx8W.s
+GNU assembler version 2.32 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.32
+COMPILER_PATH=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/;C:/Users/GYQ/Perl/c/bin/../libexec/gcc/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona'
+[2/2] Linking CXX executable cmTC_6a045.exe
+Using built-in specs.
+COLLECT_GCC=C:\Users\GYQ\Perl\c\bin\g++.exe
+COLLECT_LTO_WRAPPER=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe
+Target: x86_64-w64-mingw32
+Configured with: ../../../src/gcc-8.3.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpc=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-isl=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh, Built by strawberryperl.com project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/lib -L/opt/build/prerequisites/x86_64-zlib-static/lib -L/opt/build/prerequisites/x86_64-w64-mingw32-static/lib ' LD_FOR_TARGET=/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/bin/ld.exe
+Thread model: posix
+gcc version 8.3.0 (x86_64-posix-seh, Built by strawberryperl.com project) 
+COMPILER_PATH=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/;C:/Users/GYQ/Perl/c/bin/../libexec/gcc/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/;C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_6a045.exe' '-shared-libgcc' '-mtune=core2' '-march=nocona'
+ C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/collect2.exe -plugin C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/liblto_plugin-0.dll -plugin-opt=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\GYQ\AppData\Local\Temp\ccA8mt23.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pep -Bdynamic -o cmTC_6a045.exe C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0 -LC:/Users/GYQ/Perl/c/bin/../lib/gcc -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../.. CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_6a045.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_6a045.exe' '-shared-libgcc' '-mtune=core2' '-march=nocona'
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++]
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/x86_64-w64-mingw32]
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/backward]
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include]
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include]
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed]
+    add: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include]
+  end of search list found
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++]
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/x86_64-w64-mingw32] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/x86_64-w64-mingw32]
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/backward] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/backward]
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include]
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include] ==> [C:/Users/GYQ/Perl/c/include]
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed]
+  collapse include dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include] ==> [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/include]
+  implicit include dirs: [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++;C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/x86_64-w64-mingw32;C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/backward;C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include;C:/Users/GYQ/Perl/c/include;C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed;C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: C:/SOTA/OC_SORT_CPP - Copy/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):C:/Users/GYQ/vcpkg/ninja.exe cmTC_6a045 && [1/2] Building CXX object CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=C:\Users\GYQ\Perl\c\bin\g++.exe]
+  ignore line: [Target: x86_64-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-8.3.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpc=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-isl=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh, Built by strawberryperl.com project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/lib -L/opt/build/prerequisites/x86_64-zlib-static/lib -L/opt/build/prerequisites/x86_64-w64-mingw32-static/lib ' LD_FOR_TARGET=/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/bin/ld.exe]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 8.3.0 (x86_64-posix-seh  Built by strawberryperl.com project) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona']
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/cc1plus.exe -quiet -v -iprefix C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/ -D_REENTRANT C:/Users/GYQ/vcpkg/downloads/tools/cmake-3.24.2-windows/cmake-3.24.2-windows-i386/share/cmake-3.24/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=core2 -march=nocona -auxbase-strip CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj -version -o C:\Users\GYQ\AppData\Local\Temp\ccmVmx8W.s]
+  ignore line: [GNU C++14 (x86_64-posix-seh  Built by strawberryperl.com project) version 8.3.0 (x86_64-w64-mingw32)]
+  ignore line: [	compiled by GNU C version 7.2.0  GMP version 6.1.2  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.20-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++"]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/x86_64-w64-mingw32"]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/backward"]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include"]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include"]
+  ignore line: [ignoring nonexistent directory "/mingw64/include"]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "C:/Users/GYQ/Perl/c/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include"]
+  ignore line: [ignoring nonexistent directory ""]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/x86_64-w64-mingw32]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include/c++/backward]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../include]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/include-fixed]
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (x86_64-posix-seh  Built by strawberryperl.com project) version 8.3.0 (x86_64-w64-mingw32)]
+  ignore line: [	compiled by GNU C version 7.2.0  GMP version 6.1.2  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.20-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 157a953f7baac8915a5d933dc02b85b9]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona']
+  ignore line: [ C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj C:\Users\GYQ\AppData\Local\Temp\ccmVmx8W.s]
+  ignore line: [GNU assembler version 2.32 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.32]
+  ignore line: [COMPILER_PATH=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../libexec/gcc/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=core2' '-march=nocona']
+  ignore line: [[2/2] Linking CXX executable cmTC_6a045.exe]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=C:\Users\GYQ\Perl\c\bin\g++.exe]
+  ignore line: [COLLECT_LTO_WRAPPER=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe]
+  ignore line: [Target: x86_64-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-8.3.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --disable-libstdcxx-debug --disable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-mpc=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-isl=/opt/build/prerequisites/x86_64-w64-mingw32-static --with-pkgversion='x86_64-posix-seh, Built by strawberryperl.com project' --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CXXFLAGS='-O2 -pipe -fno-ident -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' CPPFLAGS=' -I/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/include -I/opt/build/prerequisites/x86_64-zlib-static/include -I/opt/build/prerequisites/x86_64-w64-mingw32-static/include' LDFLAGS='-pipe -fno-ident -L/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/opt/lib -L/opt/build/prerequisites/x86_64-zlib-static/lib -L/opt/build/prerequisites/x86_64-w64-mingw32-static/lib ' LD_FOR_TARGET=/opt/build/x86_64-830-posix-seh-rt_v6/mingw64/bin/ld.exe]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 8.3.0 (x86_64-posix-seh  Built by strawberryperl.com project) ]
+  ignore line: [COMPILER_PATH=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../libexec/gcc/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/]
+  ignore line: [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_6a045.exe' '-shared-libgcc' '-mtune=core2' '-march=nocona']
+  link line: [ C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/collect2.exe -plugin C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/liblto_plugin-0.dll -plugin-opt=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\Users\GYQ\AppData\Local\Temp\ccA8mt23.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-liconv -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -m i386pep -Bdynamic -o cmTC_6a045.exe C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0 -LC:/Users/GYQ/Perl/c/bin/../lib/gcc -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib -LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../.. CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_6a045.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -liconv -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o]
+    arg [C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/collect2.exe] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/liblto_plugin-0.dll] ==> ignore
+    arg [-plugin-opt=C:/Users/GYQ/Perl/c/bin/../libexec/gcc/x86_64-w64-mingw32/8.3.0/lto-wrapper.exe] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\Users\GYQ\AppData\Local\Temp\ccA8mt23.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+    arg [-plugin-opt=-pass-through=-ladvapi32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lshell32] ==> ignore
+    arg [-plugin-opt=-pass-through=-luser32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-liconv] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [-m] ==> ignore
+    arg [i386pep] ==> ignore
+    arg [-Bdynamic] ==> search dynamic
+    arg [-o] ==> ignore
+    arg [cmTC_6a045.exe] ==> ignore
+    arg [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o] ==> obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o]
+    arg [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o] ==> obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib]
+    arg [-LC:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../..] ==> dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../..]
+    arg [CMakeFiles/cmTC_6a045.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+    arg [--out-implib] ==> ignore
+    arg [libcmTC_6a045.dll.a] ==> ignore
+    arg [--major-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [--minor-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-ladvapi32] ==> lib [advapi32]
+    arg [-lshell32] ==> lib [shell32]
+    arg [-luser32] ==> lib [user32]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-liconv] ==> lib [iconv]
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o] ==> obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o]
+  remove lib [msvcrt]
+  remove lib [msvcrt]
+  collapse obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o] ==> [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib/crt2.o]
+  collapse obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o]
+  collapse obj [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0] ==> [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc] ==> [C:/Users/GYQ/Perl/c/lib/gcc]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../lib] ==> [C:/Users/GYQ/Perl/c/lib]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../../../x86_64-w64-mingw32/lib] ==> [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib]
+  collapse library dir [C:/Users/GYQ/Perl/c/bin/../lib/gcc/x86_64-w64-mingw32/8.3.0/../../..] ==> [C:/Users/GYQ/Perl/c/lib]
+  implicit libs: [stdc++;mingw32;gcc_s;gcc;moldname;mingwex;pthread;advapi32;shell32;user32;kernel32;iconv;mingw32;gcc_s;gcc;moldname;mingwex]
+  implicit objs: [C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib/crt2.o;C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/crtbegin.o;C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0/crtend.o]
+  implicit dirs: [C:/Users/GYQ/Perl/c/lib/gcc/x86_64-w64-mingw32/8.3.0;C:/Users/GYQ/Perl/c/lib/gcc;C:/Users/GYQ/Perl/c/x86_64-w64-mingw32/lib;C:/Users/GYQ/Perl/c/lib]
+  implicit fwks: []
+
+

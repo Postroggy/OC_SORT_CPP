@@ -61,15 +61,14 @@ namespace ocsort {
         return wh.cwiseQuotient(Sum);
     }
 
-    std::tuple<std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>>, std::vector<int>, std::vector<int>>
-    associate(Eigen::MatrixXd detections, Eigen::MatrixXd trackers, float iou_threshold, Eigen::MatrixXd velocities, Eigen::MatrixXd previous_obs_, float vdc_weight) {
+    std::tuple<std::vector<Eigen::Matrix<int, 1, 2>>, std::vector<int>, std::vector<int>> associate(Eigen::MatrixXd detections, Eigen::MatrixXd trackers, float iou_threshold, Eigen::MatrixXd velocities, Eigen::MatrixXd previous_obs_, float vdc_weight) {
         if (trackers.rows() == 0) {
             // 如果 tracker 没有的话，直接返回空的，但是 unmatched_dets 不为空。
             std::vector<int> unmatched_dets;
             for (int i = 0; i < detections.rows(); i++) {
                 unmatched_dets.push_back(i);
             }
-            return std::make_tuple(std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>>(), unmatched_dets, std::vector<int>());
+            return std::make_tuple(std::vector<Eigen::Matrix<int, 1, 2>>(), unmatched_dets, std::vector<int>());
         }
         Eigen::MatrixXd Y, X;
         auto result = speed_direction_batch(detections, previous_obs_);
@@ -137,20 +136,27 @@ namespace ocsort {
                     }
                 }
                 // 进行线性分配
+                // todo : :WARNING: 主要问题这个 matched_indices 还是有问题
                 std::vector<int> rowsol, colsol;
                 double MIN_cost = execLapjv(cost_iou_matrix, rowsol, colsol, true, 0.01, true);
                 // 生成 matched_indices , 实际上，使用 rowsol 就可以了
                 // todo :WARNING: 找到问题所在了，外层初始化了一个 ，内层又初始化了一个名字相同的。
                 //                matched_indices(rowsol.size(), std::vector<int>(2));
-                // 为rematched_indices赋值
-                for (int i = 0; i < rowsol.size(); i++) {
-                    Eigen::RowVectorXd row(2);
-                    row << i, rowsol.at(i);
-                    matched_indices.conservativeResize(matched_indices.rows() + 1, Eigen::NoChange);
-                    matched_indices.row(matched_indices.rows() - 1) = row;
-                    //                    matched_indices[i][0] = i;// 反正第一个是按顺序的
-                    //                    matched_indices[i][1] = rowsol.at(i);
-                    //                    matched_indices.push_back({i, rowsol.at(i)});
+                // 为 matched_indices 赋值
+//                for (int i = 0; i < rowsol.size(); i++) {
+//                    Eigen::RowVectorXd row(2);
+//                    row << i, rowsol.at(i);
+//                    matched_indices.conservativeResize(matched_indices.rows() + 1, Eigen::NoChange);
+//                    matched_indices.row(matched_indices.rows() - 1) = row;
+//                }
+                for(int i=0;i<rowsol.size();i++){
+                    if(rowsol.at(i)>=0){
+//                        cout<<"==DEBUG== "<<"x[i]: "<<x.at(i)<<" y[x[i]]: "<<y.at(x.at(i))<<endl;
+                        Eigen::RowVectorXd row(2);
+                        row << colsol.at(rowsol.at(i)), rowsol.at(i);
+                        matched_indices.conservativeResize(matched_indices.rows() + 1, Eigen::NoChange);
+                        matched_indices.row(matched_indices.rows() - 1) = row;
+                    }
                 }
             }
         } else {
@@ -166,12 +172,12 @@ namespace ocsort {
         for (int i = 0; i < detections.rows(); i++) {
             // todo: 4/30号，为什么上一步已经match上了，这里还说事unmatched?
             //             模拟 if(d not in matched_indices[:,0]), 注意是 not in
-//            std::cout << "matched_indices.col(0):\n"
-//                      << matched_indices.col(0)
-//                      << " \ni :" << i
-//                      << "\nmatched_indices.col(0).array() == i\n"
-//                      << (matched_indices.col(0).array() == i)
-//                      << "(matched_indices.col(0).array() == i).sum()" << ((matched_indices.col(0).array() == i).sum()) << std::endl;
+            //            std::cout << "matched_indices.col(0):\n"
+            //                      << matched_indices.col(0)
+            //                      << " \ni :" << i
+            //                      << "\nmatched_indices.col(0).array() == i\n"
+            //                      << (matched_indices.col(0).array() == i)
+            //                      << "(matched_indices.col(0).array() == i).sum()" << ((matched_indices.col(0).array() == i).sum()) << std::endl;
             if ((matched_indices.col(0).array() == i).sum() == 0) {
                 //                std::cout << "FUCK" << std::endl;
                 unmatched_detections.push_back(i);
@@ -191,9 +197,9 @@ namespace ocsort {
         ///////////////
         /// filter out matched with low IOU
         //////////////
-        std::vector<Eigen::Matrix<int, 1, Eigen::Dynamic>> matches;
-        // 按行遍历matched_indices
-        Eigen::Matrix<int, 1, Eigen::Dynamic> tmp;// 实际上形状是固定的 (1,2)
+        std::vector<Eigen::Matrix<int, 1, 2>> matches;
+        // 按行遍历 matched_indices
+        Eigen::Matrix<int, 1, 2> tmp;// 实际上形状是固定的 (1,2)
         for (int i = 0; i < matched_indices.rows(); i++) {
             tmp = (matched_indices.row(i)).cast<int>();
             if (iou_matrix(tmp(0), tmp(1)) < iou_threshold) {
@@ -204,7 +210,6 @@ namespace ocsort {
             }
         }
         if (matches.size() == 0) {
-            // todo ? 这里会报错嘛？
             // 应该是要返回空的vector的，所有初始化之后，clear一下？
             matches.clear();
         }
