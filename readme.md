@@ -1,11 +1,12 @@
 # 介绍
 本项目是C++版本的OC-SORT(OC-SORT: Observation-Centric SORT on video Multi-Object Tracking)，矩阵运算使用的库是 Eigen。  
-本项目主要参考了 (OC_SORT官方Python实现)[https://github.com/noahcao/OC_SORT]，在代码逻辑和变量命令上尽量与官方Python版本的保持一致，线性分配算法使用了开源库(Lap)[https://github.com/gatagat/lap/tree/master/lap] 的实现。  
+本项目主要参考了 [OC_SORT官方Python实现](https://github.com/noahcao/OC_SORT)。  
+在代码逻辑和变量命令上尽量与官方Python版本的保持一致，线性分配算法使用了开源库[Lap](https://github.com/gatagat/lap/tree/master/lap)。  
 OC-SORT中改进的Kalman Filter只使用了Eigen库实现。
 
 
 # 用法
-首先你需要库有：(Eigen)[https://eigen.tuxfamily.org/index.php?title=Main_Page]。
+首先你需要库有：[Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page)。
 
 下载代码库
 ```bash
@@ -42,7 +43,7 @@ target_link_directories(OCSORT PUBLIC include)
 target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
 ```
 
-`test.cpp`中的内容：(见文件)[https://github.com/Postroggy/OC_SORT_CPP/test.cpp]
+`test.cpp`中的内容：[见文件](https://github.com/Postroggy/OC_SORT_CPP/test.cpp)
 
 # 代码优化
 :construction:
@@ -50,5 +51,15 @@ target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
 # 公式推导
 :construction:
 
+# 关于输入输出的格式
+和原版的OCSORT稍稍有不一样的地方：
+## 输入格式
+输入的类型：`Eigen::Matrix<double,Eigen::Dynamic,6>`  
+格式：<x1>,<y1>,<x2>,<y2>,<confidence>,<class>
+
+## 输出格式
+输出的类型：`Eigen::Matrix<double,Eigen::Dynamic,>`  
+格式：<x1>,<y1>,<x2>,<y2>,<ID>,<class>,<confidence>  
+这么做是为了方便OCSORT与其他的目标检测器整合形成完整的目标追踪Pipeline。
 
 
