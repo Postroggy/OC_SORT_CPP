@@ -56,23 +56,11 @@ namespace ocsort {
      * @param cls_ 这个变量在原sort中是没有的
      */
     void KalmanBoxTracker::update(Eigen::Matrix<double, 5, 1> *bbox_, int cls_) {
-        // todo :WARNING:
-
-//        std::cout << "============ENTER KalmanBOXTracker::update==========\n";
         if (bbox_ != nullptr) {
-            // note: 调试用
-//            std::cout << "=======Congrats it's not empty=======\n";
             // 匹配到观测值了
             conf = (*bbox_)[4];
             cls = cls_;
-            // note: 调试用
-//            std::cout << "conf\n"
-//                      << conf << "\ncls\n"
-//                      << cls << "\nlast_observation.sum()\n"
-//                      << last_observation.sum() << std::endl;
-            // fixme:完全没看懂，有 last_observation 则没有 previous_observation 吗？
             if (int(last_observation.sum()) >= 0) {
-                // 00:32 写到这，先睡觉了
                 Eigen::VectorXd previous_box_tmp;
                 for (int i = 0; i < delta_t; ++i) {
                     int dt = delta_t - i;
@@ -85,8 +73,6 @@ namespace ocsort {
                 if (0 == previous_box_tmp.size()) {     // 如果previous_box_tmp并没有在上一个for-loop中被赋值
                     previous_box_tmp = last_observation;// 则将上一个观测值赋给他
                 }
-                //note: 调试用
-//                std::cout << "last_observation.sum() is less than 0, previous_box_tmp is" << previous_box_tmp << std::endl;
                 ////////////////////////
                 //// Estimate the track speed direction with observations \Delta t steps away//
                 ////////////////////////
@@ -98,26 +84,20 @@ namespace ocsort {
             //// and self.history_observations. Bear it for the moment.
             //////////////////////
             // ocsort 新增的
-            // todo:这个 last_observation 赋值好像有问题，没事了，我发现注释只能用单行的，msvc编译器有问题
             last_observation = *bbox_; // last_observation 是 1x5 行向量
             observations[age] = *bbox_;// 这里保存的是 5x1 的列向量
             history_observations.push_back(*bbox_);
-            //            std::cout << "WARING: last_observation: \n"
-            //                      << last_observation << std::endl;
             // sort通用代码
             time_since_update = 0;
             history.clear();// 空
             hits += 1;
             hit_streak += 1;
             Eigen::VectorXd tmp = convert_bbox_to_z(*bbox_);
-            kf->update(&tmp);// todo 这里可能有bug
+            kf->update(&tmp);
         } else {
-//            std::cout << "What a pity bbox used in update is nullptr\n";
             /*如果没有检测到 bbox，也更新，KalmanFilter函数写好了应对这种情况的*/
             kf->update(nullptr);
         }
-        // note: 调试用
-//        std::cout << "============EXITING KalmanBOXTracker::update==========\n";
     }
 
     /**
@@ -127,25 +107,16 @@ namespace ocsort {
         ///////////////////////
         //// Advances the state vector and returns the predicted bounding box estimate.
         //////////////////////
-        // note: 调试用
-//        std::cout << "Now you are in KalmanBoxTracker::predict func\n";
         if (kf->x[6] + kf->x[2] <= 0) kf->x[6] *= 0.0;
-        // note: 调试用
-        //        std::cout<<"before predict kf=>x:\n"<<kf->x<<std::endl;
         kf->predict();
-        // note: 调试用
-        //        std::cout<<"after predict kf=>x:\n"<<kf->x<<std::endl;
         age += 1;
         if (time_since_update > 0) hit_streak = 0;
         time_since_update += 1;
-        // fixme: 发现自己写错了，这里 append刀 history的应该是 kf->x 而不是 kf->z
+        // fixme: 发现自己写错了，这里 append到history的应该是 kf->x 而不是 kf->z
         history.push_back(convert_x_to_bbox(kf->x));
         return convert_x_to_bbox(kf->x);// 返回 history 中的最后一个元素
     }
     Eigen::VectorXd KalmanBoxTracker::get_state() {
-        // todo： 这个函数还是有点问题啊，有问题，一个变量  w 写成 h了，改过来了
-        //        std::cout<<"before convert:\n"<<kf->x<<std::endl;
-        //        std::cout<<"after convert:\n"<<convert_x_to_bbox(kf->x)<<std::endl;
         return convert_x_to_bbox(kf->x);
     }
 }// namespace ocsort

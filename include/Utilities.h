@@ -2,7 +2,7 @@
 #define OC_SORT_CPP_UTILITIES_H
 #include "Eigen/Dense"
 namespace ocsort {
-    /**
+/**
  * Takes a bounding box in the form [x1,y1,x2,y2] and returns z in the form
 [x,y,s,r] where x,y is the centre of the box and s is the scale/area and r is
 the aspect ratio

@@ -19,7 +19,7 @@ namespace ocsort {
             gain and residual are computed during the innovation step. We
             save them so that in case you want to inspect them for various
             purposes
-             * */
+        * */
         K = Eigen::MatrixXd::Zero(dim_x_, dim_z_);
         y = Eigen::VectorXd::Zero(dim_x_, 1);
         S = Eigen::MatrixXd::Zero(dim_z_, dim_z_);
@@ -61,7 +61,8 @@ namespace ocsort {
     void KalmanFilterNew::update(Eigen::VectorXd *z_) {
         // 函数原型：update(self, z, R=None, H=None)，但是R H这里用不到
         // 传递的参数是指针类型的才好用空指针代替python中的 None
-        /*Add a new measurement (z) to the Kalman filter.
+        /*
+        Add a new measurement (z) to the Kalman filter.
         If z is None, nothing is computed. However, x_post and P_post are
         updated with the prior (x_prior, P_prior), and self.z is set to None.
         Parameters
@@ -123,7 +124,8 @@ namespace ocsort {
         P_post = P;
     }
     void KalmanFilterNew::freeze() {
-        /*将这个对象中的所有变量都保存起来
+        /**
+         * 将这个对象中的所有变量都保存起来
          * save all the variable in current object at the time
          * */
         // note:最重要的一点，先将标志置true
@@ -153,7 +155,7 @@ namespace ocsort {
         /* 将freeze保存的变量全部加载进来 */
         // todo：后续记得把 attr_saved.size > 0条件 加进来
         if (true == attr_saved.IsInitialized) {
-            std::cout << "正在恢复轨迹" << std::endl;
+            // std::cout << "正在恢复轨迹" << std::endl;
             new_history = history_obs;
             /*开始数据恢复*/
             x = attr_saved.x;
@@ -259,11 +261,6 @@ namespace ocsort {
                 this->P_post = this->P;
                 if (i != (time_gap - 1)) predict();
             }
-
-            // todo: 虚拟轨迹和re-update还没写完呢？
-            //            history_obs.pop_back();
-            //            std::vector<Eigen::VectorXd *> box1 = *(--new_history.end()); // 倒数第二个
-            //            std::vector<Eigen::VectorXd *> box2 = *(new_history.end()); // 非法内存访问！ 倒数第一个
         } /* if attr_saved is null, do nothing */
     }
 }// namespace ocsort

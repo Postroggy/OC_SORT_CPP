@@ -2,22 +2,11 @@
 #include "iomanip"
 #include <utility>
 
-
-// 定义颜色代码
-#define RED "\033[31m"
-#define GREEN "\033[32m"
-#define YELLOW "\033[33m"
-#define BLUE "\033[34m"
-#define MAGENTA "\033[35m"
-#define CYAN "\033[36m"
-#define RESET "\033[0m"
-#include "iostream"// todo 发布时删除
-
 // 存函数指针，实现不同的iou函数调用
 
 
 namespace ocsort {
-    /*重载 << for vector*/
+    /*重载 << for vector ，直接可以打印 vector*/
     template<typename Matrix>
     std::ostream &operator<<(std::ostream &os, const std::vector<Matrix> &v) {
         os << "{";
@@ -45,7 +34,7 @@ namespace ocsort {
                 {"iou", iou_batch},
                 {"giou", giou_batch}};
         ;
-        // 确定之后需要使用的函数
+        // 确定之后需要使用的函数 , 虽然这个保存了函数指针，实际上我没有用到
         std::function<Eigen::MatrixXd(const Eigen::MatrixXd &, const Eigen::MatrixXd &)> asso_func = ASSO_FUNCS[asso_func_];
         // asso_func = std::move(asso_func_);// todo 难道这里我用函数指针实现？
         inertia = inertia_;
@@ -74,7 +63,6 @@ namespace ocsort {
         Eigen::Matrix<double, 1, Eigen::Dynamic> confs = dets.col(4);// 这是 [1,n1]的行向量
         Eigen::Matrix<double, 1, Eigen::Dynamic> clss = dets.col(5); // 最后一列是 目标的类别
         Eigen::MatrixXd output_results = dets;
-        // todo: 这里我没看明白，auto 类型也迷迷糊糊的
         auto inds_low = confs.array() > 0.1;
         auto inds_high = confs.array() < det_thresh;
         // 置信度在 0.1~det_thresh的需要二次匹配 inds_second => (1xN)
@@ -82,7 +70,7 @@ namespace ocsort {
         // 筛选一下，模拟 dets_second = output_results[inds_second];dets = output_results[remain_inds]
         Eigen::Matrix<double, Eigen::Dynamic, 6> dets_second;// 行不固定，列固定
         Eigen::Matrix<bool, 1, Eigen::Dynamic> remain_inds = (confs.array() > det_thresh);
-        //因为python类型随便改而C++不行, note: 后续用 dets_second 代替dets传入 associate() 函数，切记！
+        //因为python类型随便改而C++不行, note: 后续用 dets_first 代替dets传入 associate() 函数，切记！
         Eigen::Matrix<double, Eigen::Dynamic, 6> dets_first;
         for (int i = 0; i < output_results.rows(); i++) {
             if (true == inds_second(i)) {
@@ -95,29 +83,24 @@ namespace ocsort {
             }
         }
         /*get predicted locations from existing trackers.*/
-        // (0,5)不会引起bug？ NO
+        // (0,5)不会引起bug？ 是的，不会
         Eigen::MatrixXd trks = Eigen::MatrixXd::Zero(trackers.size(), 5);
         // 要删除的轨迹？但是后面不判断Nan，这个数组就没用了
         std::vector<int> to_del;
         std::vector<Eigen::RowVectorXd> ret;// 要返回的结果? 里面是 [1,7] 的行向量
         // 遍历 trks , 按行遍历
         for (int i = 0; i < trks.rows(); i++) {
-            // todo TMD，这个 predict 返回结果又出错了
             Eigen::RowVectorXd pos = trackers[i].predict();// predict 返回的结果应该是 (1,4) 的行向量
-                                                           //            std::cout << "predict pos: " << pos << std::endl;
             trks.row(i) << pos(0), pos(1), pos(2), pos(3), 0;
             // note: 判断数据是不是 nan 的步骤我这里不写了，感觉基本不会有nan, 不判断Nan的话，前面这个变量  to_del 就用不到了
         }
-        // 计算速度,shape：(n3,2)，用于 ORM，下面代码模拟列表推导
+        // 计算速度,shape：(n3,2)，用于 ORM，下面代码模拟python列表推导
         Eigen::MatrixXd velocities = Eigen::MatrixXd::Zero(trackers.size(), 2);
         Eigen::MatrixXd last_boxes = Eigen::MatrixXd::Zero(trackers.size(), 5);
         Eigen::MatrixXd k_observations = Eigen::MatrixXd::Zero(trackers.size(), 5);
-        //        std::cout << "tracks.size=" << trackers.size() << std::endl;
         for (int i = 0; i < trackers.size(); i++) {
-            //            std::cout << RED "k_observations:" << k_observations << std::endl;
             velocities.row(i) = trackers[i].velocity;// 反正初始化为0了的，不用取判断is None了
             last_boxes.row(i) = trackers[i].last_observation;
-            //            std::cout << BLUE "There should be 7 record in trackers[0].observations" << std::endl;
             k_observations.row(i) = k_previous_obs(trackers[i].observations, trackers[i].age, delta_t);
         }
         /////////////////////////
@@ -128,27 +111,16 @@ namespace ocsort {
         std::vector<int> unmatched_dets;
         std::vector<int> unmatched_trks;
         auto result = associate(dets_first, trks, iou_threshold, velocities, k_observations, inertia);
-        //        std::cout << "\n\n\n ==============associate END==============\n";
         matched = std::get<0>(result);
         unmatched_dets = std::get<1>(result);
         unmatched_trks = std::get<2>(result);
-        // note： 调试用 , fixme: 为什么不能直接输出 vector ，重载 << 算了
-        //        std::cout << "matched\n"
-        //                  << matched << "\nunmatched_dets\n"
-        //                  << unmatched_dets << "\n unmatched_trks \n"
-        //                  << unmatched_trks << std::endl;
         // 把匹配上的 update
         for (auto m: matched) {
-            //            std::cout << " ready to update the tracklet which matched with detection " << std::endl;
-            // todo 用于 update 的向量是 (1,5) 的行向量， 但是VectorXd 是一个(5,1) 的列向量，update函数还得看下
+            // todo 用于 update 的向量是 (1,5) 的行向量， 但是VectorXd 是一个(5,1) 的列向量，这里会发生隐式转换
             Eigen::Matrix<double, 5, 1> tmp_bbox;
             tmp_bbox = dets_first.block<1, 5>(m(0), 0);
-            // todo: 调试用
-            //            std::cout << "(tmp_bbox):\n"
-            //                      << tmp_bbox << std::endl;
             trackers[m(1)].update(&(tmp_bbox), dets_first(m(0), 5));
         }
-        //        std::cout << "matched tracklet update is DONE\n";
 
         ///////////////////////
         /// Step2 Second round of associaton by OCR to find lost tracks back
@@ -246,7 +218,6 @@ namespace ocsort {
                 std::vector<int> rowsol, colsol;
                 double MIN_cost = execLapjv(iou_matrix, rowsol, colsol, true, 0.01, true);
                 //，下面生成 rematched_indices ,形状 nx2
-                // std::vector<std::vector<int>> rematched_indices(rowsol.size(), std::vector<int>(2));
                 std::vector<std::vector<int>> rematched_indices;
                 // 为rematched_indices赋值 version :0.1
                 for (int i = 0; i < rowsol.size(); i++) {
@@ -297,7 +268,6 @@ namespace ocsort {
 
         // fixme：论文中提到，如果现存的轨迹并没有观测值，那么也是要更新的
         for (auto m: unmatched_trks) {
-            //            std::cout << "====update unmatched tracklet with None!\n";
             // python版本给 update 传入 z=None，但是在C++版本中，我们传入 nullptr 就行了
             trackers.at(m).update(nullptr, 0);
         }
@@ -309,26 +279,16 @@ namespace ocsort {
             Eigen::RowVectorXd tmp_bbox = dets_first.block(i, 0, 1, 5);
             // todo 4.28 17:25 ,  dets(i, 5) 是目标的类别 cls
             int cls_ = int(dets(i, 5));
-            // note: 调试用
-            //            std::cout << "tmp_bbox to initialize KalmanBoxTracker:\n"
-            //                      << tmp_bbox << "\ncls_\n"
-            //                      << cls_ << std::endl;
             KalmanBoxTracker trk = KalmanBoxTracker(tmp_bbox, cls_, delta_t);
             // 将新创建的追加到 trackers 末尾
             trackers.push_back(trk);
         }
         int tmp_i = trackers.size();// fixme: 不知道拿来干嘛的，好像是用来保存MOT格式的测试结果的
-                                    //        std::cout << "temp_i: " << tmp_i << std::endl;
-        // 逆序遍历 trackers 数组，生成需要返回的结果
+                                    // 逆序遍历 trackers 数组，生成需要返回的结果
         for (int i = trackers.size() - 1; i >= 0; i--) {
-            //            std::cout << "===== Get the size of EXISTING tracklet prediction ==========\n";
             // 下面是获取 预测值，有两种方式，差别其实不大
             Eigen::Matrix<double, 1, 4> d;
-            // todo :WARNING: :搞错了，last_observation 好像没更新
             int last_observation_sum = trackers.at(i).last_observation.sum();
-            // note: 调试用
-            //            std::cout << "last_observation_sum\n"
-            //                      << last_observation_sum << std::endl;
             if (last_observation_sum < 0) {
                 d = trackers.at(i).get_state();
             } else {
@@ -336,13 +296,8 @@ namespace ocsort {
                     this is optional to use the recent observation or the kalman filter prediction,
                     we didn't notice significant difference here
                  * */
-                // todo 这里出问题了吗？
-                //                std::cout << "prediction result is: " << std::endl;
                 d = trackers.at(i).last_observation.block(0, 0, 1, 4);
-                //                std::cout << d << std::endl;
             }
-            // note: 调试用
-            //            std::cout << "OCsort Predict Result[" << i << "]:(u,v,r,s)\n   " << d << std::endl;
             /**
                 如果在一定阈值内（一般为1帧）未检测到物体，则将当前跟踪器标记为“未更新”
                 判断条件 time_since_update < 1 意味着跟踪器在上一帧中有正确地匹配到目标并预测了当前帧中的位置，
