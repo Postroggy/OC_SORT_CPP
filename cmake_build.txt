@@ -1,4 +1,0 @@
-生成makefile文件：
-C:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/GYQ/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/223.8836.42/bin/ninja/win/x64/ninja.exe -DCMAKE_TOOLCHAIN_FILE=C:/Users/GYQ/vcpkg/scripts/buildsystems/vcpkg.cmake -G Ninja -S C:\SOTA\OC_SORT_CPP -B C:\SOTA\OC_SORT_CPP\cmake-build-debug
-构建：
-C:\Users\GYQ\vcpkg\downloads\tools\cmake-3.24.2-windows\cmake-3.24.2-windows-i386\bin\cmake.exe --build C:\SOTA\OC_SORT_CPP\cmake-build-debug --target test_assc -j 6

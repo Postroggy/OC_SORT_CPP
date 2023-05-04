@@ -1,18 +1,12 @@
-#include "OCsort.h"
-#include "fstream"
-#include "iostream"
-#include "numeric"
-#include "vector"
-#include <Eigen/Core>
+#include <Eigen/Dense>
+#include <OCsort.h>
+#include <fstream>
+#include <iostream>
+#include <vector>
 using namespace std;
 using namespace Eigen;
 using namespace ocsort;
-using ocsort::associate;
-/**
- * 读取CSV文件，并且返回一个Matrix
- * @param filename
- * @return
- */
+
 Eigen::Matrix<double, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &filename) {
     // 读取CSV文件
     std::ifstream file(filename);
@@ -41,8 +35,8 @@ Eigen::Matrix<double, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &fi
     }
     return matrix;
 }
-
 template<typename AnyCls>
+// 重载 << 输出 vector
 ostream &operator<<(ostream &os, const vector<AnyCls> &v) {
     os << "{";
     for (auto it = v.begin(); it != v.end(); ++it) {
@@ -53,23 +47,20 @@ ostream &operator<<(ostream &os, const vector<AnyCls> &v) {
     return os;
 }
 int main(int argc, char *argv[]) {
-    // 初始化一个OCsort对象
+    // 初始化 OCSort 对象
     OCSort A = OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, false);
-    // 使用OCsort追踪，现在不停的给他传入我们的观测值(检测框)
     std::ostringstream filename;
-    // todo :WARNING: 第9帧的时候出错了，
-    for (int i = 1; i < 150; ++i) {
+    for (int i = 1; i < 5; i++) {
         // 读取输入数据
         std::cout << "============== " << i << " =============" << std::endl;
-        filename << "../BINARY_DATA/" << i << ".csv";
+        // 这里你可能得改一下，我用得测试数据是来自SeedDet得检测结果
+        filename << "./test_data/MOT17-01/" << i << ".csv";
         Eigen::Matrix<double, Eigen::Dynamic, 6> dets = read_csv_to_eigen(filename.str());
         filename.str("");
-        std::cout << "input:\n"
-                  << dets << std::endl;
         // 推理
-        auto res = A.update(dets);
+        std::vector<Eigen::RowVectorXd> res = A.update(dets);
         // 打印输出
-        std::cout << "predict:\n"
-                  << res << std::endl;
+        // std::cout << "tracking result:\n"<< res << std::endl;
     }
+    return 0;
 }

@@ -1,7 +1,9 @@
 cmake-build-debug
 .idea
 .vs
+.vscode
 BINARY_DATA
 OUTPUT_DATA
 MOT17
 build
+.git
