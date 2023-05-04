@@ -55,11 +55,11 @@ target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
 和原版的OCSORT稍稍有不一样的地方：
 ## 输入格式
 输入的类型：`Eigen::Matrix<double,Eigen::Dynamic,6>`  
-格式：<x1>,<y1>,<x2>,<y2>,<confidence>,<class>
+格式：`<x1>,<y1>,<x2>,<y2>,<confidence>,<class>`
 
 ## 输出格式
 输出的类型：`Eigen::Matrix<double,Eigen::Dynamic,>`  
-格式：<x1>,<y1>,<x2>,<y2>,<ID>,<class>,<confidence>  
+格式：`<x1>,<y1>,<x2>,<y2>,<ID>,<class>,<confidence>`  
 这么做是为了方便OCSORT与其他的目标检测器整合形成完整的目标追踪Pipeline。
 
 
