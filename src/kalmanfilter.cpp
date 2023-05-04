@@ -92,6 +92,11 @@ namespace ocsort {
             return;
         }
         // 如果又接受到观测值了，那么解冻
+        /*
+            Get observation, use online smoothing to re-update parameters => OOS
+            现在这一步叫 ORU
+            observed为False=>接收到观测值了。则解冻。
+         */
         if (false == observed) unfreeze();
         observed = true;
         // 下面是正经的更新算法
@@ -148,7 +153,7 @@ namespace ocsort {
         /* 将freeze保存的变量全部加载进来 */
         // todo：后续记得把 attr_saved.size > 0条件 加进来
         if (true == attr_saved.IsInitialized) {
-            std::cout<<"正在恢复轨迹"<<std::endl;
+            std::cout << "正在恢复轨迹" << std::endl;
             new_history = history_obs;
             /*开始数据恢复*/
             x = attr_saved.x;
@@ -169,10 +174,96 @@ namespace ocsort {
             P_prior = attr_saved.P_prior;
             x_post = attr_saved.x_post;
             /*数据恢复完成*/
+            // 除了最后一次的obs，将之前的赋给history_obs，相当于在 history_obs 中除去最后一个观测值
+            history_obs.erase(history_obs.end() - 1);
+            // 因为 new_history 中有一部分可能是 nullptr，所以需要过滤一下,
+            // 这里我们只需要取得最后两个有效的观测值
+            // box1 = new_history[index1] # 从历史记录中取倒数第二个真实的观测值
+            Eigen::VectorXd box1;           // 倒数第二个
+            Eigen::VectorXd box2;           // 倒数第一个观测值
+            int lastNotNullIndex = -1;      // 倒数第一个的index
+            int secondLastNotNullIndex = -1;// 倒数第二个的index
+            for (int i = new_history.size() - 1; i >= 0; i--) {
+                if (new_history[i] != nullptr) {
+                    if (lastNotNullIndex == -1) {
+                        // 当前元素为最后一个非nullptr的元素
+                        lastNotNullIndex = i;
+                        box2 = *(new_history.at(lastNotNullIndex));
+                    } else if (secondLastNotNullIndex == -1) {
+                        // 当前元素为倒数第二个非nullptr的元素
+                        secondLastNotNullIndex = i;
+                        box1 = *(new_history.at(secondLastNotNullIndex));
+                        break;
+                    }
+                }
+            }
+            // 计算 \Delta{t}
+            double time_gap = lastNotNullIndex - secondLastNotNullIndex;
+            // 提取数据，计算宽高
+            double x1 = box1[0];
+            double x2 = box2[0];
+            double y1 = box1[1];
+            double y2 = box2[1];
+            double w1 = std::sqrt(box1[2] * box1[3]);
+            double h1 = std::sqrt(box1[2] / box1[3]);
+            double w2 = std::sqrt(box1[2] * box1[3]);
+            double h2 = std::sqrt(box1[2] / box1[3]);
+            // 计算对时间的导数
+            double dx = (x2 - x1) / time_gap;// X 轴方向速度
+            double dy = (y1 - y2) / time_gap;// Y 轴方向速度
+            double dw = (w2 - w1) / time_gap;// w 对时间的变化率
+            double dh = (h2 - h1) / time_gap;// h 对时间的变化率
+
+            for (int i = 0; i < time_gap; i++) {
+                /*
+                    The default virtual trajectory generation is by linear
+                    motion (constant speed hypothesis), you could modify this
+                    part to implement your own.
+                 */
+                double x = x1 + (i + 1) * dx;
+                double y = y1 + (i + 1) * dy;
+                double w = w1 + (i + 1) * dw;
+                double h = h1 + (i + 1) * dh;
+                double s = w * h;
+                double r = w / (h * 1.0);
+                Eigen::VectorXd new_box(4, 1);
+                new_box << x, y, s, r;
+                /*
+                    I still use predict-update loop here to refresh the parameters,
+                    but this can be faster by directly modifying the internal parameters
+                    as suggested in the paper. I keep this naive but slow way for
+                    easy read and understanding
+                    NOTE: 这里我就直接更新参数吧。
+                 */
+                // 下面是正经的更新算法
+                // y = z - Hx , 残差 between measurement 观测 and prediction 预测
+                this->y = new_box - this->H * this->x;
+                // 下面这个表达式PH' 因为在计算S和K都有用到，所以先保存，减少计算量
+                auto PHT = this->P * this->H.transpose();
+                // S = HPH' + R, 其中 H'是H的转置,S是观测残差的协方差
+                this->S = this->H * PHT + this->R;
+                // S的逆矩阵，后续计算要用到
+                this->SI = (this->S).inverse();
+                // K = PH'SI ，计算最优kalman增益
+                this->K = PHT * this->SI;
+                // note:更新x
+                this->x = this->x + this->K * this->y;
+                // note:更新P
+                /*This is more numerically stable and works for non-optimal K vs the
+                 * equation P = (I-KH)P usually seen in the literature.*/
+                auto I_KH = this->I - this->K * this->H;
+                this->P = ((I_KH * this->P) * I_KH.transpose()) + ((this->K * this->R) * (this->K).transpose());
+                // save the measurement and posterior state
+                this->z = new_box;
+                this->x_post = this->x;
+                this->P_post = this->P;
+                if (i != (time_gap - 1)) predict();
+            }
+
             // todo: 虚拟轨迹和re-update还没写完呢？
-//            history_obs.pop_back();
-//            std::vector<Eigen::VectorXd *> box1 = *(--new_history.end()); // 倒数第二个
-//            std::vector<Eigen::VectorXd *> box2 = *(new_history.end()); // 非法内存访问！ 倒数第一个
+            //            history_obs.pop_back();
+            //            std::vector<Eigen::VectorXd *> box1 = *(--new_history.end()); // 倒数第二个
+            //            std::vector<Eigen::VectorXd *> box2 = *(new_history.end()); // 非法内存访问！ 倒数第一个
         } /* if attr_saved is null, do nothing */
     }
 }// namespace ocsort

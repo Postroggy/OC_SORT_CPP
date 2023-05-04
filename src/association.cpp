@@ -60,6 +60,61 @@ namespace ocsort {
         Eigen::MatrixXd Sum = part1_ + part2_ - wh;// 形状：(n1,n2)
         return wh.cwiseQuotient(Sum);
     }
+    /**
+     *
+     * @param bboxes1 形状： (n1,6)
+     * @param bboxes2 形状： (n2,5)
+     * @return 形状：(n1,n2)
+     */
+    Eigen::MatrixXd giou_batch(const Eigen::MatrixXd &bboxes1, const Eigen::MatrixXd &bboxes2) {
+        Eigen::Matrix<double, Eigen::Dynamic, 1> a = bboxes1.col(0);// bboxes1[..., 0] (n1,1)
+        Eigen::Matrix<double, 1, Eigen::Dynamic> b = bboxes2.col(0);// bboxes2[..., 0] (1,n2)
+        Eigen::MatrixXd xx1 = (a.replicate(1, b.cols())).cwiseMax(b.replicate(a.rows(), 1));
+        a = bboxes1.col(1);// bboxes1[..., 1]
+        b = bboxes2.col(1);// bboxes2[..., 1]
+        Eigen::MatrixXd yy1 = (a.replicate(1, b.cols())).cwiseMax(b.replicate(a.rows(), 1));
+        a = bboxes1.col(2);// bboxes1[..., 2]
+        b = bboxes2.col(2);// bboxes1[..., 2]
+        Eigen::MatrixXd xx2 = (a.replicate(1, b.cols())).cwiseMin(b.replicate(a.rows(), 1));
+        a = bboxes1.col(3);// bboxes1[..., 3]
+        b = bboxes2.col(3);// bboxes1[..., 3]
+        Eigen::MatrixXd yy2 = (a.replicate(1, b.cols())).cwiseMin(b.replicate(a.rows(), 1));
+        Eigen::MatrixXd w = (xx2 - xx1).cwiseMax(0);
+        Eigen::MatrixXd h = (yy2 - yy1).cwiseMax(0);
+        Eigen::MatrixXd wh = w.array() * h.array();
+        a = (bboxes1.col(2) - bboxes1.col(0)).array() * (bboxes1.col(3) - bboxes1.col(1)).array();
+        b = (bboxes2.col(2) - bboxes2.col(0)).array() * (bboxes2.col(3) - bboxes2.col(1)).array();
+        // 做加法，但是还需要广播一下
+        Eigen::MatrixXd part1_ = a.replicate(1, b.cols());
+        Eigen::MatrixXd part2_ = b.replicate(a.rows(), 1);
+        Eigen::MatrixXd Sum = part1_ + part2_ - wh;// 形状：(n1,n2)
+        Eigen::MatrixXd iou = wh.cwiseQuotient(Sum);
+
+        a = bboxes1.col(0);
+        b = bboxes2.col(0);
+        Eigen::MatrixXd xxc1 = (a.replicate(1, b.cols())).cwiseMin(b.replicate(a.rows(), 1));
+        a = bboxes1.col(1);// bboxes1[..., 1]
+        b = bboxes2.col(1);// bboxes2[..., 1]
+        Eigen::MatrixXd yyc1 = (a.replicate(1, b.cols())).cwiseMin(b.replicate(a.rows(), 1));
+        a = bboxes1.col(2);// bboxes1[..., 2]
+        b = bboxes2.col(2);// bboxes1[..., 2]
+        Eigen::MatrixXd xxc2 = (a.replicate(1, b.cols())).cwiseMax(b.replicate(a.rows(), 1));
+        a = bboxes1.col(3);// bboxes1[..., 3]
+        b = bboxes2.col(3);// bboxes1[..., 3]
+        Eigen::MatrixXd yyc2 = (a.replicate(1, b.cols())).cwiseMax(b.replicate(a.rows(), 1));
+
+        Eigen::MatrixXd wc = xxc2 - xxc1;
+        Eigen::MatrixXd hc = yyc2 - yyc1;
+        // 模拟 assert((wc > 0).all() and (hc > 0).all())
+        if ((wc.array() > 0).all() && (hc.array() > 0).all())
+            return iou;
+        else {
+            Eigen::MatrixXd area_enclose = wc.array() * hc.array();
+            Eigen::MatrixXd giou = iou.array() - (area_enclose.array() - wh.array()) / area_enclose.array();
+            giou = (giou.array() + 1) / 2.0;// 从 (-1,1) 缩放到 (0,1)
+            return giou;
+        }
+    }
 
     std::tuple<std::vector<Eigen::Matrix<int, 1, 2>>, std::vector<int>, std::vector<int>> associate(Eigen::MatrixXd detections, Eigen::MatrixXd trackers, float iou_threshold, Eigen::MatrixXd velocities, Eigen::MatrixXd previous_obs_, float vdc_weight) {
         if (trackers.rows() == 0) {
@@ -143,15 +198,15 @@ namespace ocsort {
                 // todo :WARNING: 找到问题所在了，外层初始化了一个 ，内层又初始化了一个名字相同的。
                 //                matched_indices(rowsol.size(), std::vector<int>(2));
                 // 为 matched_indices 赋值
-//                for (int i = 0; i < rowsol.size(); i++) {
-//                    Eigen::RowVectorXd row(2);
-//                    row << i, rowsol.at(i);
-//                    matched_indices.conservativeResize(matched_indices.rows() + 1, Eigen::NoChange);
-//                    matched_indices.row(matched_indices.rows() - 1) = row;
-//                }
-                for(int i=0;i<rowsol.size();i++){
-                    if(rowsol.at(i)>=0){
-//                        cout<<"==DEBUG== "<<"x[i]: "<<x.at(i)<<" y[x[i]]: "<<y.at(x.at(i))<<endl;
+                //                for (int i = 0; i < rowsol.size(); i++) {
+                //                    Eigen::RowVectorXd row(2);
+                //                    row << i, rowsol.at(i);
+                //                    matched_indices.conservativeResize(matched_indices.rows() + 1, Eigen::NoChange);
+                //                    matched_indices.row(matched_indices.rows() - 1) = row;
+                //                }
+                for (int i = 0; i < rowsol.size(); i++) {
+                    if (rowsol.at(i) >= 0) {
+                        //                        cout<<"==DEBUG== "<<"x[i]: "<<x.at(i)<<" y[x[i]]: "<<y.at(x.at(i))<<endl;
                         Eigen::RowVectorXd row(2);
                         row << colsol.at(rowsol.at(i)), rowsol.at(i);
                         matched_indices.conservativeResize(matched_indices.rows() + 1, Eigen::NoChange);
