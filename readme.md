@@ -4,6 +4,7 @@
 在代码逻辑和变量命令上尽量与官方Python版本的保持一致，线性分配算法使用了开源库[Lap](https://github.com/gatagat/lap/tree/master/lap)。  
 OC-SORT中改进的Kalman Filter只使用了Eigen库实现。
 
+后续我可能会尝试发布将OCSORT与检测器接合的部署在资源有限设备上的应用。
 
 # 用法
 首先你需要库有：[Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page)。
