@@ -111,7 +111,7 @@ namespace ocsort {
         else {
             Eigen::MatrixXd area_enclose = wc.array() * hc.array();
             Eigen::MatrixXd giou = iou.array() - (area_enclose.array() - wh.array()) / area_enclose.array();
-            giou = (giou.array() + 1) / 2.0;// 从 (-1,1) 缩放到 (0,1)
+            giou = (giou.array() + 1) / 2.0;// 从 (-1,1) 缩放associateiou到 (0,1)
             return giou;
         }
     }
@@ -206,7 +206,6 @@ namespace ocsort {
                 //                }
                 for (int i = 0; i < rowsol.size(); i++) {
                     if (rowsol.at(i) >= 0) {
-                        //                        cout<<"==DEBUG== "<<"x[i]: "<<x.at(i)<<" y[x[i]]: "<<y.at(x.at(i))<<endl;
                         Eigen::RowVectorXd row(2);
                         row << colsol.at(rowsol.at(i)), rowsol.at(i);
                         matched_indices.conservativeResize(matched_indices.rows() + 1, Eigen::NoChange);

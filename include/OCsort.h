@@ -3,6 +3,8 @@
 #include "KalmanBoxTracker.h"
 #include "association.h"
 #include "lapjv.h"
+#include <functional>
+#include <unordered_map>
 namespace ocsort {
 
     class OCSort {
@@ -17,7 +19,7 @@ namespace ocsort {
         int min_hits;
         float iou_threshold;
         int delta_t;
-        std::string asso_func;
+        std::function<Eigen::MatrixXd(const Eigen::MatrixXd &, const Eigen::MatrixXd &)> asso_func;
         float inertia;
         bool use_byte;
         // 用来保存 KalmanBoxTracker

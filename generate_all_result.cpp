@@ -49,7 +49,7 @@ ostream &operator<<(ostream &os, const vector<AnyCls> &v) {
 
 int main(int argc, char *argv[]) {
     // 初始化 OCSort 对象
-    OCSort A = OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, false);
+    OCSort A = OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, true);
     // 读取数据
     std::ostringstream filename;
     for (int i = 1; i < 451; i++) {
