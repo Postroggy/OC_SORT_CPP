@@ -1,9 +1,19 @@
 cmake_minimum_required(VERSION 3.21)
 project(OC_SORT_CPP)
 
+
+# set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -O3  -Wall")
+# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3  -Wall")
+
+set(CMAKE_TOOLCHAIN_FILE C:/Users/GYQ/vcpkg/scripts/buildsystems/vcpkg.cmake)
 set(CMAKE_CXX_STANDARD 17)
-SET(Eigen3_DIR "C:/Users/GYQ/vcpkg/installed/x86-windows/share/eigen3")
+
+
+SET(Eigen3_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/share/eigen3")
 find_package(Eigen3 REQUIRED)
+set(OpenCV_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv4")
+find_package(OpenCV REQUIRED)
+
 
 # add_subdirectory(src)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -14,8 +24,14 @@ target_link_libraries(OCLib Eigen3::Eigen)
 
 # note： 主测试用的是 test
 # add_executable(test test.cpp)
-# target_link_directories(test PUBLIC include)
-# target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
+# target_link_libraries(test PUBLIC Eigen3::Eigen OCLib ${OpenCV_LIBS})
+
+# 直接读取MOT17官方的格式转为输入数据
+add_executable(test_MOT read_MOTtxt.cpp)
+target_link_libraries(test_MOT PUBLIC Eigen3::Eigen OCLib)
+
+# add_executable(test_MOT test_rollback.cpp)
+# target_link_libraries(test_MOT PUBLIC)
 # note： 测试用C++读取 csv 文件，形成 Matrix
 # add_executable(read_TS read_tensor.cpp)
 # target_link_libraries(read_TS PUBLIC Eigen3::Eigen)
@@ -31,5 +47,5 @@ target_link_libraries(OCLib Eigen3::Eigen)
 # target_link_libraries(test_MOT17 PUBLIC Eigen3::Eigen OCLib)
 
 # note: 生成所有的数据
-add_executable(all_result generate_all_result.cpp )
-target_link_libraries(all_result PUBLIC Eigen3::Eigen OCLib)
+# add_executable(all_result generate_all_result.cpp )
+# target_link_libraries(all_result PUBLIC Eigen3::Eigen OCLib)

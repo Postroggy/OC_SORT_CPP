@@ -2,9 +2,6 @@
 #include "iomanip"
 #include <utility>
 
-// 存函数指针，实现不同的iou函数调用
-
-
 namespace ocsort {
     /*重载 << for vector ，直接可以打印 vector*/
     template<typename Matrix>
@@ -17,7 +14,6 @@ namespace ocsort {
         os << "}\n";
         return os;
     }
-
 
     OCSort::OCSort(float det_thresh_, int max_age_, int min_hits_, float iou_threshold_, int delta_t_, std::string asso_func_, float inertia_, bool use_byte_) {
         /*Sets key parameters for SORT*/
