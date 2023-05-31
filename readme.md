@@ -6,6 +6,9 @@ OC-SORT中改进的Kalman Filter只使用了Eigen库实现。
 
 后续我可能会尝试发布将OCSORT与检测器接合的部署在资源有限设备上的应用。
 
+# 运行速度
+当前我的设备CPU是:`Ryzen R5 2500U`，编译的时候开启`-O2`优化，平均处理一帧的时间是`5.5ms`。我实现的这版本确实比ByteTrack的C++版本要慢，但是Python原版的比ByteTrack的慢特别多，代码重构成C++还是有提升的，可以在生产环境下试一试了。
+
 # 用法
 首先你需要库有：[Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page)。
 

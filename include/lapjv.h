@@ -62,7 +62,7 @@
 
 typedef signed int int_t;
 typedef unsigned int uint_t;
-typedef double cost_t;
+typedef float cost_t;
 typedef char boolean;
 typedef enum fp_t { FP_1 = 1,
                     FP_2 = 2,
@@ -75,6 +75,6 @@ extern int_t lapjv_internal(
 extern int_t lapmod_internal(
         const uint_t n, cost_t *cc, uint_t *ii, uint_t *kk,
         int_t *x, int_t *y, fp_t fp_version);
-double execLapjv(const std::vector<std::vector<double>> &cost, std::vector<int> &rowsol,
+float execLapjv(const std::vector<std::vector<float>> &cost, std::vector<int> &rowsol,
                  std::vector<int> &colsol, bool extend_cost, float cost_limit, bool return_cost);
 #endif//OC_SORT_CPP_LAPJV_H

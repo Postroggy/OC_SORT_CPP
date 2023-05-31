@@ -1,10 +1,9 @@
 #include <utility>
-
 #include "../include/KalmanBoxTracker.h"
 namespace ocsort {
     // 用于分配ID的，递增就行
     int KalmanBoxTracker::count = 0;
-    KalmanBoxTracker::KalmanBoxTracker(Eigen::VectorXd bbox_, int cls_, int delta_t_) {
+    KalmanBoxTracker::KalmanBoxTracker(Eigen::VectorXf bbox_, int cls_, int delta_t_) {
         // note： 输入： bbox: 应为1x5，目前是 5x1, cls:整形，delta_t：整形,
         bbox = std::move(bbox_);// 还要 convert to z
         delta_t = delta_t_;
@@ -46,22 +45,22 @@ namespace ocsort {
         // let's bear it for now.
         //////////////////////////////////////////////////////
         last_observation.fill(-1);   // 占位符 [-1,-1,-1,-1,-1]
-        observations.clear();        // 类型：map<int, Eigen::VectorXd>
-        history_observations.clear();// 类型：std::vector<Eigen::VectorXd>
-        velocity.fill(0);            // 类型：Eigen::VectorXd [2,1]
+        observations.clear();        // 类型：map<int, Eigen::VectorXf>
+        history_observations.clear();// 类型：std::vector<Eigen::VectorXf>
+        velocity.fill(0);            // 类型：Eigen::VectorXf [2,1]
     }
     /**
      * Updates the state vector with observed bbox.
      * @param bbox_
      * @param cls_ 这个变量在原sort中是没有的
      */
-    void KalmanBoxTracker::update(Eigen::Matrix<double, 5, 1> *bbox_, int cls_) {
+    void KalmanBoxTracker::update(Eigen::Matrix<float, 5, 1> *bbox_, int cls_) {
         if (bbox_ != nullptr) {
             // 匹配到观测值了
             conf = (*bbox_)[4];
             cls = cls_;
             if (int(last_observation.sum()) >= 0) {
-                Eigen::VectorXd previous_box_tmp;
+                Eigen::VectorXf previous_box_tmp;
                 for (int i = 0; i < delta_t; ++i) {
                     int dt = delta_t - i;
                     if (observations.count(age - dt) > 0) {
@@ -92,7 +91,7 @@ namespace ocsort {
             history.clear();// 空
             hits += 1;
             hit_streak += 1;
-            Eigen::VectorXd tmp = convert_bbox_to_z(*bbox_);
+            Eigen::VectorXf tmp = convert_bbox_to_z(*bbox_);
             kf->update(&tmp);
         } else {
             /*如果没有检测到 bbox，也更新，KalmanFilter函数写好了应对这种情况的*/
@@ -103,7 +102,7 @@ namespace ocsort {
     /**
      * 这里返回的是 (1,4) 的行向量
      */
-    Eigen::RowVectorXd KalmanBoxTracker::predict() {
+    Eigen::RowVectorXf KalmanBoxTracker::predict() {
         ///////////////////////
         //// Advances the state vector and returns the predicted bounding box estimate.
         //////////////////////
@@ -116,7 +115,7 @@ namespace ocsort {
         history.push_back(convert_x_to_bbox(kf->x));
         return convert_x_to_bbox(kf->x);// 返回 history 中的最后一个元素
     }
-    Eigen::VectorXd KalmanBoxTracker::get_state() {
+    Eigen::VectorXf KalmanBoxTracker::get_state() {
         return convert_x_to_bbox(kf->x);
     }
 }// namespace ocsort

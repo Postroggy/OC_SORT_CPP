@@ -26,12 +26,12 @@ namespace ocsort {
         det_thresh = det_thresh_;
         delta_t = delta_t_;
         // 声明unordered_map，key为字符串，value为无参无返回值函数指针类型的function对象
-        std::unordered_map<std::string, std::function<Eigen::MatrixXd(const Eigen::MatrixXd &, const Eigen::MatrixXd &)>> ASSO_FUNCS{
+        std::unordered_map<std::string, std::function<Eigen::MatrixXf(const Eigen::MatrixXf &, const Eigen::MatrixXf &)>> ASSO_FUNCS{
                 {"iou", iou_batch},
                 {"giou", giou_batch}};
         ;
         // 确定之后需要使用的函数 , 虽然这个保存了函数指针，实际上我没有用到
-        std::function<Eigen::MatrixXd(const Eigen::MatrixXd &, const Eigen::MatrixXd &)> asso_func = ASSO_FUNCS[asso_func_];
+        std::function<Eigen::MatrixXf(const Eigen::MatrixXf &, const Eigen::MatrixXf &)> asso_func = ASSO_FUNCS[asso_func_];
         // asso_func = std::move(asso_func_);// todo 难道这里我用函数指针实现？
         inertia = inertia_;
         use_byte = use_byte_;
@@ -42,7 +42,7 @@ namespace ocsort {
         os << std::fixed << std::setprecision(2);
         return os;
     }
-    std::vector<Eigen::RowVectorXd> OCSort::update(Eigen::MatrixXd dets) {
+    std::vector<Eigen::RowVectorXf> OCSort::update(Eigen::MatrixXf dets) {
         /*
          * 输入矩阵dets: 形状 (n,5) 元素格式：[[x1,y1,x2,y2,confidence_score],...[...]]
          * Params:
@@ -55,19 +55,19 @@ namespace ocsort {
          */
         frame_count += 1;
         /*下面这些都是临时变量*/
-        Eigen::Matrix<double, Eigen::Dynamic, 4> xyxys = dets.leftCols(4);
-        Eigen::Matrix<double, 1, Eigen::Dynamic> confs = dets.col(4);// 这是 [1,n1]的行向量
-        Eigen::Matrix<double, 1, Eigen::Dynamic> clss = dets.col(5); // 最后一列是 目标的类别
-        Eigen::MatrixXd output_results = dets;
+        Eigen::Matrix<float, Eigen::Dynamic, 4> xyxys = dets.leftCols(4);
+        Eigen::Matrix<float, 1, Eigen::Dynamic> confs = dets.col(4);// 这是 [1,n1]的行向量
+        Eigen::Matrix<float, 1, Eigen::Dynamic> clss = dets.col(5); // 最后一列是 目标的类别
+        Eigen::MatrixXf output_results = dets;
         auto inds_low = confs.array() > 0.1;
         auto inds_high = confs.array() < det_thresh;
         // 置信度在 0.1~det_thresh的需要二次匹配 inds_second => (1xN)
         auto inds_second = inds_low && inds_high;
         // 筛选一下，模拟 dets_second = output_results[inds_second];dets = output_results[remain_inds]
-        Eigen::Matrix<double, Eigen::Dynamic, 6> dets_second;// 行不固定，列固定
+        Eigen::Matrix<float, Eigen::Dynamic, 6> dets_second;// 行不固定，列固定
         Eigen::Matrix<bool, 1, Eigen::Dynamic> remain_inds = (confs.array() > det_thresh);
         //因为python类型随便改而C++不行, note: 后续用 dets_first 代替dets传入 associate() 函数，切记！
-        Eigen::Matrix<double, Eigen::Dynamic, 6> dets_first;
+        Eigen::Matrix<float, Eigen::Dynamic, 6> dets_first;
         for (int i = 0; i < output_results.rows(); i++) {
             if (true == inds_second(i)) {
                 dets_second.conservativeResize(dets_second.rows() + 1, Eigen::NoChange);
@@ -80,20 +80,20 @@ namespace ocsort {
         }
         /*get predicted locations from existing trackers.*/
         // (0,5)不会引起bug？ 是的，不会
-        Eigen::MatrixXd trks = Eigen::MatrixXd::Zero(trackers.size(), 5);
+        Eigen::MatrixXf trks = Eigen::MatrixXf::Zero(trackers.size(), 5);
         // 要删除的轨迹？但是后面不判断Nan，这个数组就没用了
         std::vector<int> to_del;
-        std::vector<Eigen::RowVectorXd> ret;// 要返回的结果? 里面是 [1,7] 的行向量
+        std::vector<Eigen::RowVectorXf> ret;// 要返回的结果? 里面是 [1,7] 的行向量
         // 遍历 trks , 按行遍历
         for (int i = 0; i < trks.rows(); i++) {
-            Eigen::RowVectorXd pos = trackers[i].predict();// predict 返回的结果应该是 (1,4) 的行向量
+            Eigen::RowVectorXf pos = trackers[i].predict();// predict 返回的结果应该是 (1,4) 的行向量
             trks.row(i) << pos(0), pos(1), pos(2), pos(3), 0;
             // note: 判断数据是不是 nan 的步骤我这里不写了，感觉基本不会有nan, 不判断Nan的话，前面这个变量  to_del 就用不到了
         }
         // 计算速度,shape：(n3,2)，用于 ORM，下面代码模拟python列表推导
-        Eigen::MatrixXd velocities = Eigen::MatrixXd::Zero(trackers.size(), 2);
-        Eigen::MatrixXd last_boxes = Eigen::MatrixXd::Zero(trackers.size(), 5);
-        Eigen::MatrixXd k_observations = Eigen::MatrixXd::Zero(trackers.size(), 5);
+        Eigen::MatrixXf velocities = Eigen::MatrixXf::Zero(trackers.size(), 2);
+        Eigen::MatrixXf last_boxes = Eigen::MatrixXf::Zero(trackers.size(), 5);
+        Eigen::MatrixXf k_observations = Eigen::MatrixXf::Zero(trackers.size(), 5);
         for (int i = 0; i < trackers.size(); i++) {
             velocities.row(i) = trackers[i].velocity;// 反正初始化为0了的，不用取判断is None了
             last_boxes.row(i) = trackers[i].last_observation;
@@ -112,8 +112,8 @@ namespace ocsort {
         unmatched_trks = std::get<2>(result);
         // 把匹配上的 update
         for (auto m: matched) {
-            // todo 用于 update 的向量是 (1,5) 的行向量， 但是VectorXd 是一个(5,1) 的列向量，这里会发生隐式转换
-            Eigen::Matrix<double, 5, 1> tmp_bbox;
+            // todo 用于 update 的向量是 (1,5) 的行向量， 但是VectorXf 是一个(5,1) 的列向量，这里会发生隐式转换
+            Eigen::Matrix<float, 5, 1> tmp_bbox;
             tmp_bbox = dets_first.block<1, 5>(m(0), 0);
             trackers[m(1)].update(&(tmp_bbox), dets_first(m(0), 5));
         }
@@ -123,21 +123,21 @@ namespace ocsort {
         //////////////////////
         // BYTE 的关联，5月4日 写的
         if (true == use_byte && dets_second.rows() > 0 && unmatched_trks.size() > 0) {
-            Eigen::MatrixXd u_trks(unmatched_trks.size(), trks.cols());
+            Eigen::MatrixXf u_trks(unmatched_trks.size(), trks.cols());
             int index_for_u_trks = 0;
             for (auto i: unmatched_trks) {
                 u_trks.row(index_for_u_trks++) = trks.row(i);
             }
-            Eigen::MatrixXd iou_left = giou_batch(dets_second, u_trks);
+            Eigen::MatrixXf iou_left = giou_batch(dets_second, u_trks);
             // 用map存的函数指针，替换一下
-            // Eigen::MatrixXd iou_left = asso_func(dets_second, u_trks);
+            // Eigen::MatrixXf iou_left = asso_func(dets_second, u_trks);
             if (iou_left.maxCoeff() > iou_threshold) {
                 /**
                     NOTE: by using a lower threshold, e.g., self.iou_threshold - 0.1, you may
                     get a higher performance especially on MOT17/MOT20 datasets. But we keep it
                     uniform here for simplicity
                  * */
-                std::vector<std::vector<double>> iou_matrix(iou_left.rows(), std::vector<double>(iou_left.cols()));
+                std::vector<std::vector<float>> iou_matrix(iou_left.rows(), std::vector<float>(iou_left.cols()));
                 for (int i = 0; i < iou_left.rows(); i++) {
                     for (int j = 0; j < iou_left.cols(); j++) {
                         iou_matrix[i][j] = -iou_left(i, j);// note： 这里取反
@@ -145,7 +145,7 @@ namespace ocsort {
                 }
                 // 进行线性分配
                 std::vector<int> rowsol, colsol;
-                double MIN_cost = execLapjv(iou_matrix, rowsol, colsol, true, 0.01, true);
+                float MIN_cost = execLapjv(iou_matrix, rowsol, colsol, true, 0.01, true);
                 std::vector<std::vector<int>> matched_indices;
                 // 为matched_indices赋值 version :0.1
                 for (int i = 0; i < rowsol.size(); i++) {
@@ -161,7 +161,7 @@ namespace ocsort {
                     int trk_ind = unmatched_trks[m[1]];
                     if (iou_left(m[0], m[1]) < iou_threshold) continue;
 
-                    Eigen::Matrix<double, 5, 1> tmp_box;
+                    Eigen::Matrix<float, 5, 1> tmp_box;
                     tmp_box = dets_second.block<1, 5>(det_ind, 0);
                     trackers[trk_ind].update(&tmp_box, dets_second(det_ind, 5));
                     to_remove_trk_indices.push_back(trk_ind);
@@ -181,20 +181,20 @@ namespace ocsort {
 
         if (unmatched_dets.size() > 0 && unmatched_trks.size() > 0) {
             // 模拟：left_dets = dets[unmatched_dets] 没匹配上轨迹的 检测
-            Eigen::MatrixXd left_dets(unmatched_dets.size(), 6);
+            Eigen::MatrixXf left_dets(unmatched_dets.size(), 6);
             // 哈哈，bug 修复了，left_dets.row(inx_for_dets++) = dets_first.row(i) 这两个的index不一样的
             int inx_for_dets = 0;
             for (auto i: unmatched_dets) {
                 left_dets.row(inx_for_dets++) = dets_first.row(i);
             }
             // 模拟 left_trks = last_boxes[unmatched_trks] 最后一次匹配上的检测的轨迹
-            Eigen::MatrixXd left_trks(unmatched_trks.size(), last_boxes.cols());
+            Eigen::MatrixXf left_trks(unmatched_trks.size(), last_boxes.cols());
             int indx_for_trk = 0;
             for (auto i: unmatched_trks) {
                 left_trks.row(indx_for_trk++) = last_boxes.row(i);
             }
             // 计算代价矩阵 todo: 这里暂时用 iou_batch 吧。后续再做映射了
-            Eigen::MatrixXd iou_left = giou_batch(left_dets, left_trks);
+            Eigen::MatrixXf iou_left = giou_batch(left_dets, left_trks);
             if (iou_left.maxCoeff() > iou_threshold) {
                 /**
                     NOTE: by using a lower threshold, e.g., self.iou_threshold - 0.1, you may
@@ -204,7 +204,7 @@ namespace ocsort {
                 // 找回丢失的track
                 // todo：lapjv用的别人实现的库
                 // 先把 iou_left 转成 二维 vector，转换的过程中元素取反
-                std::vector<std::vector<double>> iou_matrix(iou_left.rows(), std::vector<double>(iou_left.cols()));
+                std::vector<std::vector<float>> iou_matrix(iou_left.rows(), std::vector<float>(iou_left.cols()));
                 for (int i = 0; i < iou_left.rows(); i++) {
                     for (int j = 0; j < iou_left.cols(); j++) {
                         iou_matrix[i][j] = -iou_left(i, j);// note： 这里取反
@@ -212,7 +212,7 @@ namespace ocsort {
                 }
                 // 进行线性分配
                 std::vector<int> rowsol, colsol;
-                double MIN_cost = execLapjv(iou_matrix, rowsol, colsol, true, 0.01, true);
+                float MIN_cost = execLapjv(iou_matrix, rowsol, colsol, true, 0.01, true);
                 //，下面生成 rematched_indices ,形状 nx2
                 std::vector<std::vector<int>> rematched_indices;
                 // 为rematched_indices赋值 version :0.1
@@ -235,7 +235,7 @@ namespace ocsort {
                     ///  Step3  update status of second matched tracks
                     ///////////////////////////////
                     // fixme:这里更新，是因为又重新匹配上了
-                    Eigen::Matrix<double, 5, 1> tmp_bbox;
+                    Eigen::Matrix<float, 5, 1> tmp_bbox;
                     tmp_bbox = dets_first.block<1, 5>(det_ind, 0);
                     trackers.at(trk_ind).update(&tmp_bbox, dets_first(det_ind, 5));
                     to_remove_det_indices.push_back(det_ind);
@@ -272,7 +272,7 @@ namespace ocsort {
         ///////////////////////////////
         /*create and initialise new trackers for unmatched detections*/
         for (int i: unmatched_dets) {
-            Eigen::RowVectorXd tmp_bbox = dets_first.block(i, 0, 1, 5);
+            Eigen::RowVectorXf tmp_bbox = dets_first.block(i, 0, 1, 5);
             // todo 4.28 17:25 ,  dets(i, 5) 是目标的类别 cls
             int cls_ = int(dets(i, 5));
             KalmanBoxTracker trk = KalmanBoxTracker(tmp_bbox, cls_, delta_t);
@@ -283,7 +283,7 @@ namespace ocsort {
                                     // 逆序遍历 trackers 数组，生成需要返回的结果
         for (int i = trackers.size() - 1; i >= 0; i--) {
             // 下面是获取 预测值，有两种方式，差别其实不大
-            Eigen::Matrix<double, 1, 4> d;
+            Eigen::Matrix<float, 1, 4> d;
             int last_observation_sum = trackers.at(i).last_observation.sum();
             if (last_observation_sum < 0) {
                 d = trackers.at(i).get_state();
@@ -303,7 +303,7 @@ namespace ocsort {
                 // +1 as MOT benchmark requires positive
                 // d 是坐标 1x4 , trackers.at(i).id ，cls，conf 都是1x1标量
                 // 将他们组合起来 (d,id,cls,conf) 形成 1x7 的行向量
-                Eigen::RowVectorXd tracking_res(7);
+                Eigen::RowVectorXf tracking_res(7);
                 // note: ID 从 1 开始，符合MOT的格式
                 tracking_res << d(0), d(1), d(2), d(3), trackers.at(i).id + 1, trackers.at(i).cls, trackers.at(i).conf;
                 ret.push_back(tracking_res);// 主要是把数据组合起来，28号再写了

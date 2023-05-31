@@ -330,11 +330,11 @@ int lapjv_internal(
     FREE(free_rows);
     return ret;
 }
-double execLapjv(const std::vector<std::vector<double>> &cost, std::vector<int> &rowsol,
+float execLapjv(const std::vector<std::vector<float>> &cost, std::vector<int> &rowsol,
                  std::vector<int> &colsol, bool extend_cost, float cost_limit, bool return_cost) {
-    std::vector<std::vector<double>> cost_c;
+    std::vector<std::vector<float>> cost_c;
     cost_c.assign(cost.begin(), cost.end());
-    std::vector<std::vector<double>> cost_c_extended;
+    std::vector<std::vector<float>> cost_c_extended;
     int n_rows = cost.size();
     int n_cols = cost[0].size();
     rowsol.resize(n_rows);
@@ -348,13 +348,13 @@ double execLapjv(const std::vector<std::vector<double>> &cost, std::vector<int> 
         }
     }
 
-    if (extend_cost || cost_limit < std::numeric_limits<double>::max()) {
+    if (extend_cost || cost_limit < std::numeric_limits<float>::max()) {
         n = n_rows + n_cols;
         cost_c_extended.resize(n);// resize 成 nxn 的矩阵
         for (size_t i = 0; i < cost_c_extended.size(); i++)
             cost_c_extended[i].resize(n);
 
-        if (cost_limit < std::numeric_limits<double>::max()) {
+        if (cost_limit < std::numeric_limits<float>::max()) {
             for (size_t i = 0; i < cost_c_extended.size(); i++) {
                 for (size_t j = 0; j < cost_c_extended[i].size(); j++) {
                     cost_c_extended[i][j] = cost_limit / 2.0;
@@ -390,10 +390,10 @@ double execLapjv(const std::vector<std::vector<double>> &cost, std::vector<int> 
         cost_c.assign(cost_c_extended.begin(), cost_c_extended.end());
     }
     // 以上步骤是把输入的不是NxN的cost_matrix转换成NxN的，多余的部分用全0填充。
-    double **cost_ptr;// 这个变量是输入到 lapjv_internal 函数去计算的。
-    cost_ptr = new double *[sizeof(double *) * n];
+    float **cost_ptr;// 这个变量是输入到 lapjv_internal 函数去计算的。
+    cost_ptr = new float *[sizeof(float *) * n];
     for (int i = 0; i < n; i++)
-        cost_ptr[i] = new double[sizeof(double) * n];
+        cost_ptr[i] = new float[sizeof(float) * n];
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             cost_ptr[i][j] = cost_c[i][j];
@@ -405,7 +405,7 @@ double execLapjv(const std::vector<std::vector<double>> &cost, std::vector<int> 
     if (ret != 0) {
         throw std::runtime_error("The result of lapjv_internal() is invalid.");
     }
-    double opt = 0.0;// 最小代价的值
+    float opt = 0.0;// 最小代价的值
     if (n != n_rows) {
         // 如果 输入的 cost_matrix 不是方阵，则将多余的索引赋值为-1处理。
         for (int i = 0; i < n; i++) {

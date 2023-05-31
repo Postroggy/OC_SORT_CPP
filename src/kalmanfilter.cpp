@@ -5,26 +5,26 @@ namespace ocsort {
     KalmanFilterNew::KalmanFilterNew(int dim_x_, int dim_z_) {
         dim_x = dim_x_;
         dim_z = dim_z_;
-        x = Eigen::VectorXd::Zero(dim_x_, 1);
+        x = Eigen::VectorXf::Zero(dim_x_, 1);
         // fixme 暂时数据类型是 double 的 P Q B F都初始化为单位矩阵
-        P = Eigen::MatrixXd::Identity(dim_x_, dim_x_);
-        Q = Eigen::MatrixXd::Identity(dim_x_, dim_x_);
-        B = Eigen::MatrixXd::Identity(dim_x_, dim_x_);// 一般用不到
-        F = Eigen::MatrixXd::Identity(dim_x_, dim_x_);
-        H = Eigen::MatrixXd::Zero(dim_z_, dim_x_);
-        R = Eigen::MatrixXd::Identity(dim_z_, dim_z_);
-        M = Eigen::MatrixXd::Zero(dim_x_, dim_z_);
-        z = Eigen::VectorXd::Zero(dim_z_, 1);
+        P = Eigen::MatrixXf::Identity(dim_x_, dim_x_);
+        Q = Eigen::MatrixXf::Identity(dim_x_, dim_x_);
+        B = Eigen::MatrixXf::Identity(dim_x_, dim_x_);// 一般用不到
+        F = Eigen::MatrixXf::Identity(dim_x_, dim_x_);
+        H = Eigen::MatrixXf::Zero(dim_z_, dim_x_);
+        R = Eigen::MatrixXf::Identity(dim_z_, dim_z_);
+        M = Eigen::MatrixXf::Zero(dim_x_, dim_z_);
+        z = Eigen::VectorXf::Zero(dim_z_, 1);
         /*
             gain and residual are computed during the innovation step. We
             save them so that in case you want to inspect them for various
             purposes
         * */
-        K = Eigen::MatrixXd::Zero(dim_x_, dim_z_);
-        y = Eigen::VectorXd::Zero(dim_x_, 1);
-        S = Eigen::MatrixXd::Zero(dim_z_, dim_z_);
+        K = Eigen::MatrixXf::Zero(dim_x_, dim_z_);
+        y = Eigen::VectorXf::Zero(dim_x_, 1);
+        S = Eigen::MatrixXf::Zero(dim_z_, dim_z_);
         // SI是S的转置，为什么不直接 S.T 呢？
-        SI = Eigen::MatrixXd::Zero(dim_z_, dim_z_);
+        SI = Eigen::MatrixXf::Zero(dim_z_, dim_z_);
 
         // 下面是保存predict后的变量
         x_prior = x;
@@ -58,7 +58,7 @@ namespace ocsort {
         x_prior = x;
         P_prior = P;
     }
-    void KalmanFilterNew::update(Eigen::VectorXd *z_) {
+    void KalmanFilterNew::update(Eigen::VectorXf *z_) {
         // 函数原型：update(self, z, R=None, H=None)，但是R H这里用不到
         // 传递的参数是指针类型的才好用空指针代替python中的 None
         /*
@@ -80,16 +80,16 @@ namespace ocsort {
             one call, otherwise self.H will be used.
          * */
         // NOTE:说明一下，z_ 的形状是 [dim_z,1] 的即[4,1]
-        // 将新来的观测值加入到 history_obs 中,数组中存的是 Eigen::VectorXd的指针
+        // 将新来的观测值加入到 history_obs 中,数组中存的是 Eigen::VectorXf的指针
         history_obs.push_back(z_);
         if (z_ == nullptr) {// 说明轨迹追踪不到目标了
             if (true == observed) freeze();
             observed = false;// ocsort 新增
             // 原py代码中：z = np.array([ [None]*dim_z ]).T
-            z = Eigen::VectorXd::Zero(dim_z, 1);
+            z = Eigen::VectorXf::Zero(dim_z, 1);
             x_post = x;
             P_post = P;
-            y = Eigen::VectorXd::Zero(dim_z, 1);
+            y = Eigen::VectorXf::Zero(dim_z, 1);
             return;
         }
         // 如果又接受到观测值了，那么解冻
@@ -181,8 +181,8 @@ namespace ocsort {
             // 因为 new_history 中有一部分可能是 nullptr，所以需要过滤一下,
             // 这里我们只需要取得最后两个有效的观测值
             // box1 = new_history[index1] # 从历史记录中取倒数第二个真实的观测值
-            Eigen::VectorXd box1;           // 倒数第二个
-            Eigen::VectorXd box2;           // 倒数第一个观测值
+            Eigen::VectorXf box1;           // 倒数第二个
+            Eigen::VectorXf box2;           // 倒数第一个观测值
             int lastNotNullIndex = -1;      // 倒数第一个的index
             int secondLastNotNullIndex = -1;// 倒数第二个的index
             for (int i = new_history.size() - 1; i >= 0; i--) {
@@ -228,7 +228,7 @@ namespace ocsort {
                 double h = h1 + (i + 1) * dh;
                 double s = w * h;
                 double r = w / (h * 1.0);
-                Eigen::VectorXd new_box(4, 1);
+                Eigen::VectorXf new_box(4, 1);
                 new_box << x, y, s, r;
                 /*
                     I still use predict-update loop here to refresh the parameters,

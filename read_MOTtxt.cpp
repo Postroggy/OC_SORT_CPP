@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <cassert>
 
 
 using namespace std;
@@ -15,7 +16,7 @@ using std::chrono::duration_cast;
 using std::chrono::high_resolution_clock;
 using std::chrono::milliseconds;
 
-Eigen::Matrix<double, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &filename) {
+Eigen::Matrix<float, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &filename) {
     // 读取CSV文件
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -35,7 +36,7 @@ Eigen::Matrix<double, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &fi
         data.push_back(row);
     }
     // 转换为Eigen::Matrix
-    Eigen::Matrix<double, Eigen::Dynamic, 6> matrix(data.size(), data[0].size());
+    Eigen::Matrix<float, Eigen::Dynamic, 6> matrix(data.size(), data[0].size());
     for (int i = 0; i < data.size(); ++i) {
         for (int j = 0; j < data[0].size(); ++j) {
             matrix(i, j) = data[i][j];
@@ -47,10 +48,10 @@ Eigen::Matrix<double, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &fi
  * @brief 将Vector转为Matrix
  * 
  * @param data 
- * @return Eigen::Matrix<double, Eigen::Dynamic, 6> 
+ * @return Eigen::Matrix<float, Eigen::Dynamic, 6> 
  */
-Eigen::Matrix<double, Eigen::Dynamic, 6> Vector2Matrix(std::vector<std::vector<double>> data) {
-    Eigen::Matrix<double, Eigen::Dynamic, 6> matrix(data.size(), data[0].size());
+Eigen::Matrix<float, Eigen::Dynamic, 6> Vector2Matrix(std::vector<std::vector<float>> data) {
+    Eigen::Matrix<float, Eigen::Dynamic, 6> matrix(data.size(), data[0].size());
     for (int i = 0; i < data.size(); ++i) {
         for (int j = 0; j < data[0].size(); ++j) {
             matrix(i, j) = data[i][j];
@@ -71,19 +72,19 @@ ostream &operator<<(ostream &os, const vector<AnyCls> &v) {
 }
 
 // 将读取的一行数据转为vector，并且从 tlwh=>xyxys
-std::vector<double> String2Vector(std::string line, bool Format = true) {
-    std::vector<double> x;
+std::vector<float> String2Vector(std::string line, bool Format = true) {
+    std::vector<float> x;
     std::stringstream ss(line);
     std::string item;
-    std::vector<double> data;
+    std::vector<float> data;
     while (std::getline(ss, item, ',')) {
         data.push_back(std::stod(item));
     }
     // 取完这一行的data，我们需要转化一下格式
-    double x1 = data[2];
-    double y1 = data[3];
-    double x2 = data[2] + data[4];
-    double y2 = data[3] + data[5];
+    float x1 = data[2];
+    float y1 = data[3];
+    float x2 = data[2] + data[4];
+    float y2 = data[3] + data[5];
     // 我们需要的数据格式：xyxys,score,0
     x.insert(x.end(), {x1, y1, x2, y2, data[6], 0});
     if (Format)
@@ -104,14 +105,14 @@ int main(int argc, char *argv[]) {
         std::string line;
         int flag = 1;
         // 究极大矩阵
-        std::vector<Eigen::MatrixXd> ALL_INPUT;
+        std::vector<Eigen::MatrixXf> ALL_INPUT;
         // 每一帧的矩阵
-        Eigen::MatrixXd Frame_INPUT;
-        std::vector<std::vector<double>> Frame;
+        Eigen::MatrixXf Frame_INPUT;
+        std::vector<std::vector<float>> Frame;
         // 存上一个
-        std::vector<double> Frame_Previous;
-        std::vector<double> tmp_fmt;
-        std::vector<double> tmp;
+        std::vector<float> Frame_Previous;
+        std::vector<float> tmp_fmt;
+        std::vector<float> tmp;
         // for (int i = 0; i < 104; i++) {
         while (true) {
             std::getline(fileA, line);
@@ -149,17 +150,17 @@ int main(int argc, char *argv[]) {
         // 至此，所有的Frame数据，都被存在了ALL_INPUT里面
         std::cout << "Size of data:" << ALL_INPUT.size() << std::endl;
         ocsort::OCSort A = ocsort::OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, true);
-        double OverAll_Time = 0.0;
+        float OverAll_Time = 0.0;
         // 遍历所有的输入，送到OCSORT里面
         for (auto dets: ALL_INPUT) {
             auto T_start = high_resolution_clock::now();
-            std::vector<Eigen::RowVectorXd> res = A.update(dets);
+            std::vector<Eigen::RowVectorXf> res = A.update(dets);
             auto T_end = high_resolution_clock::now();
-            duration<double, std::milli> ms_double = T_end - T_start;
-            OverAll_Time += ms_double.count();
+            duration<float, std::milli> ms_float = T_end - T_start;
+            OverAll_Time += ms_float.count();
         }
         // 计算平均帧率。
-        double avg_cost = OverAll_Time / ALL_INPUT.size();
+        float avg_cost = OverAll_Time / ALL_INPUT.size();
         int FPS = int(1000 / avg_cost);
         std::cout << "Average Time Cost: " << avg_cost << " Avg FPS: " << FPS << std::endl;
     } else
