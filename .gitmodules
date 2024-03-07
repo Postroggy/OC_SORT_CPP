@@ -1,0 +1,6 @@
+[submodule "vcpkg"]
+	path = externals/vcpkg
+	url = https://github.com/microsoft/vcpkg.git
+; [submodule "eigen"]
+; 	path = externals/eigen
+; 	url = https://gitlab.com/libeigen/eigen.git
