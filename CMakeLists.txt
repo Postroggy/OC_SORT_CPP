@@ -1,23 +1,20 @@
 cmake_minimum_required(VERSION 3.21)
-project(OC_SORT_CPP)
-
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/externals/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+project(OC_SORT_CPP VERSION 1.0)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4") # 开启警告
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2") # 开启编译优化
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_RELEASE} /O2") # 开启编译优化
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS_RELEASE} /O2") # 开启编译优化
 
-set(CMAKE_TOOLCHAIN_FILE C:/Users/GYQ/vcpkg/scripts/buildsystems/vcpkg.cmake)
-set(CMAKE_CXX_STANDARD 17)
-
-
-SET(Eigen3_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/share/eigen3")
 find_package(Eigen3 REQUIRED)
-set(OpenCV_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv4")
-find_package(OpenCV REQUIRED)
+# opencv 不是必须的，如果需要，请在 vcpkg.json 处加上再编译
+#set(OpenCV_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/share/opencv4")
+#find_package(OpenCV REQUIRED)
 
 
-# add_subdirectory(src)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 file(GLOB SRC_LIST src/*.cpp)
 

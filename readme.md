@@ -10,14 +10,23 @@ OC-SORT中改进的Kalman Filter只使用了Eigen库实现。
 当前我的设备CPU是:`Ryzen R5 2500U`，编译的时候开启`-O2`优化，平均处理一帧的时间是`5.5ms`。我实现的这版本确实比ByteTrack的C++版本要慢，但是Python原版的比ByteTrack的慢特别多，代码重构成C++还是有提升的，可以在生产环境下试一试了。
 
 # 用法
-首先你需要库有：[Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page)。
-
 下载代码库
 ```bash
-git clone https://github.com/Postroggy/OC_SORT_CPP.git
-cd OC_SORT_CPP
+git clone https://github.com/Postroggy/OC_SORT_CPP.git --recursive
 ```
-将`src`文件夹是对头文件中定义的函数的实现，`include`文件夹负责定义头文件。使用时将整个 OC_SORT 打包成动态链接库即可。  
+下载vcpkg二进制文件
+```bash
+cd OC_SORT_CPP/externals/vcpkg
+./bootstrap-vcpkg.bat -useSystemBinaries # windows
+./bootstrap-vcpkg.sh -useSystemBinaries # linux
+```
+CMake编译命令：
+```cmake
+cmake -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=ninja -G Ninja -S [path to]\OC_SORT_CPP -B [path-to]\OC_SORT_CPP\cmake-build-debug
+```
+使用vcpkg的manifest mode，依赖会自动下载。
+
+`src`文件夹是对头文件中定义的函数的实现，`include`文件夹负责定义头文件。使用时将整个 OC_SORT 打包成动态链接库即可。  
 ## 示例(使用CMake)
 假设文件目录如下
 ```text
@@ -30,6 +39,7 @@ cd OC_SORT_CPP
 `CMakeLists.txt`内容如下：
 ```cmake
 cmake_minimum_required(VERSION 3.21)
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/externals/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
 project(OC_SORT_CPP)
 
 set(CMAKE_CXX_STANDARD 17)

@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "name": "ocsort_cpp",
+  "name": "ocsort-cpp",
   "version": "1.0",
   "dependencies": [
-    "eigen"
+    "eigen3"
   ]
 }
