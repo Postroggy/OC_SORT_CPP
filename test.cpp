@@ -61,12 +61,15 @@ std::ostream &operator<<(std::ostream &os, const std::vector<AnyCls> &v) {
 int main(int argc, char *argv[]) {
     ocsort::OCSort A = ocsort::OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, true);
     std::ostringstream filename;
-    // 打开视频
-    // cv::VideoCapture cap("C://SOTA//DATASET//MOT17//train//MOT17-02-FRCNN//img1//output.mp4");
-    // if (!cap.isOpened()) {
-    //     std::cout << "Error opening video file" << std::endl;
-    //     return -1;
-    // }
+    // 打开视频，这个视频 和它对应的数据都是可以在MOTChallange 官网找的到的。
+    std::string Video_filePath;
+    std::cout<<"Plz input the video Absoulte path: ";
+    std::cin>>Video_filePath;
+    cv::VideoCapture cap(Video_filePath);
+    if (!cap.isOpened()) {
+        std::cout << "Error opening video file Please check the Video file Path" << std::endl;
+        return -1;
+    }
     // 临时帧
     cv::Mat frame;
     // 记录总耗时
@@ -74,35 +77,36 @@ int main(int argc, char *argv[]) {
     for (int i = 1; i < 526; i++) {
         // std::cout << "============== " << i << " =============" << std::endl;
         filename.str("");
+        //TODO: MOTChallange官方给的数据是文件夹的形式，里面有多个csv文件，编译的话，你需要自己修改一下这个路径。
         filename << "C:/SOTA/figure_ocsort/MOT_xyxys/private/SeedDet/MOT17-02/" << i << ".csv";
         // filename << "../test_data/MOT17-01/" << i << ".csv";
         Eigen::Matrix<double, Eigen::Dynamic, 6> dets = read_csv_to_eigen(filename.str());
         auto T_start = high_resolution_clock::now();
-        std::vector<Eigen::RowVectorXd> res = A.update(dets);
+        std::vector<Eigen::RowVectorXf> res = A.update(dets);
         auto T_end = high_resolution_clock::now();
         auto ms_int = duration_cast<milliseconds>(T_end - T_start);
         duration<double, std::milli> ms_double = T_end - T_start;
         // 打印计算耗时
-        // std::cout << "computation cost: " << ms_int.count() << " ms" << std::endl;
+        std::cout << "computation cost: " << ms_int.count() << " ms" << std::endl;
         // 累加时间
         OverAll_Time += ms_double.count();
-        // 将追踪结果显示在桌面上
-        // cap.read(frame);
-        // // 绘制追踪结果，输出格式：左上、右下、ID、class、conf
-        // for (auto j: res) {
-        //     int ID = int(j[4]);
-        //     int Class = int(j[5]);
-        //     float conf = j[6];
-        //     cv::putText(frame, cv::format("ID:%d", ID), cv::Point(j[0], j[1] - 5), 0, 0.5, cv::Scalar(229, 115, 115), 2, cv::LINE_AA);
-        //     cv::rectangle(frame, cv::Rect(j[0], j[1], j[2] - j[0] + 1, j[3] - j[1] + 1), cv::Scalar(3, 155, 229), 2);
-        // }
-        // cv::imshow("Video", frame);// 显示帧
-        // if (cv::waitKey(1) == 27) {// 按下ESC推出
-        //     std::cout << "Program Terminate" << std::endl;
-        //     cap.release();
-        //     cv::destroyAllWindows();
-        //     return 0;
-        // }
+        //将追踪结果显示在桌面上
+        cap.read(frame);
+        // 绘制追踪结果，输出格式：左上、右下、ID、class、conf
+        for (auto j: res) {
+            int ID = int(j[4]);
+            int Class = int(j[5]);
+            float conf = j[6];
+            cv::putText(frame, cv::format("ID:%d", ID), cv::Point(j[0], j[1] - 5), 0, 0.5, cv::Scalar(229, 115, 115), 2, cv::LINE_AA);
+            cv::rectangle(frame, cv::Rect(j[0], j[1], j[2] - j[0] + 1, j[3] - j[1] + 1), cv::Scalar(3, 155, 229), 2);
+        }
+        cv::imshow("Video", frame);// 显示帧
+        if (cv::waitKey(1) == 27) {// 按下ESC推出
+            std::cout << "Program Terminate" << std::endl;
+            cap.release();
+            cv::destroyAllWindows();
+            return 0;
+        }
     }
     // 计算平均帧率。
     double avg_cost = OverAll_Time/526;

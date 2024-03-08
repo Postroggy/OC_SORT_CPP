@@ -97,7 +97,10 @@ int main(int argc, char *argv[]) {
     // 创建文件句柄
     std::ostringstream filename;
     // 读取数据
-    filename << "../../test_data/MOT17-02.txt";
+    std::string filePath;
+    std::cout<<"Plz enter the MOT data path: ";
+    std::cin>>filePath;
+    filename << filePath;
     std::ifstream fileA(filename.str());
     if (fileA.is_open()) {
         std::cout << "File is Opened, Path is:" << filename.str() << "\n";
@@ -148,7 +151,7 @@ int main(int argc, char *argv[]) {
             }
         }
         // 至此，所有的Frame数据，都被存在了ALL_INPUT里面
-        std::cout << "Size of data:" << ALL_INPUT.size() << std::endl;
+        std::cout << "Size of data: " << ALL_INPUT.size() << std::endl;
         ocsort::OCSort A = ocsort::OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, true);
         float OverAll_Time = 0.0;
         // 遍历所有的输入，送到OCSORT里面
@@ -162,7 +165,7 @@ int main(int argc, char *argv[]) {
         // 计算平均帧率。
         float avg_cost = OverAll_Time / ALL_INPUT.size();
         int FPS = int(1000 / avg_cost);
-        std::cout << "Average Time Cost: " << avg_cost << " Avg FPS: " << FPS << std::endl;
+        std::cout << "Average Time Cost per Frame: " << avg_cost << " Avg FPS: " << FPS << std::endl;
     } else
         std::cout << "open Failed" << std::endl;
 
