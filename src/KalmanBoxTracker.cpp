@@ -72,6 +72,16 @@ namespace ocsort {
                 if (0 == previous_box_tmp.size()) {     // 如果previous_box_tmp并没有在上一个for-loop中被赋值
                     previous_box_tmp = last_observation;// 则将上一个观测值赋给他
                 }
+                // small patch to improve performance
+                // remove redundant old data, NOTE: it may cause malfunction on tracking accuracy
+                const int maxSize = 300;
+                if( observations.size() > maxSize){
+                    auto oldest_iter = observations.begin();
+                    for(auto i = observations.begin(); i != observations.end();i++){
+                        if(i->first < oldest_iter->first) oldest_iter = i;
+                    }
+                    observations.erase(oldest_iter);
+                }
                 ////////////////////////
                 //// Estimate the track speed direction with observations \Delta t steps away//
                 ////////////////////////

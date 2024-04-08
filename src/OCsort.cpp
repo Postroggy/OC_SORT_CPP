@@ -79,9 +79,8 @@ namespace ocsort {
             }
         }
         /*get predicted locations from existing trackers.*/
-        // (0,5)不会引起bug？ 是的，不会
         Eigen::MatrixXf trks = Eigen::MatrixXf::Zero(trackers.size(), 5);
-        // 要删除的轨迹？但是后面不判断Nan，这个数组就没用了
+        // TODO: 要删除的轨迹？但是后面不判断Nan，这个数组就没用了
         std::vector<int> to_del;
         std::vector<Eigen::RowVectorXf> ret;// 要返回的结果? 里面是 [1,7] 的行向量
         // 遍历 trks , 按行遍历
@@ -121,7 +120,7 @@ namespace ocsort {
         ///////////////////////
         /// Step2 Second round of associaton by OCR to find lost tracks back
         //////////////////////
-        // BYTE 的关联，5月4日 写的
+        // 融合 BYTE算法 的关联
         if (true == use_byte && dets_second.rows() > 0 && unmatched_trks.size() > 0) {
             Eigen::MatrixXf u_trks(unmatched_trks.size(), trks.cols());
             int index_for_u_trks = 0;
@@ -202,7 +201,7 @@ namespace ocsort {
                     uniform here for simplicity
                  * */
                 // 找回丢失的track
-                // todo：lapjv用的别人实现的库
+                // note：lapjv用的别人实现的库
                 // 先把 iou_left 转成 二维 vector，转换的过程中元素取反
                 std::vector<std::vector<float>> iou_matrix(iou_left.rows(), std::vector<float>(iou_left.cols()));
                 for (int i = 0; i < iou_left.rows(); i++) {
