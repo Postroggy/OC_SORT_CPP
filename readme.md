@@ -57,7 +57,7 @@ target_link_directories(OCSORT PUBLIC include)
 target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
 ```
 
-`test.cpp`中的内容：[见文件](https://github.com/Postroggy/OC_SORT_CPP/test.cpp)
+`test.cpp`中的内容：[见文件](https://github.com/Postroggy/OC_SORT_CPP/blob/master/test.cpp)
 
 # 代码优化
 :construction:
