@@ -53,7 +53,7 @@ namespace ocsort {
         // x = Fx+Bu , 但是这里我不考虑 u 和 B
         x = F * x;
         // P = FPF' + Q , 其中F'是F的转置
-        P = _alpha_sq * ((F * P), F.transpose()) + Q;
+        P = _alpha_sq * ((F * P) * F.transpose()) + Q;
         // 保存之前的值
         x_prior = x;
         P_prior = P;
