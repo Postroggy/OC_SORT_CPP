@@ -17,7 +17,7 @@ using std::chrono::duration_cast;
 using std::chrono::high_resolution_clock;
 using std::chrono::milliseconds;
 
-Eigen::Matrix<double, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &filename) {
+Eigen::Matrix<float, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &filename) {
     // 读取CSV文件
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -37,7 +37,7 @@ Eigen::Matrix<double, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &fi
         data.push_back(row);
     }
     // 转换为Eigen::Matrix
-    Eigen::Matrix<double, Eigen::Dynamic, 6> matrix(data.size(), data[0].size());
+    Eigen::Matrix<float, Eigen::Dynamic, 6> matrix(data.size(), data[0].size());
     for (int i = 0; i < data.size(); ++i) {
         for (int j = 0; j < data[0].size(); ++j) {
             matrix(i, j) = data[i][j];
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
         //TODO: MOTChallange官方给的数据是文件夹的形式，里面有多个csv文件，编译的话，你需要自己修改一下这个路径。
         filename << "C:/SOTA/figure_ocsort/MOT_xyxys/private/SeedDet/MOT17-02/" << i << ".csv";
         // filename << "../test_data/MOT17-01/" << i << ".csv";
-        Eigen::Matrix<double, Eigen::Dynamic, 6> dets = read_csv_to_eigen(filename.str());
+        Eigen::Matrix<float, Eigen::Dynamic, 6> dets = read_csv_to_eigen(filename.str());
         auto T_start = high_resolution_clock::now();
         std::vector<Eigen::RowVectorXf> res = A.update(dets);
         auto T_end = high_resolution_clock::now();

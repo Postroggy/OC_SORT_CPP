@@ -28,15 +28,16 @@ namespace ocsort {
         bbox << x(0) - w / 2, x(1) - h / 2, x(0) + w / 2, x(1) + h / 2;
         return bbox;
     }
-    Eigen::VectorXf k_previous_obs(std::unordered_map<int, Eigen::VectorXf> observations_, int cur_age, int k) {
+    Eigen::VectorXf k_previous_obs(const std::map<int, Eigen::VectorXf> &observations, int cur_age, int k) {
         // 返回observations_中的某个观测值 (5,1)=>检测的坐标
-        if (observations_.size() == 0) return Eigen::VectorXf::Constant(5, -1.0);
-        for (int i = 0; i < k; i++) {
+        if (observations.empty()) return Eigen::VectorXf::Constant(5, -1.0);
+
+        for (int i = 0; i < k; ++i) {
             int dt = k - i;// 这是 \Delta_t 求导数用
-            if (observations_.count(cur_age - dt) > 0) return observations_.at(cur_age - dt);
+            auto it = observations.find(cur_age - dt);
+            if (it != observations.end()) return it->second;
         }
-        auto iter = std::max_element(observations_.begin(), observations_.end(), [](const std::pair<int, Eigen::VectorXf> &p1, const std::pair<int, Eigen::VectorXf> &p2) { return p1.first < p2.first; });
-        int max_age = iter->first;// 找出 map中最大的键key
-        return observations_[max_age];
+        auto max_iter = observations.rbegin();// 找出 map中最大的键key
+        return max_iter->second;
     }
 }// namespace ocsort

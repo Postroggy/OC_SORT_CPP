@@ -53,12 +53,12 @@ namespace ocsort {
         // x = Fx+Bu , 但是这里我不考虑 u 和 B
         x = F * x;
         // P = FPF' + Q , 其中F'是F的转置
-        P = _alpha_sq * ((F * P) * F.transpose()) + Q;
+        P.noalias() = _alpha_sq * ((F * P) * F.transpose()) + Q;
         // 保存之前的值
         x_prior = x;
         P_prior = P;
     }
-    void KalmanFilterNew::update(Eigen::VectorXf *z_) {
+    void KalmanFilterNew::update(Eigen::VectorXf z_) {
         // 函数原型：update(self, z, R=None, H=None)，但是R H这里用不到
         // 传递的参数是指针类型的才好用空指针代替python中的 None
         /*
@@ -82,7 +82,7 @@ namespace ocsort {
         // NOTE:说明一下，z_ 的形状是 [dim_z,1] 的即[4,1]
         // 将新来的观测值加入到 history_obs 中,数组中存的是 Eigen::VectorXf的指针
         history_obs.push_back(z_);
-        if (z_ == nullptr) {// 说明轨迹追踪不到目标了
+        if (z_.size() == 0) {// 说明轨迹追踪不到目标了
             if (true == observed) freeze();
             observed = false;// ocsort 新增
             // 原py代码中：z = np.array([ [None]*dim_z ]).T
@@ -102,24 +102,28 @@ namespace ocsort {
         observed = true;
         // 下面是正经的更新算法
         // y = z - Hx , 残差 between measurement观测 and prediction预测
-        y = *z_ - H * x;
+        y.noalias() = z_ - H * x;
         // 下面这个表达式PH' 因为在计算S和K都有用到，所以先保存，减少计算量
-        auto PHT = P * H.transpose();
+        Eigen::MatrixXf PHT;
+        PHT.noalias() = P * H.transpose();
         // S = HPH' + R, 其中 H'是H的转置,S是观测残差的协方差
-        S = H * PHT + R;
+        S.noalias() = H * PHT + R;
         // S的逆矩阵，后续计算要用到
         SI = S.inverse();
         // K = PH'SI ，计算最优kalman增益
-        K = PHT * SI;
+        K.noalias() = PHT * SI;
         // note:更新x
-        x = x + K * y;
+        x.noalias() = x + K * y;
         // note:更新P
         /*This is more numerically stable and works for non-optimal K vs the
          * equation P = (I-KH)P usually seen in the literature.*/
-        auto I_KH = I - K * H;
-        P = ((I_KH * P) * I_KH.transpose()) + ((K * R) * K.transpose());
+        Eigen::MatrixXf I_KH;
+        I_KH.noalias() = I - K * H;
+        Eigen::MatrixXf P_INT;
+        P_INT.noalias() = (I_KH * P);
+        P.noalias() = (P_INT * I_KH.transpose()) + ((K * R) * K.transpose());
         // save the measurement and posterior state
-        z = *z_;
+        z = z_;
         x_post = x;
         P_post = P;
     }
@@ -186,15 +190,15 @@ namespace ocsort {
             int lastNotNullIndex = -1;      // 倒数第一个的index
             int secondLastNotNullIndex = -1;// 倒数第二个的index
             for (int i = new_history.size() - 1; i >= 0; i--) {
-                if (new_history[i] != nullptr) {
+                if (new_history[i].size() > 0) {// != nullptr) {
                     if (lastNotNullIndex == -1) {
-                        // 当前元素为最后一个非nullptr的元素
+                        // The current element is the last non -NULLPTR element
                         lastNotNullIndex = i;
-                        box2 = *(new_history.at(lastNotNullIndex));
+                        box2 = new_history.at(lastNotNullIndex);
                     } else if (secondLastNotNullIndex == -1) {
-                        // 当前元素为倒数第二个非nullptr的元素
+                        // The current element is the last second non -NULLPTR element
                         secondLastNotNullIndex = i;
-                        box1 = *(new_history.at(secondLastNotNullIndex));
+                        box1 = new_history.at(secondLastNotNullIndex);
                         break;
                     }
                 }
@@ -208,8 +212,8 @@ namespace ocsort {
             double y2 = box2[1];
             double w1 = std::sqrt(box1[2] * box1[3]);
             double h1 = std::sqrt(box1[2] / box1[3]);
-            double w2 = std::sqrt(box1[2] * box1[3]);
-            double h2 = std::sqrt(box1[2] / box1[3]);
+            double w2 = std::sqrt(box2[2] * box2[3]);
+            double h2 = std::sqrt(box2[2] / box2[3]);
             // 计算对时间的导数
             double dx = (x2 - x1) / time_gap;// X 轴方向速度
             double dy = (y1 - y2) / time_gap;// Y 轴方向速度
@@ -239,22 +243,26 @@ namespace ocsort {
                  */
                 // 下面是正经的更新算法
                 // y = z - Hx , 残差 between measurement 观测 and prediction 预测
-                this->y = new_box - this->H * this->x;
+                this->y.noalias() = new_box - this->H * this->x;
                 // 下面这个表达式PH' 因为在计算S和K都有用到，所以先保存，减少计算量
-                auto PHT = this->P * this->H.transpose();
+                Eigen::MatrixXf PHT;
+                PHT.noalias() = this->P * this->H.transpose();
                 // S = HPH' + R, 其中 H'是H的转置,S是观测残差的协方差
-                this->S = this->H * PHT + this->R;
+                this->S.noalias() = this->H * PHT + this->R;
                 // S的逆矩阵，后续计算要用到
                 this->SI = (this->S).inverse();
                 // K = PH'SI ，计算最优kalman增益
-                this->K = PHT * this->SI;
+                this->K.noalias() = PHT * this->SI;
                 // note:更新x
-                this->x = this->x + this->K * this->y;
+                this->x.noalias() = this->x + this->K * this->y;
                 // note:更新P
                 /*This is more numerically stable and works for non-optimal K vs the
                  * equation P = (I-KH)P usually seen in the literature.*/
-                auto I_KH = this->I - this->K * this->H;
-                this->P = ((I_KH * this->P) * I_KH.transpose()) + ((this->K * this->R) * (this->K).transpose());
+                Eigen::MatrixXf I_KH;
+                I_KH.noalias() = this->I - this->K * this->H;
+                Eigen::MatrixXf P_INT;
+                P_INT.noalias() = (I_KH * this->P);
+                this->P.noalias() = (P_INT * I_KH.transpose()) + ((this->K * this->R) * (this->K).transpose());
                 // save the measurement and posterior state
                 this->z = new_box;
                 this->x_post = this->x;
