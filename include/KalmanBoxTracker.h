@@ -36,7 +36,7 @@ namespace ocsort {
         int cls;
         // 下面变量是 ocsort 相较于 sort 增加的, fixme: 实际上这里应该是(1,5)的呀？ python 版本是 (1,5),这里是行向量看会不会出问题
         Eigen::RowVectorXf last_observation = Eigen::RowVectorXf::Zero(5);
-        std::unordered_map<int, Eigen::VectorXf> observations;// 这里必须是hash类型的，才能跟python的dict()对应
+        std::map<int, Eigen::VectorXf> observations;// 这里必须是hash类型的，才能跟python的dict()对应
         std::vector<Eigen::VectorXf> history_observations;
         Eigen::RowVectorXf velocity = Eigen::RowVectorXf::Zero(2);// [2,1]
         int delta_t;

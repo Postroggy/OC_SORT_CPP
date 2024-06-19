@@ -61,12 +61,11 @@ namespace ocsort {
             cls = cls_;
             if (int(last_observation.sum()) >= 0) {
                 Eigen::VectorXf previous_box_tmp;
-                for (int i = 0; i < delta_t; ++i) {
-                    int dt = delta_t - i;
-                    if (observations.count(age - dt) > 0) {
-                        // 如果在map中存在
-                        previous_box_tmp = observations[age - dt];
-                        break;// 跳出循环
+                for (int dt = delta_t; dt > 0; --dt) {
+                    auto it = observations.find(age - dt);
+                    if (it != observations.end()) {
+                        previous_box_tmp = it->second;
+                        break;
                     }
                 }
                 if (0 == previous_box_tmp.size()) {     // 如果previous_box_tmp并没有在上一个for-loop中被赋值
@@ -76,11 +75,7 @@ namespace ocsort {
                 // remove redundant old data, NOTE: it may cause malfunction on tracking accuracy
                 const int maxSize = 300;
                 if( observations.size() > maxSize){
-                    auto oldest_iter = observations.begin();
-                    for(auto i = observations.begin(); i != observations.end();i++){
-                        if(i->first < oldest_iter->first) oldest_iter = i;
-                    }
-                    observations.erase(oldest_iter);
+                    observations.erase(observations.begin());
                 }
                 ////////////////////////
                 //// Estimate the track speed direction with observations \Delta t steps away//
@@ -102,10 +97,10 @@ namespace ocsort {
             hits += 1;
             hit_streak += 1;
             Eigen::VectorXf tmp = convert_bbox_to_z(*bbox_);
-            kf->update(&tmp);
+            kf->update(tmp);
         } else {
             /*如果没有检测到 bbox，也更新，KalmanFilter函数写好了应对这种情况的*/
-            kf->update(nullptr);
+            kf->update(Eigen::VectorXf());
         }
     }
 
@@ -122,8 +117,9 @@ namespace ocsort {
         if (time_since_update > 0) hit_streak = 0;
         time_since_update += 1;
         // fixme: 发现自己写错了，这里 append到history的应该是 kf->x 而不是 kf->z
-        history.push_back(convert_x_to_bbox(kf->x));
-        return convert_x_to_bbox(kf->x);// 返回 history 中的最后一个元素
+        auto vec_out = convert_x_to_bbox(kf->x);
+        history.push_back(vec_out);
+        return vec_out;
     }
     Eigen::VectorXf KalmanBoxTracker::get_state() {
         return convert_x_to_bbox(kf->x);

@@ -131,10 +131,10 @@ namespace ocsort {
         Eigen::MatrixXf iou_matrix = iou_batch(detections, trackers);
         Eigen::MatrixXf scores = detections.col(detections.cols() - 2).replicate(1, trackers.rows());// 取倒数第二列,fixme:置信度吧好像是
         Eigen::Matrix<bool, Eigen::Dynamic, Eigen::Dynamic> valid_mask_ = (valid_mask.transpose()).replicate(1, X.cols());
-        Eigen::MatrixXf angle_diff_cost = ((((valid_mask_.cast<float>()).array() * diff_angle.array()).array() * vdc_weight)
-                                                   .transpose())
-                                                  .array() *
-                                          scores.array();
+        Eigen::MatrixXf angle_diff_cost;
+        auto valid_float = valid_mask_.cast<float>();
+        auto intermediate_result = (valid_float.array() * diff_angle.array() * vdc_weight).transpose();
+        angle_diff_cost.noalias() = (intermediate_result.array() * scores.array()).matrix();
         // TMD， 被这个局部变量坑惨了
         Eigen::Matrix<float, Eigen::Dynamic, 2> matched_indices(0, 2);// 跟python不一样，这个局部变量应该定义在这里
         if (std::min(iou_matrix.cols(), iou_matrix.rows()) > 0) {

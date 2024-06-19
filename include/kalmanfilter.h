@@ -9,7 +9,7 @@ namespace ocsort {
         KalmanFilterNew();
         KalmanFilterNew(int dim_x_, int dim_z_);
         void predict();
-        void update(Eigen::VectorXf *z_);
+        void update(Eigen::VectorXf z_);
         void freeze();
         void unfreeze();
         KalmanFilterNew& operator=(const KalmanFilterNew&) = default;
@@ -57,11 +57,11 @@ namespace ocsort {
         Eigen::VectorXf x_post;
         Eigen::MatrixXf P_post;
         // keeps all observation ,有z的时候，直接 push_back()
-        std::vector<Eigen::VectorXf *> history_obs;
+        std::vector<Eigen::VectorXf > history_obs;
         // 下面是 ocsort 新增加的
         // 用来标记追踪的状态(是否任然有目标与这个轨迹匹配),默认是 false
         bool observed = false;
-        std::vector<Eigen::VectorXf *> new_history; // 用于建立虚拟轨迹
+        std::vector<Eigen::VectorXf > new_history; // 用于建立虚拟轨迹
         /* todo: 换一种方式存变量吧，C++中没有python的self.__dict__
          * 用 map<string,any>存内存开销大，而且重新赋值给Eigen数据的时候会报错，
          * 群里有人说用 metadata(元信息)可以做到，但是我不会
@@ -86,7 +86,7 @@ namespace ocsort {
             Eigen::MatrixXf P_prior;
             Eigen::VectorXf x_post;
             Eigen::MatrixXf P_post;
-            std::vector<Eigen::VectorXf *> history_obs;
+            std::vector<Eigen::VectorXf > history_obs;
             bool observed = false;
             // 下面是为了判断是否被freeze保存了数据
             bool IsInitialized = false;
