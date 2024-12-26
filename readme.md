@@ -7,7 +7,7 @@ OC-SORT中改进的Kalman Filter只使用了Eigen库实现。
 后续我可能会尝试发布将OCSORT与检测器接合的部署在资源有限设备上的应用。
 
 # OC-Sort on Android Device
-Thanks to [FeiGeChuanShu](https://github.com/FeiGeChuanShu/ncnn-android-yolov8), 修改了一下他的代码，将OC-Sort缝上去了。
+Thanks to [FeiGeChuanShu](https://github.com/FeiGeChuanShu/ncnn-android-yolov8), 修改了一下他的代码，将OC-Sort缝上去了，代码见`android-demo/`文件夹。
 
 [Release Apk](https://github.com/Postroggy/OC_SORT_CPP/releases/tag/v1.0.0)
 
