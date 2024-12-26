@@ -6,6 +6,25 @@ OC-SORT中改进的Kalman Filter只使用了Eigen库实现。
 
 后续我可能会尝试发布将OCSORT与检测器接合的部署在资源有限设备上的应用。
 
+# OC-Sort on Android Device
+Thanks to [FeiGeChuanShu](https://github.com/FeiGeChuanShu/ncnn-android-yolov8), 修改了一下他的代码，将OC-Sort缝上去了。
+
+[Release Apk]()
+
+
+## 编译环境
+NCNN库一直都在发布新版本，如果你想用最新的，可以换掉，但是注意对应的NDK匹配问题。
+- Android Studio
+- NDK(25.2.9519653)
+- Ncnn(20230223)
+- Cmake(3.31.1)
+- Gradle(8.7.3)
+
+## Yolo模型
+使用的是Nano和Small两个尺寸的模型。
+
+如果想使用更大尺寸的模型，可以参考NCNN官方文档如何转换，然后放在`app\src\main\assets`目录下；再修改`strings.xml`和`yolov8ncnn.cpp`中的`modeltypes`变量即可。
+
 # 运行速度
 当前我的设备CPU是:`Ryzen R5 2500U`，编译的时候开启`-O2`优化，平均处理一帧的时间是`5.5ms`。我实现的这版本确实比ByteTrack的C++版本要慢，但是Python原版的比ByteTrack的慢特别多，代码重构成C++还是有提升的，可以在生产环境下试一试了。
 
