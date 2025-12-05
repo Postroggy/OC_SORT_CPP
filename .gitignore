@@ -1,9 +1,44 @@
+# Build directories
 cmake-*
-.idea
-.vs
-.vscode
-BINARY_DATA
-OUTPUT_DATA
-MOT17
-build
-.git
+build/
+out/
+
+# IDE
+.idea/
+.vs/
+.vscode/
+*.vcxproj*
+*.sln
+
+# Data folders
+BINARY_DATA/
+OUTPUT_DATA/
+MOT17/
+test_data/*.txt
+
+# Compiled files
+*.exe
+*.dll
+*.lib
+*.obj
+*.o
+*.a
+*.so
+*.dylib
+
+# CMake generated
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# vcpkg
+vcpkg_installed/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
