@@ -1,9 +1,9 @@
 #ifndef OC_SORT_CPP_ASSOCIATION_H
 #define OC_SORT_CPP_ASSOCIATION_H
 #include "Eigen/Dense"
-#include <algorithm>
-#include "vector"
 #include "lapjv.h"
+#include "vector"
+#include <algorithm>
 #define pi 3.1415926
 
 namespace ocsort {

@@ -76,5 +76,5 @@ extern int_t lapmod_internal(
         const uint_t n, cost_t *cc, uint_t *ii, uint_t *kk,
         int_t *x, int_t *y, fp_t fp_version);
 float execLapjv(const std::vector<std::vector<float>> &cost, std::vector<int> &rowsol,
-                 std::vector<int> &colsol, bool extend_cost, float cost_limit, bool return_cost);
+                std::vector<int> &colsol, bool extend_cost, float cost_limit, bool return_cost);
 #endif//OC_SORT_CPP_LAPJV_H
