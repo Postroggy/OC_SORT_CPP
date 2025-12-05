@@ -270,8 +270,8 @@ namespace ocsort {
         /*create and initialise new trackers for unmatched detections*/
         for (int i: unmatched_dets) {
             Eigen::RowVectorXf tmp_bbox = dets_first.block(i, 0, 1, 5);
-            // todo 4.28 17:25 ,  dets(i, 5) is the class of the target
-            int cls_ = int(dets(i, 5));
+            // dets_first(i, 5) is the class of the target
+            int cls_ = int(dets_first(i, 5));
             KalmanBoxTracker trk = KalmanBoxTracker(tmp_bbox, cls_, delta_t);
             // Append newly created to trackers
             trackers.push_back(trk);
