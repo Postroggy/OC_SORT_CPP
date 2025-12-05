@@ -10,7 +10,8 @@ namespace ocsort {
     class KalmanBoxTracker {
     public:
         /*method*/
-        KalmanBoxTracker() {};
+        KalmanBoxTracker() : kf(nullptr) {};
+        ~KalmanBoxTracker() { delete kf; }// Free allocated memory
         KalmanBoxTracker(Eigen::VectorXf bbox_, int cls_, int delta_t_ = 3);
         void update(Eigen::Matrix<float, 5, 1> *bbox_, int cls_);
         Eigen::RowVectorXf predict();// Returns a (1,4) row vector

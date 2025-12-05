@@ -29,7 +29,6 @@ namespace ocsort {
         std::unordered_map<std::string, std::function<Eigen::MatrixXf(const Eigen::MatrixXf &, const Eigen::MatrixXf &)>> ASSO_FUNCS{
                 {"iou", iou_batch},
                 {"giou", giou_batch}};
-        ;
         // Determine the function to be used
         std::function<Eigen::MatrixXf(const Eigen::MatrixXf &, const Eigen::MatrixXf &)> asso_func = ASSO_FUNCS[asso_func_];
         inertia = inertia_;
