@@ -40,9 +40,15 @@ cd OC_SORT_CPP/externals/vcpkg
 ./bootstrap-vcpkg.bat -useSystemBinaries # windows
 ./bootstrap-vcpkg.sh -useSystemBinaries # linux
 ```
-CMake编译命令：
-```cmake
-cmake -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=ninja -G Ninja -S [path to]\OC_SORT_CPP -B [path-to]\OC_SORT_CPP\cmake-build-debug
+CMake编译命令（使用 Ninja）：
+```bash
+cmake -DCMAKE_BUILD_TYPE=Debug -G Ninja -S [path-to]/OC_SORT_CPP -B [path-to]/OC_SORT_CPP/cmake-build-debug
+cmake --build [path-to]/OC_SORT_CPP/cmake-build-debug
+```
+或者使用 Visual Studio（Windows）：
+```bash
+cmake -G "Visual Studio 17 2022" -A x64 -S [path-to]/OC_SORT_CPP -B [path-to]/OC_SORT_CPP/build
+cmake --build [path-to]/OC_SORT_CPP/build --config Release
 ```
 使用vcpkg的manifest mode，依赖会自动下载。
 
@@ -72,8 +78,8 @@ add_library(OCLib SHARED ${SRC_LIST})
 target_include_directories(OCLib PUBLIC include)
 target_link_libraries(OCLib Eigen3::Eigen)
 
-add_executable(OCSORT test.cpp)
-target_link_directories(OCSORT PUBLIC include)
+add_executable(test test.cpp)
+target_include_directories(test PUBLIC include)
 target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
 ```
 

@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Compiler optimization flags (cross-platform)
 if(MSVC)
     # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4") # Enable warnings
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8")  # UTF-8 source and execution charset
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2")
 else()
     # GCC/Clang

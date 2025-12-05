@@ -121,7 +121,7 @@ namespace ocsort {
         Eigen::MatrixXf inertia_X_ = inertia_X.replicate(1, X.cols());
         Eigen::MatrixXf diff_angle_cos = inertia_X_.array() * X.array() + inertia_Y_.array() * Y.array();
         // 计算了两个向量的余弦后，应该将他们的值限制在 -1 ~ 1 之间，保证计算的正确性
-        diff_angle_cos = (diff_angle_cos.array().min(1).max(-1)).matrix();
+        diff_angle_cos = diff_angle_cos.array().cwiseMin(1.0f).cwiseMax(-1.0f).matrix();
         // 计算反余弦值
         Eigen::MatrixXf diff_angle = Eigen::acos(diff_angle_cos.array());
         // fixme: 差点忘记这一步了： diff_angle = (np.pi /2.0 - np.abs(diff_angle)) / np.pi
