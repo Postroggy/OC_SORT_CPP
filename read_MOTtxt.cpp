@@ -1,29 +1,30 @@
 #include <Eigen/Dense>
 #include <OCsort.h>
-#include <chrono>// 用于计算耗时
+#include <cassert>
+#include <chrono>// for timing
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include <cassert>
+
 
 
 using namespace std;
 using namespace Eigen;
 using namespace ocsort;
-/* 用于计时 */
+/* for timing */
 using std::chrono::duration;
 using std::chrono::duration_cast;
 using std::chrono::high_resolution_clock;
 using std::chrono::milliseconds;
 
 Eigen::Matrix<float, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &filename) {
-    // 读取CSV文件
+    // Read CSV file
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Failed to open file!" << std::endl;
         exit(1);
     }
-    // 解析CSV格式
+    // Parse CSV format
     std::string line;
     std::vector<std::vector<float>> data;
     while (std::getline(file, line)) {
@@ -35,7 +36,7 @@ Eigen::Matrix<float, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &fil
         }
         data.push_back(row);
     }
-    // 转换为Eigen::Matrix
+    // Convert to Eigen::Matrix
     Eigen::Matrix<float, Eigen::Dynamic, 6> matrix(data.size(), data[0].size());
     for (int i = 0; i < data.size(); ++i) {
         for (int j = 0; j < data[0].size(); ++j) {
@@ -45,7 +46,7 @@ Eigen::Matrix<float, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &fil
     return matrix;
 }
 /**
- * @brief 将Vector转为Matrix
+ * @brief Convert Vector to Matrix
  * 
  * @param data 
  * @return Eigen::Matrix<float, Eigen::Dynamic, 6> 
@@ -59,7 +60,7 @@ Eigen::Matrix<float, Eigen::Dynamic, 6> Vector2Matrix(std::vector<std::vector<fl
     }
     return matrix;
 }
-// 重载 << 输出 vector
+// Overload << operator for vector output
 template<typename AnyCls>
 ostream &operator<<(ostream &os, const vector<AnyCls> &v) {
     os << "{";
@@ -71,7 +72,7 @@ ostream &operator<<(ostream &os, const vector<AnyCls> &v) {
     return os;
 }
 
-// 将读取的一行数据转为vector，并且从 tlwh=>xyxys
+// Convert a line of data to vector, and convert from tlwh => xyxys format
 std::vector<float> String2Vector(std::string line, bool Format = true) {
     std::vector<float> x;
     std::stringstream ss(line);
@@ -80,12 +81,12 @@ std::vector<float> String2Vector(std::string line, bool Format = true) {
     while (std::getline(ss, item, ',')) {
         data.push_back(std::stod(item));
     }
-    // 取完这一行的data，我们需要转化一下格式
+    // After parsing this line, we need to convert the format
     float x1 = data[2];
     float y1 = data[3];
     float x2 = data[2] + data[4];
     float y2 = data[3] + data[5];
-    // 我们需要的数据格式：xyxys,score,0
+    // Required data format: xyxys, score, 0
     x.insert(x.end(), {x1, y1, x2, y2, data[6], 0});
     if (Format)
         return x;
@@ -94,34 +95,32 @@ std::vector<float> String2Vector(std::string line, bool Format = true) {
 }
 
 int main(int argc, char *argv[]) {
-    // 创建文件句柄
+    // Create file handle
     std::ostringstream filename;
-    // 读取数据
-    std::string filePath;
-    std::cout<<"Plz enter the MOT data path: ";
-    std::cin>>filePath;
+    // Use default test data path
+    std::string filePath = "test_data/MOT17-02.txt";
     filename << filePath;
     std::ifstream fileA(filename.str());
     if (fileA.is_open()) {
         std::cout << "File is Opened, Path is:" << filename.str() << "\n";
-        // 读取文本
+        // Read text
         std::string line;
         int flag = 1;
-        // 究极大矩阵
+        // Container for all frames
         std::vector<Eigen::MatrixXf> ALL_INPUT;
-        // 每一帧的矩阵
+        // Matrix for each frame
         Eigen::MatrixXf Frame_INPUT;
         std::vector<std::vector<float>> Frame;
-        // 存上一个
+        // Store previous frame data
         std::vector<float> Frame_Previous;
         std::vector<float> tmp_fmt;
         std::vector<float> tmp;
         // for (int i = 0; i < 104; i++) {
         while (true) {
             std::getline(fileA, line);
-            // 因为最后一帧的目标肯定不止一个，所以就只需要在这部分判断是否到文件结尾了
+            // Check for EOF here since the last frame has multiple detections
             if (fileA.eof()) {
-                // 读到结尾，把之前所有的都转化为矩阵
+                // Reached end, convert all remaining data to matrix
                 std::cout << "Read the END OF FILES" << std::endl;
                 if (Frame_Previous.size() != 0)
                     Frame.push_back(Frame_Previous);
@@ -129,32 +128,32 @@ int main(int argc, char *argv[]) {
                 break;
             }
             tmp_fmt = String2Vector(line);
-            tmp = String2Vector(line, false);// 不转化格式的string转vector
+            tmp = String2Vector(line, false);// String to vector without format conversion
             // std::cout << tmp[0] << std::endl;
             if ((int) tmp[0] != flag) {
-                // 说明已经到了下一帧了
+                // This means we've moved to the next frame
                 flag = (int) tmp[0];
-                // 保存这一行的数据
+                // Save current line data
                 Frame_Previous = tmp_fmt;
-                // 将上一帧的数据全部保存为Matrix
+                // Save previous frame data as Matrix
                 Frame_INPUT = Vector2Matrix(Frame);
                 ALL_INPUT.push_back(Frame_INPUT);
                 // std::cout << Frame << std::endl;
-                // 清除上一帧的数据
+                // Clear previous frame data
                 Frame.clear();
-            } else {                             // 还能继续把这一行的数据push进去
-                if (Frame_Previous.size() != 0) {// 如果上一行有记录的话，那么把他push_back
+            } else {                             // Continue pushing data for current frame
+                if (Frame_Previous.size() != 0) {// If there's previous record, push it back
                     Frame.push_back(Frame_Previous);
                     Frame_Previous.clear();
                 }
                 Frame.push_back(tmp_fmt);
             }
         }
-        // 至此，所有的Frame数据，都被存在了ALL_INPUT里面
+        // Now all frame data is stored in ALL_INPUT
         std::cout << "Size of data: " << ALL_INPUT.size() << std::endl;
         ocsort::OCSort A = ocsort::OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, true);
         float OverAll_Time = 0.0;
-        // 遍历所有的输入，送到OCSORT里面
+        // Iterate through all inputs and feed to OCSORT
         for (auto dets: ALL_INPUT) {
             auto T_start = high_resolution_clock::now();
             std::vector<Eigen::RowVectorXf> res = A.update(dets);
@@ -162,10 +161,10 @@ int main(int argc, char *argv[]) {
             duration<float, std::milli> ms_float = T_end - T_start;
             OverAll_Time += ms_float.count();
         }
-        // 计算平均帧率。
+        // Calculate average FPS
         float avg_cost = OverAll_Time / ALL_INPUT.size();
         int FPS = int(1000 / avg_cost);
-        std::cout << "Average Time Cost per Frame: " << avg_cost << " Avg FPS: " << FPS << std::endl;
+        std::cout << "Average Time Cost per Frame: " << avg_cost << "ms" << " Avg FPS: " << FPS << std::endl;
     } else
         std::cout << "open Failed" << std::endl;
 

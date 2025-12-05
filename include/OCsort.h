@@ -11,7 +11,7 @@ namespace ocsort {
     public:
         OCSort(float det_thresh_, int max_age_ = 30, int min_hits_ = 3, float iou_threshold_ = 0.3,
                int delta_t_ = 3, std::string asso_func_ = "iou", float inertia_ = 0.2, bool use_byte_ = false);
-        std::vector<Eigen::RowVectorXf> update(Eigen::MatrixXf dets);//输入是[n1,6]的大小， 返回的矩阵是 [n2,7]。当追踪结果为空时，返回全0(此时为啥他返回(0,5)的shape？)
+        std::vector<Eigen::RowVectorXf> update(Eigen::MatrixXf dets);// Input is [n1,6], returns matrix [n2,7]. When tracking result is empty, returns all zeros (why does it return (0,5) shape then?)
 
     public:
         float det_thresh;
@@ -22,7 +22,7 @@ namespace ocsort {
         std::function<Eigen::MatrixXf(const Eigen::MatrixXf &, const Eigen::MatrixXf &)> asso_func;
         float inertia;
         bool use_byte;
-        // 用来保存 KalmanBoxTracker
+        // Used to store KalmanBoxTracker
         std::vector<KalmanBoxTracker> trackers;
         int frame_count;
     };

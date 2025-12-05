@@ -29,15 +29,15 @@ namespace ocsort {
         return bbox;
     }
     Eigen::VectorXf k_previous_obs(const std::map<int, Eigen::VectorXf> &observations, int cur_age, int k) {
-        // 返回observations_中的某个观测值 (5,1)=>检测的坐标
+        // Return a specific observation from observations_ (5,1) => detection coordinates
         if (observations.empty()) return Eigen::VectorXf::Constant(5, -1.0);
 
         for (int i = 0; i < k; ++i) {
-            int dt = k - i;// 这是 \Delta_t 求导数用
+            int dt = k - i;// This is \Delta_t for derivative
             auto it = observations.find(cur_age - dt);
             if (it != observations.end()) return it->second;
         }
-        auto max_iter = observations.rbegin();// 找出 map中最大的键key
+        auto max_iter = observations.rbegin();// Find the largest key in map
         return max_iter->second;
     }
 }// namespace ocsort

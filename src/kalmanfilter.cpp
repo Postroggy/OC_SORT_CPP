@@ -1,15 +1,15 @@
 #include "../include/kalmanfilter.h"
 #include <iostream>
 namespace ocsort {
-    KalmanFilterNew::KalmanFilterNew(){};
+    KalmanFilterNew::KalmanFilterNew() {};
     KalmanFilterNew::KalmanFilterNew(int dim_x_, int dim_z_) {
         dim_x = dim_x_;
         dim_z = dim_z_;
         x = Eigen::VectorXf::Zero(dim_x_, 1);
-        // fixme 暂时数据类型是 double 的 P Q B F都初始化为单位矩阵
+        // fixme: Data type is double temporarily, P Q B F all initialized to identity matrix
         P = Eigen::MatrixXf::Identity(dim_x_, dim_x_);
         Q = Eigen::MatrixXf::Identity(dim_x_, dim_x_);
-        B = Eigen::MatrixXf::Identity(dim_x_, dim_x_);// 一般用不到
+        B = Eigen::MatrixXf::Identity(dim_x_, dim_x_);// Generally not used
         F = Eigen::MatrixXf::Identity(dim_x_, dim_x_);
         H = Eigen::MatrixXf::Zero(dim_z_, dim_x_);
         R = Eigen::MatrixXf::Identity(dim_z_, dim_z_);
@@ -23,19 +23,18 @@ namespace ocsort {
         K = Eigen::MatrixXf::Zero(dim_x_, dim_z_);
         y = Eigen::VectorXf::Zero(dim_x_, 1);
         S = Eigen::MatrixXf::Zero(dim_z_, dim_z_);
-        // SI是S的转置，为什么不直接 S.T 呢？
-        SI = Eigen::MatrixXf::Zero(dim_z_, dim_z_);
+        // SI is transpose of S, why not directly S.T?
 
-        // 下面是保存predict后的变量
+        // Below saves variables after predict
         x_prior = x;
         P_prior = P;
-        // 下面是保存update后的变量
+        // Below saves variables after update
         x_post = x;
         P_post = P;
     };
     void KalmanFilterNew::predict() {
         /**Predict next state (prior) using the Kalman filter state propagation
-    equations. 这个函数需要传参，但是在ocsort中，没有传参，所以这是无需传参的版本，后续可以重载
+    equations. This function requires parameters, but in ocsort, no parameters are passed, so this is the parameter-less version, can be overloaded later
     Parameters
     ----------
     u : np.array, default 0
@@ -50,17 +49,17 @@ namespace ocsort {
         Optional process noise matrix; a value of None will cause the
         filter to use `self.Q`.
         */
-        // x = Fx+Bu , 但是这里我不考虑 u 和 B
+        // x = Fx+Bu , but here I don't consider u and B
         x = F * x;
-        // P = FPF' + Q , 其中F'是F的转置
+        // P = FPF' + Q , where F' is transpose of F
         P.noalias() = _alpha_sq * ((F * P) * F.transpose()) + Q;
-        // 保存之前的值
+        // Save previous values
         x_prior = x;
         P_prior = P;
     }
     void KalmanFilterNew::update(Eigen::VectorXf z_) {
-        // 函数原型：update(self, z, R=None, H=None)，但是R H这里用不到
-        // 传递的参数是指针类型的才好用空指针代替python中的 None
+        // Function prototype: update(self, z, R=None, H=None), but R H are not used here
+        // Passed parameters are pointer types to easily substitute None in python with null pointer
         /*
         Add a new measurement (z) to the Kalman filter.
         If z is None, nothing is computed. However, x_post and P_post are
@@ -79,42 +78,42 @@ namespace ocsort {
             Optionally provide H to override the measurement function for this
             one call, otherwise self.H will be used.
          * */
-        // NOTE:说明一下，z_ 的形状是 [dim_z,1] 的即[4,1]
-        // 将新来的观测值加入到 history_obs 中,数组中存的是 Eigen::VectorXf的指针
+        // NOTE: z_ shape is [dim_z,1] i.e. [4,1]
+        // Add new observation to history_obs, array stores Eigen::VectorXf pointers
         history_obs.push_back(z_);
-        if (z_.size() == 0) {// 说明轨迹追踪不到目标了
+        if (z_.size() == 0) {// Indicates target lost
             if (true == observed) freeze();
-            observed = false;// ocsort 新增
-            // 原py代码中：z = np.array([ [None]*dim_z ]).T
+            observed = false;// Added in ocsort
+            // In original py code: z = np.array([ [None]*dim_z ]).T
             z = Eigen::VectorXf::Zero(dim_z, 1);
             x_post = x;
             P_post = P;
             y = Eigen::VectorXf::Zero(dim_z, 1);
             return;
         }
-        // 如果又接受到观测值了，那么解冻
+        // If observation received again, unfreeze
         /*
             Get observation, use online smoothing to re-update parameters => OOS
-            现在这一步叫 ORU
-            observed为False=>接收到观测值了。则解冻。
+            Now this step is called ORU
+            observed is False => Observation received. Unfreeze.
          */
         if (false == observed) unfreeze();
         observed = true;
-        // 下面是正经的更新算法
-        // y = z - Hx , 残差 between measurement观测 and prediction预测
+        // Below is the formal update algorithm
+        // y = z - Hx , residual between measurement and prediction
         y.noalias() = z_ - H * x;
-        // 下面这个表达式PH' 因为在计算S和K都有用到，所以先保存，减少计算量
+        // Expression PH' is used in calculating S and K, so save it to reduce computation
         Eigen::MatrixXf PHT;
         PHT.noalias() = P * H.transpose();
-        // S = HPH' + R, 其中 H'是H的转置,S是观测残差的协方差
+        // S = HPH' + R, where H' is transpose of H, S is measurement residual covariance
         S.noalias() = H * PHT + R;
-        // S的逆矩阵，后续计算要用到
+        // Inverse of S, used in subsequent calculations
         SI = S.inverse();
-        // K = PH'SI ，计算最优kalman增益
+        // K = PH'SI , calculate optimal kalman gain
         K.noalias() = PHT * SI;
-        // note:更新x
+        // note: update x
         x.noalias() = x + K * y;
-        // note:更新P
+        // note: update P
         /*This is more numerically stable and works for non-optimal K vs the
          * equation P = (I-KH)P usually seen in the literature.*/
         Eigen::MatrixXf I_KH;
@@ -129,12 +128,12 @@ namespace ocsort {
     }
     void KalmanFilterNew::freeze() {
         /**
-         * 将这个对象中的所有变量都保存起来
+         * Save all variables in this object
          * save all the variable in current object at the time
          * */
-        // note:最重要的一点，先将标志置true
+        // note: Most important point, set flag to true first
         attr_saved.IsInitialized = true;
-        ///////////下面开始存档///////////
+        /////////// Start saving ///////////
         attr_saved.x = x;
         attr_saved.P = P;
         attr_saved.Q = Q;
@@ -156,12 +155,12 @@ namespace ocsort {
         attr_saved.history_obs = history_obs;
     }
     void KalmanFilterNew::unfreeze() {
-        /* 将freeze保存的变量全部加载进来 */
-        // todo：后续记得把 attr_saved.size > 0条件 加进来
+        /* Load all variables saved by freeze */
+        // todo: Remember to add attr_saved.size > 0 condition later
         if (true == attr_saved.IsInitialized) {
-            // std::cout << "正在恢复轨迹" << std::endl;
+            // std::cout << "Restoring trajectory" << std::endl;
             new_history = history_obs;
-            /*开始数据恢复*/
+            /* Start data restoration */
             x = attr_saved.x;
             P = attr_saved.P;
             Q = attr_saved.Q;
@@ -179,16 +178,16 @@ namespace ocsort {
             x_prior = attr_saved.x_prior;
             P_prior = attr_saved.P_prior;
             x_post = attr_saved.x_post;
-            /*数据恢复完成*/
-            // 除了最后一次的obs，将之前的赋给history_obs，相当于在 history_obs 中除去最后一个观测值
+            /* Data restoration complete */
+            // Except the last obs, assign previous ones to history_obs, equivalent to removing the last observation in history_obs
             history_obs.erase(history_obs.end() - 1);
-            // 因为 new_history 中有一部分可能是 nullptr，所以需要过滤一下,
-            // 这里我们只需要取得最后两个有效的观测值
-            // box1 = new_history[index1] # 从历史记录中取倒数第二个真实的观测值
-            Eigen::VectorXf box1;           // 倒数第二个
-            Eigen::VectorXf box2;           // 倒数第一个观测值
-            int lastNotNullIndex = -1;      // 倒数第一个的index
-            int secondLastNotNullIndex = -1;// 倒数第二个的index
+            // Because some parts in new_history might be nullptr, need to filter,
+            // Here we only need to get the last two valid observations
+            // box1 = new_history[index1] # Get the second to last real observation from history
+            Eigen::VectorXf box1;           // Second to last
+            Eigen::VectorXf box2;           // Last observation
+            int lastNotNullIndex = -1;      // Index of last
+            int secondLastNotNullIndex = -1;// Index of second to last
             for (int i = new_history.size() - 1; i >= 0; i--) {
                 if (new_history[i].size() > 0) {// != nullptr) {
                     if (lastNotNullIndex == -1) {
@@ -203,9 +202,9 @@ namespace ocsort {
                     }
                 }
             }
-            // 计算 \Delta{t}
+            // Calculate \Delta{t}
             double time_gap = lastNotNullIndex - secondLastNotNullIndex;
-            // 提取数据，计算宽高
+            // Extract data, calculate width and height
             double x1 = box1[0];
             double x2 = box2[0];
             double y1 = box1[1];
@@ -214,11 +213,11 @@ namespace ocsort {
             double h1 = std::sqrt(box1[2] / box1[3]);
             double w2 = std::sqrt(box2[2] * box2[3]);
             double h2 = std::sqrt(box2[2] / box2[3]);
-            // 计算对时间的导数
-            double dx = (x2 - x1) / time_gap;// X 轴方向速度
-            double dy = (y1 - y2) / time_gap;// Y 轴方向速度
-            double dw = (w2 - w1) / time_gap;// w 对时间的变化率
-            double dh = (h2 - h1) / time_gap;// h 对时间的变化率
+            // Calculate derivative with respect to time
+            double dx = (x2 - x1) / time_gap;// Speed in X direction
+            double dy = (y1 - y2) / time_gap;// Speed in Y direction
+            double dw = (w2 - w1) / time_gap;// Rate of change of w
+            double dh = (h2 - h1) / time_gap;// Rate of change of h
 
             for (int i = 0; i < time_gap; i++) {
                 /*
@@ -239,23 +238,23 @@ namespace ocsort {
                     but this can be faster by directly modifying the internal parameters
                     as suggested in the paper. I keep this naive but slow way for
                     easy read and understanding
-                    NOTE: 这里我就直接更新参数吧。
+                    NOTE: I will update parameters directly here.
                  */
-                // 下面是正经的更新算法
-                // y = z - Hx , 残差 between measurement 观测 and prediction 预测
+                // Below is the formal update algorithm
+                // y = z - Hx , residual between measurement and prediction
                 this->y.noalias() = new_box - this->H * this->x;
-                // 下面这个表达式PH' 因为在计算S和K都有用到，所以先保存，减少计算量
+                // Expression PH' is used in calculating S and K, so save it to reduce computation
                 Eigen::MatrixXf PHT;
                 PHT.noalias() = this->P * this->H.transpose();
-                // S = HPH' + R, 其中 H'是H的转置,S是观测残差的协方差
+                // S = HPH' + R, where H' is transpose of H, S is measurement residual covariance
                 this->S.noalias() = this->H * PHT + this->R;
-                // S的逆矩阵，后续计算要用到
+                // Inverse of S, used in subsequent calculations
                 this->SI = (this->S).inverse();
-                // K = PH'SI ，计算最优kalman增益
+                // K = PH'SI , calculate optimal kalman gain
                 this->K.noalias() = PHT * this->SI;
-                // note:更新x
+                // note: update x
                 this->x.noalias() = this->x + this->K * this->y;
-                // note:更新P
+                // note: update P
                 /*This is more numerically stable and works for non-optimal K vs the
                  * equation P = (I-KH)P usually seen in the literature.*/
                 Eigen::MatrixXf I_KH;

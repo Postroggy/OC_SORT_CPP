@@ -1,8 +1,16 @@
 {
-  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "name": "ocsort-cpp",
-  "version": "1.0",
-  "dependencies": [
-    "eigen3"
-  ]
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "ocsort-cpp",
+    "version": "1.0",
+    "dependencies": [
+        "eigen3"
+    ],
+    "features": {
+        "visualization": {
+            "description": "Enable visualization test (test_vis) with OpenCV",
+            "dependencies": [
+                "opencv"
+            ]
+        }
+    }
 }

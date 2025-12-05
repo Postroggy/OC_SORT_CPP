@@ -1,30 +1,27 @@
 #include <Eigen/Dense>
 #include <OCsort.h>
-#include <chrono> // 用于计算耗时
+#include <cassert>
+#include <chrono>
 #include <fstream>
 #include <iostream>
-#include <opencv2/core.hpp>
-#include <opencv2/core/types.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/videoio.hpp>
 #include <vector>
 
 
-/* 用于计时 */
+using namespace std;
+using namespace Eigen;
+using namespace ocsort;
+
 using std::chrono::duration;
 using std::chrono::duration_cast;
 using std::chrono::high_resolution_clock;
 using std::chrono::milliseconds;
 
 Eigen::Matrix<float, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &filename) {
-    // 读取CSV文件
     std::ifstream file(filename);
     if (!file.is_open()) {
-        std::cerr << "Failed to open file!" << std::endl;
+        std::cerr << "Failed to open file: " << filename << std::endl;
         exit(1);
     }
-    // 解析CSV格式
     std::string line;
     std::vector<std::vector<float>> data;
     while (std::getline(file, line)) {
@@ -36,7 +33,6 @@ Eigen::Matrix<float, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &fil
         }
         data.push_back(row);
     }
-    // 转换为Eigen::Matrix
     Eigen::Matrix<float, Eigen::Dynamic, 6> matrix(data.size(), data[0].size());
     for (int i = 0; i < data.size(); ++i) {
         for (int j = 0; j < data[0].size(); ++j) {
@@ -45,72 +41,65 @@ Eigen::Matrix<float, Eigen::Dynamic, 6> read_csv_to_eigen(const std::string &fil
     }
     return matrix;
 }
-template<typename AnyCls>
-// 重载 << 输出 vector
-std::ostream &operator<<(std::ostream &os, const std::vector<AnyCls> &v) {
-    os << "{";
-    for (auto it = v.begin(); it != v.end(); ++it) {
-        os << "(" << *it << ")";
-        if (it != v.end() - 1) os << ", ";
-    }
-    os << "}";
-    return os;
-}
-
 
 int main(int argc, char *argv[]) {
-    ocsort::OCSort A = ocsort::OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, true);
-    std::ostringstream filename;
-    // 打开视频，这个视频 和它对应的数据都是可以在MOTChallange 官网找的到的。
-    std::string Video_filePath;
-    std::cout<<"Plz input the video Absoulte path: ";
-    std::cin>>Video_filePath;
-    cv::VideoCapture cap(Video_filePath);
-    if (!cap.isOpened()) {
-        std::cout << "Error opening video file Please check the Video file Path" << std::endl;
-        return -1;
+    // Default test data path, can be overridden by command line argument
+    // Note: Run this executable from the project root directory, or provide absolute path
+    std::string csv_folder = "test_data/MOT17-01";
+    int num_frames = 23;// MOT17-01 has 23 CSV files
+
+    if (argc >= 2) {
+        csv_folder = argv[1];
     }
-    // 临时帧
-    cv::Mat frame;
-    // 记录总耗时
-    double OverAll_Time = 0;
-    for (int i = 1; i < 526; i++) {
-        // std::cout << "============== " << i << " =============" << std::endl;
-        filename.str("");
-        //TODO: MOTChallange官方给的数据是文件夹的形式，里面有多个csv文件，编译的话，你需要自己修改一下这个路径。
-        filename << "C:/SOTA/figure_ocsort/MOT_xyxys/private/SeedDet/MOT17-02/" << i << ".csv";
-        // filename << "../test_data/MOT17-01/" << i << ".csv";
+    if (argc >= 3) {
+        num_frames = std::stoi(argv[2]);
+    }
+
+    std::cout << "CSV folder: " << csv_folder << std::endl;
+    std::cout << "Number of frames: " << num_frames << std::endl;
+    std::cout << "(Run from project root directory or use absolute paths)" << std::endl;
+
+    ocsort::OCSort tracker = ocsort::OCSort(0, 50, 1, 0.22136877277096445, 1, "giou", 0.3941737016672115, true);
+
+    double total_time = 0.0;
+    int processed_frames = 0;
+
+    for (int i = 1; i <= num_frames; i++) {
+        std::ostringstream filename;
+        filename << csv_folder << "/" << i << ".csv";
+
+        // Check if file exists
+        std::ifstream test_file(filename.str());
+        if (!test_file.good()) {
+            std::cout << "File not found: " << filename.str() << ", stopping." << std::endl;
+            break;
+        }
+        test_file.close();
+
         Eigen::Matrix<float, Eigen::Dynamic, 6> dets = read_csv_to_eigen(filename.str());
-        auto T_start = high_resolution_clock::now();
-        std::vector<Eigen::RowVectorXf> res = A.update(dets);
-        auto T_end = high_resolution_clock::now();
-        auto ms_int = duration_cast<milliseconds>(T_end - T_start);
-        duration<double, std::milli> ms_double = T_end - T_start;
-        // 打印计算耗时
-        std::cout << "computation cost: " << ms_int.count() << " ms" << std::endl;
-        // 累加时间
-        OverAll_Time += ms_double.count();
-        //将追踪结果显示在桌面上
-        cap.read(frame);
-        // 绘制追踪结果，输出格式：左上、右下、ID、class、conf
-        for (auto j: res) {
-            int ID = int(j[4]);
-            int Class = int(j[5]);
-            float conf = j[6];
-            cv::putText(frame, cv::format("ID:%d", ID), cv::Point(j[0], j[1] - 5), 0, 0.5, cv::Scalar(229, 115, 115), 2, cv::LINE_AA);
-            cv::rectangle(frame, cv::Rect(j[0], j[1], j[2] - j[0] + 1, j[3] - j[1] + 1), cv::Scalar(3, 155, 229), 2);
-        }
-        cv::imshow("Video", frame);// 显示帧
-        if (cv::waitKey(1) == 27) {// 按下ESC推出
-            std::cout << "Program Terminate" << std::endl;
-            cap.release();
-            cv::destroyAllWindows();
-            return 0;
-        }
+
+        auto t_start = high_resolution_clock::now();
+        std::vector<Eigen::RowVectorXf> results = tracker.update(dets);
+        auto t_end = high_resolution_clock::now();
+
+        duration<double, std::milli> ms_double = t_end - t_start;
+        total_time += ms_double.count();
+        processed_frames++;
+
+        // Print tracking results for current frame
+        std::cout << "Frame " << i << ": " << results.size() << " tracked objects, ";
+        std::cout << "time: " << ms_double.count() << "ms" << std::endl;
     }
-    // 计算平均帧率。
-    double avg_cost = OverAll_Time/526;
-    int FPS = int(1000/avg_cost);
-    std::cout<<"Average Time Cost: "<<avg_cost<<" Avg FPS: "<<FPS<<std::endl;
+
+    if (processed_frames > 0) {
+        double avg_cost = total_time / processed_frames;
+        int fps = static_cast<int>(1000.0 / avg_cost);
+        std::cout << "\n=== Summary ===" << std::endl;
+        std::cout << "Processed frames: " << processed_frames << std::endl;
+        std::cout << "Total time: " << total_time << "ms" << std::endl;
+        std::cout << "Average time per frame: " << avg_cost << "ms" << std::endl;
+        std::cout << "Average FPS: " << fps << std::endl;
+    }
+
     return 0;
 }

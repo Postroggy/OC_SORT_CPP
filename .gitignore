@@ -6,7 +6,6 @@ out/
 # IDE
 .idea/
 .vs/
-.vscode/
 *.vcxproj*
 *.sln
 

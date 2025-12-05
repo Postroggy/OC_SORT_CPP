@@ -1,0 +1,6 @@
+{
+    "cmake.configureSettings": {
+        "CMAKE_TOOLCHAIN_FILE": "${workspaceFolder}/externals/vcpkg/scripts/buildsystems/vcpkg.cmake"
+    },
+    "cmake.configureArgs": []
+}

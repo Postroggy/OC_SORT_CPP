@@ -85,6 +85,80 @@ target_link_libraries(test PUBLIC Eigen3::Eigen OCLib)
 
 `test.cpp`中的内容：[见文件](https://github.com/Postroggy/OC_SORT_CPP/blob/master/test.cpp)
 
+# 测试
+
+项目提供三个测试程序：
+
+| 程序 | 说明 | 依赖 |
+|------|------|------|
+| `test_MOT` | 读取 MOT17 官方格式 TXT 文件 | 无 |
+| `test` | 读取 CSV 文件夹进行测试 | 无 |
+| `test_vis` | 可视化测试，显示追踪结果 | OpenCV |
+
+## 快速测试（无需下载数据集）
+
+### 方式1：使用 test_MOT
+```bash
+./test_MOT
+# 自动读取 test_data/MOT17-02.txt
+```
+
+### 方式2：使用 test
+```bash
+./test [csv_folder] [num_frames]
+# 默认: ./test test_data/MOT17-01 450
+```
+
+## 可视化测试（需要 OpenCV 和 MOT17 数据集）
+
+如果你想运行 `test_vis` 进行可视化测试，需要启用 `visualization` feature 并准备视频文件。
+
+### 0. 启用 visualization feature（自动安装 OpenCV）
+配置 CMake 时添加 feature 参数：
+```bash
+# 使用 Ninja
+cmake -DCMAKE_BUILD_TYPE=Debug -DVCPKG_MANIFEST_FEATURES="visualization" -G Ninja -S . -B build
+
+# 或者使用 Visual Studio
+cmake -DVCPKG_MANIFEST_FEATURES="visualization" -G "Visual Studio 17 2022" -A x64 -S . -B build
+```
+
+> **注意**: 首次启用会下载并编译 OpenCV，可能需要较长时间。
+
+### 1. 下载 MOT17 数据集
+访问 [MOTChallenge 官网](https://motchallenge.net/data/MOT17/) 下载 MOT17 Training Set。
+
+下载后解压，目录结构如下：
+```
+MOT17/
+└── train/
+    ├── MOT17-02-DPM/
+    │   ├── img1/           ← 图片序列
+    │   │   ├── 000001.jpg
+    │   │   ├── 000002.jpg
+    │   │   └── ...
+    │   ├── det/
+    │   └── gt/
+    ├── MOT17-02-FRCNN/     ← 也可以用这个，图片是一样的
+    └── MOT17-02-SDP/       ← 也可以用这个，图片是一样的
+```
+
+> **注意**: `MOT17-02-DPM`、`MOT17-02-FRCNN`、`MOT17-02-SDP` 这三个文件夹内的图片序列完全相同，区别只是检测器不同。选择任意一个即可。
+
+### 2. 使用 FFmpeg 将图片序列合成为视频
+```bash
+cd MOT17/train/MOT17-02-FRCNN
+ffmpeg -framerate 30 -i img1/%06d.jpg -c:v libx264 -pix_fmt yuv420p MOT17-02.mp4
+```
+
+### 3. 运行可视化测试
+```bash
+./test_vis
+# 输入视频路径，例如: ./MOT17-02.mp4 或 /path/to/MOT17-02.mp4
+```
+
+> **注意**: `test_vis.cpp` 中的检测数据路径是硬编码的，你可能需要根据实际情况修改第 81 行的路径。
+
 # 代码优化
 :construction:
 

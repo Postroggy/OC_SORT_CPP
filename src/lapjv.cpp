@@ -331,7 +331,7 @@ int lapjv_internal(
     return ret;
 }
 float execLapjv(const std::vector<std::vector<float>> &cost, std::vector<int> &rowsol,
-                 std::vector<int> &colsol, bool extend_cost, float cost_limit, bool return_cost) {
+                std::vector<int> &colsol, bool extend_cost, float cost_limit, bool return_cost) {
     std::vector<std::vector<float>> cost_c;
     cost_c.assign(cost.begin(), cost.end());
     std::vector<std::vector<float>> cost_c_extended;
@@ -350,7 +350,7 @@ float execLapjv(const std::vector<std::vector<float>> &cost, std::vector<int> &r
 
     if (extend_cost || cost_limit < std::numeric_limits<float>::max()) {
         n = n_rows + n_cols;
-        cost_c_extended.resize(n);// resize 成 nxn 的矩阵
+        cost_c_extended.resize(n);// resize to nxn matrix
         for (size_t i = 0; i < cost_c_extended.size(); i++)
             cost_c_extended[i].resize(n);
 
@@ -389,8 +389,8 @@ float execLapjv(const std::vector<std::vector<float>> &cost, std::vector<int> &r
         cost_c.clear();
         cost_c.assign(cost_c_extended.begin(), cost_c_extended.end());
     }
-    // 以上步骤是把输入的不是NxN的cost_matrix转换成NxN的，多余的部分用全0填充。
-    float **cost_ptr;// 这个变量是输入到 lapjv_internal 函数去计算的。
+    // The above steps convert the input non-NxN cost_matrix to NxN, filling the excess with 0.
+    float **cost_ptr;// This variable is input to lapjv_internal function for calculation.
     cost_ptr = new float *[sizeof(float *) * n];
     for (int i = 0; i < n; i++)
         cost_ptr[i] = new float[sizeof(float) * n];
@@ -405,9 +405,9 @@ float execLapjv(const std::vector<std::vector<float>> &cost, std::vector<int> &r
     if (ret != 0) {
         throw std::runtime_error("The result of lapjv_internal() is invalid.");
     }
-    float opt = 0.0;// 最小代价的值
+    float opt = 0.0;// Minimum cost value
     if (n != n_rows) {
-        // 如果 输入的 cost_matrix 不是方阵，则将多余的索引赋值为-1处理。
+        // If input cost_matrix is not square, assign -1 to excess indices.
         for (int i = 0; i < n; i++) {
             if (x_c[i] >= n_cols)
                 x_c[i] = -1;
