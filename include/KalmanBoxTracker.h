@@ -1,18 +1,26 @@
 #ifndef OC_SORT_CPP_KALMANBOXTRACKER_H
 #define OC_SORT_CPP_KALMANBOXTRACKER_H
-////todo: The pointer part will be optimized into smart pointers later.///
 ////////////// KalmanBoxTracker /////////////
 #include "../include/Utilities.h"
 #include "../include/kalmanfilter.h"
-#include "iostream"
+#include <iostream>
+#include <memory>
 namespace ocsort {
 
     class KalmanBoxTracker {
     public:
         /*method*/
-        KalmanBoxTracker() : kf(nullptr) {};
-        ~KalmanBoxTracker() { delete kf; }// Free allocated memory
+        KalmanBoxTracker() : kf(nullptr) {}
+        ~KalmanBoxTracker() = default;
         KalmanBoxTracker(Eigen::VectorXf bbox_, int cls_, int delta_t_ = 3);
+
+        // Disable copy (prevent double-free)
+        KalmanBoxTracker(const KalmanBoxTracker &) = delete;
+        KalmanBoxTracker &operator=(const KalmanBoxTracker &) = delete;
+
+        // Enable move semantics
+        KalmanBoxTracker(KalmanBoxTracker &&) = default;
+        KalmanBoxTracker &operator=(KalmanBoxTracker &&) = default;
         void update(Eigen::Matrix<float, 5, 1> *bbox_, int cls_);
         Eigen::RowVectorXf predict();// Returns a (1,4) row vector
         Eigen::VectorXf get_state(); // Returns state vector x (1,4)
@@ -20,9 +28,8 @@ namespace ocsort {
     public:
         /*variable*/
         static int count;
-        Eigen::VectorXf bbox;// [5,1]
-        //? TODO: replace to smart pointer
-        KalmanFilterNew *kf;// kalman predictor
+        Eigen::VectorXf bbox;               // [5,1]
+        std::unique_ptr<KalmanFilterNew> kf;// kalman predictor
         int time_since_update;
         int id;
         std::vector<Eigen::VectorXf> history;//  [4,1]

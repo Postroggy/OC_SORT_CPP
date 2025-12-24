@@ -272,9 +272,8 @@ namespace ocsort {
             Eigen::RowVectorXf tmp_bbox = dets_first.block(i, 0, 1, 5);
             // dets_first(i, 5) is the class of the target
             int cls_ = int(dets_first(i, 5));
-            KalmanBoxTracker trk = KalmanBoxTracker(tmp_bbox, cls_, delta_t);
-            // Append newly created to trackers
-            trackers.push_back(trk);
+            // Use emplace_back to construct in-place (no copy needed)
+            trackers.emplace_back(tmp_bbox, cls_, delta_t);
         }
         int tmp_i = trackers.size();// !fixme: not sure what this is for, seems to be used to save MOT format test results
                                     // Reverse traverse trackers array to generate results to return

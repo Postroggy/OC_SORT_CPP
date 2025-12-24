@@ -12,7 +12,7 @@ namespace ocsort {
         // kf = KalmanFilterNew(7,4);
         // auto a = KalmanFilterNew(7,4);
         // kf = KalmanFilterNew(7,4);
-        kf = new KalmanFilterNew(7, 4);
+        kf = std::make_unique<KalmanFilterNew>(7, 4);
         kf->F << 1, 0, 0, 0, 1, 0, 0,
                 0, 1, 0, 0, 0, 1, 0,
                 0, 0, 1, 0, 0, 0, 1,
